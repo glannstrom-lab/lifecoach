@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Välmåendehexagonen - Comdira</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Välmåendehexagonen Page Styles */
+        .wellness-page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .wellness-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 32px;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+            border-radius: 24px;
+        }
+        
+        .wellness-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        .wellness-subtitle {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .wellness-info-banner {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .wellness-info-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+        
+        .wellness-info-text {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .wellness-info-text strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--primary-light);
+            position: sticky;
+            top: 80px;
+            z-index: 10;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .progress-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .progress-stats {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .progress-stat {
+            text-align: right;
+        }
+        
+        .progress-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .progress-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar-large {
+            background: var(--primary-light);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        
+        .progress-fill-large {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-dimensions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .progress-dim-badge {
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            background: #E8E8E8;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .progress-dim-badge.completed {
+            background: var(--primary) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        .progress-dim-badge.existential { background: #E8D5F2; color: #6C3483; }
+        .progress-dim-badge.emotional { background: #FFE4C4; color: #935116; }
+        .progress-dim-badge.subjective { background: #D4E6F1; color: #1F618D; }
+        .progress-dim-badge.occupational { background: #D5DBDB; color: #515A5A; }
+        .progress-dim-badge.social { background: #FADBD8; color: #943126; }
+        .progress-dim-badge.practical { background: #D5F5E3; color: #1E8449; }
+        
+        /* Chart Section */
+        .chart-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        
+        .chart-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Dimension Sections */
+        .dimension-full-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            border-left: 6px solid;
+        }
+        
+        .dimension-full-section.existential { border-left-color: #9B59B6; }
+        .dimension-full-section.emotional { border-left-color: #F39C12; }
+        .dimension-full-section.subjective { border-left-color: #3498DB; }
+        .dimension-full-section.occupational { border-left-color: #95A5A6; }
+        .dimension-full-section.social { border-left-color: #E74C3C; }
+        .dimension-full-section.practical { border-left-color: #27AE60; }
+        
+        .dimension-header-large {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .dimension-icon-large {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        
+        .dimension-icon-large.existential { background: #E8D5F2; }
+        .dimension-icon-large.emotional { background: #FFE4C4; }
+        .dimension-icon-large.subjective { background: #D4E6F1; }
+        .dimension-icon-large.occupational { background: #D5DBDB; }
+        .dimension-icon-large.social { background: #FADBD8; }
+        .dimension-icon-large.practical { background: #D5F5E3; }
+        
+        .dimension-title-group {
+            flex: 1;
+        }
+        
+        .dimension-title-large {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .dimension-desc-large {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        .dimension-score-badge {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .dimension-score-badge.completed {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        /* Questions */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .question-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .question-card:hover {
+            border-color: var(--primary-light);
+        }
+        
+        .question-card.answered {
+            background: linear-gradient(135deg, var(--bg-card), var(--primary-light));
+            border-color: var(--primary);
+        }
+        
+        .question-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: var(--primary-light);
+            color: var(--text-primary);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .scale-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .scale-label-left, .scale-label-right {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 500;
+            min-width: 100px;
+        }
+        
+        .scale-label-right {
+            text-align: right;
+        }
+        
+        .scale-buttons {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .scale-btn-large {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-light);
+            background: white;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .scale-btn-large:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+        
+        .scale-btn-large.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.4);
+        }
+        
+        /* Results Section */
+        .results-full-section {
+            background: linear-gradient(135deg, var(--bg-main), var(--primary-light));
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .results-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+        }
+        
+        .overall-score-large {
+            font-size: 96px;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .overall-score-label {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        
+        .score-interpretation-box {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+        
+        .interpretation-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        .interpretation-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .dimension-scores-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .dim-score-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .dim-score-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .dim-score-name {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .dim-score-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .actions-section {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            text-align: left;
+        }
+        
+        .actions-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        
+        .action-item {
+            background: var(--bg-card);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 0 12px 12px 0;
+        }
+        
+        .action-item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .action-item-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .save-results-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text-primary);
+            border: none;
+            padding: 16px 48px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 32px;
+            transition: all 0.3s;
+        }
+        
+        .save-results-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Mobile */
+        @media (max-width: 768px) {
+            .wellness-title {
+                font-size: 28px;
+            }
+            
+            .progress-section {
+                position: relative;
+                top: 0;
+            }
+            
+            .progress-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .dimension-header-large {
+                flex-wrap: wrap;
+            }
+            
+            .scale-wrapper {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .scale-label-left, .scale-label-right {
+                text-align: center;
+                min-width: auto;
+            }
+            
+            .scale-buttons {
+                gap: 8px;
+            }
+            
+            .scale-btn-large {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+            
+            .overall-score-large {
+                font-size: 64px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | Välmåendehexagonen | 
+        <a href="dashboard.html">← Tillbaka till Dashboard</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="wellness.html" class="nav-item active">
+                    <span>⬡</span> Välmåendehexagonen
+                </a>
+                <a href="#" class="nav-item">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="#" class="nav-item">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="wellness-page">
+                
+                <!-- Header -->
+                <div class="wellness-header">
+                    <h1 class="wellness-title">⬡ Välmåendehexagonen</h1>
+                    <p class="wellness-subtitle">
+                        En helhetsbedömning av ditt välmående över sex dimensioner. 
+                        Svara på 30 frågor för att få en djupare förståelse av ditt mående.
+                    </p>
+                </div>
+                
+                <!-- Info Banner -->
+                <div class="wellness-info-banner">
+                    <span class="wellness-info-icon">ℹ️</span>
+                    <p class="wellness-info-text">
+                        <strong>Hur fungerar det?</strong>
+                        Bedömningen tar cirka 5-10 minuter. Svara på skalan 1 (instämmer inte alls) 
+                        till 5 (instämmer helt). Ju ärligare du är, desto mer användbar blir feedbacken. 
+                        Du kan spara och återkomma senare om du behöver pausa.
+                    </p>
+                </div>
+                
+                <!-- Progress Section (Sticky) -->
+                <div class="progress-section" id="progressSection">
+                    <div class="progress-header">
+                        <span class="progress-title">Din framsteg</span>
+                        <div class="progress-stats">
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="answeredCount">0/30</div>
+                                <div class="progress-stat-label">Besvarade</div>
+                            </div>
+                            <div class="progress-stat">
+                                <div class="progress-stat-value" id="completedDimensions">0/6</div>
+                                <div class="progress-stat-label">Dimensioner klara</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-large">
+                        <div class="progress-fill-large" id="mainProgressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-dimensions">
+                        <span class="progress-dim-badge existential" id="badge-existential">🔮 Existentiellt</span>
+                        <span class="progress-dim-badge emotional" id="badge-emotional">💝 Emotionellt</span>
+                        <span class="progress-dim-badge subjective" id="badge-subjective">✨ Subjektivt</span>
+                        <span class="progress-dim-badge occupational" id="badge-occupational">💼 Yrkesmässigt</span>
+                        <span class="progress-dim-badge social" id="badge-social">👥 Socialt</span>
+                        <span class="progress-dim-badge practical" id="badge-practical">🛠️ Vardagligt</span>
+                    </div>
+                </div>
+                
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <h3 style="color: var(--text-primary); margin-bottom: 20px;">Din välmåendeprofil</h3>
+                    <div class="chart-container">
+                        <canvas id="wellnessChart" width="500" height="400"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Dimension 1: Existentiellt -->
+                <div class="dimension-full-section existential" id="section-existential">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large existential">🔮</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Existentiellt välmående</h2>
+                            <p class="dimension-desc-large">Mening, syfte och livstillfredsställelse</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-existential">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-existential">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Dimension 2: Emotionellt -->
+                <div class="dimension-full-section emotional" id="section-emotional">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large emotional">💝</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Emotionellt välmående</h2>
+                            <p class="dimension-desc-large">Känslomässig balans och självkänsla</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-emotional">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-emotional">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Dimension 3: Subjektivt -->
+                <div class="dimension-full-section subjective" id="section-subjective">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large subjective">✨</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Subjektivt välmående</h2>
+                            <p class="dimension-desc-large">Upplevd livskvalitet och energi</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-subjective">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-subjective">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Dimension 4: Yrkesmässigt -->
+                <div class="dimension-full-section occupational" id="section-occupational">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large occupational">💼</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Yrkesmässigt välmående</h2>
+                            <p class="dimension-desc-large">Tillfredsställelse med sysselsättning</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-occupational">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-occupational">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Dimension 5: Socialt -->
+                <div class="dimension-full-section social" id="section-social">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large social">👥</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Socialt välmående</h2>
+                            <p class="dimension-desc-large">Relationer och socialt stöd</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-social">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-social">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Dimension 6: Vardagligt -->
+                <div class="dimension-full-section practical" id="section-practical">
+                    <div class="dimension-header-large">
+                        <div class="dimension-icon-large practical">🛠️</div>
+                        <div class="dimension-title-group">
+                            <h2 class="dimension-title-large">Vardagligt välmående</h2>
+                            <p class="dimension-desc-large">Praktisk hantering av vardagen</p>
+                        </div>
+                        <div class="dimension-score-badge" id="score-practical">-</div>
+                    </div>
+                    <div class="questions-list" id="questions-practical">
+                        <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="results-full-section" id="resultsSection" style="display: none;">
+                    <h2 class="results-title">🎉 Din välmåenderapport är klar!</h2>
+                    
+                    <div class="overall-score-large" id="overallScore">-</div>
+                    <div class="overall-score-label">Genomsnittligt välmående av 5</div>
+                    
+                    <div class="dimension-scores-grid" id="dimensionScoresGrid">
+                        <!-- Genereras av JS -->
+                    </div>
+                    
+                    <div class="score-interpretation-box">
+                        <h3 class="interpretation-title">Tolkning av ditt resultat</h3>
+                        <p class="interpretation-text" id="interpretationText">
+                            <!-- Genereras av JS -->
+                        </p>
+                    </div>
+                    
+                    <div class="actions-section" id="actionsSection">
+                        <h3 class="actions-title">Rekommenderade nästa steg</h3>
+                        <div id="actionsList">
+                            <!-- Genereras av JS -->
+                        </div>
+                    </div>
+                    
+                    <button class="save-results-btn" onclick="saveResults()">
+                        💾 Spara min välmåenderapport
+                    </button>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Data för alla 30 frågor
+        const dimensions = {
+            existential: {
+                name: 'Existentiellt',
+                icon: '🔮',
+                desc: 'Mening, syfte och livstillfredsställelse',
+                color: '#9B59B6',
+                questions: [
+                    { id: 'e1', text: 'Jag känner att mitt liv har en mening och ett syfte' },
+                    { id: 'e2', text: 'Jag är nöjd med mitt liv som det är just nu' },
+                    { id: 'e3', text: 'Jag känner mig del av något större än mig själv' },
+                    { id: 'e4', text: 'Jag har en klar uppfattning om vad som är viktigt i mitt liv' },
+                    { id: 'e5', text: 'Jag känner mig nöjd med min roll i samhället' }
+                ]
+            },
+            emotional: {
+                name: 'Emotionellt',
+                icon: '💝',
+                desc: 'Känslomässig balans och självkänsla',
+                color: '#F39C12',
+                questions: [
+                    { id: 'em1', text: 'Jag mår bra just nu' },
+                    { id: 'em2', text: 'Jag kan hantera mina känslor på ett konstruktivt sätt' },
+                    { id: 'em3', text: 'Jag känner mig lugn och avslappnad i vardagen' },
+                    { id: 'em4', text: 'Jag tycker om mig själv och den jag är' },
+                    { id: 'em5', text: 'Jag har ett bra självförtroende och tror på mig själv' }
+                ]
+            },
+            subjective: {
+                name: 'Subjektivt',
+                icon: '✨',
+                desc: 'Upplevd livskvalitet och energi',
+                color: '#3498DB',
+                questions: [
+                    { id: 's1', text: 'Jag känner mig nöjd med mitt liv' },
+                    { id: 's2', text: 'Jag upplever att jag har kontroll över mitt liv' },
+                    { id: 's3', text: 'Jag känner mig energisk och livskraftig' },
+                    { id: 's4', text: 'Jag är nöjd med min nuvarande partnerstatus' },
+                    { id: 's5', text: 'Jag har lätt för att anpassa mig till nya situationer' }
+                ]
+            },
+            occupational: {
+                name: 'Yrkesmässigt',
+                icon: '💼',
+                desc: 'Tillfredsställelse med sysselsättning',
+                color: '#95A5A6',
+                questions: [
+                    { id: 'o1', text: 'Jag trivs bra med min nuvarande sysselsättning' },
+                    { id: 'o2', text: 'Jag känner mig tillfreds med mitt arbete/sysselsättning' },
+                    { id: 'o3', text: 'Jag har en bra balans mellan arbete och fritid' },
+                    { id: 'o4', text: 'Jag känner mig kompetent i det jag gör' },
+                    { id: 'o5', text: 'Jag ser en framtid för mig själv inom mitt område' }
+                ]
+            },
+            social: {
+                name: 'Socialt',
+                icon: '👥',
+                desc: 'Relationer och socialt stöd',
+                color: '#E74C3C',
+                questions: [
+                    { id: 'so1', text: 'Jag är nöjd med relationen till mina vänner' },
+                    { id: 'so2', text: 'Jag har nära relationer som ger mig stöd' },
+                    { id: 'so3', text: 'Jag är nöjd med den relation jag har med min familj' },
+                    { id: 'so4', text: 'Jag känner mig bekväm i sociala sammanhang' },
+                    { id: 'so5', text: 'Jag har människor jag kan lita på' }
+                ]
+            },
+            practical: {
+                name: 'Vardagligt',
+                icon: '🛠️',
+                desc: 'Praktisk hantering av vardagen',
+                color: '#27AE60',
+                questions: [
+                    { id: 'p1', text: 'Jag klarar av mina vardagliga sysslor och uppgifter' },
+                    { id: 'p2', text: 'Jag känner mig trygg med min ekonomi' },
+                    { id: 'p3', text: 'Jag har bra rutiner och struktur i vardagen' },
+                    { id: 'p4', text: 'Fritiden räcker till för det jag vill göra' },
+                    { id: 'p5', text: 'Jag kan organisera mina uppgifter på ett bra sätt' }
+                ]
+            }
+        };
+        
+        // Spara svar
+        let responses = {};
+        
+        // Initiera Chart.js
+        const ctx = document.getElementById('wellnessChart').getContext('2d');
+        const wellnessChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Existentiellt', 'Emotionellt', 'Subjektivt', 'Yrkesmässigt', 'Socialt', 'Vardagligt'],
+                datasets: [{
+                    label: 'Ditt välmående',
+                    data: [0, 0, 0, 0, 0, 0],
+                    backgroundColor: 'rgba(144, 238, 144, 0.3)',
+                    borderColor: '#90EE90',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#5CB85C',
+                    pointBorderColor: '#fff',
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 5,
+                        min: 0,
+                        ticks: {
+                            stepSize: 1,
+                            font: { size: 12 }
+                        },
+                        pointLabels: {
+                            font: { size: 14, weight: 'bold' },
+                            color: '#2D5A2D'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+        
+        // Generera alla frågor
+        function generateQuestions() {
+            Object.keys(dimensions).forEach(key => {
+                const dim = dimensions[key];
+                const container = document.getElementById(`questions-${key}`);
+                
+                dim.questions.forEach((q, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'question-card';
+                    card.id = `card-${q.id}`;
+                    
+                    card.innerHTML = `
+                        <span class="question-number">${idx + 1}</span>
+                        <p class="question-text">${q.text}</p>
+                        <div class="scale-wrapper">
+                            <span class="scale-label-left">Instämmer inte alls</span>
+                            <div class="scale-buttons">
+                                ${[1, 2, 3, 4, 5].map(val => `
+                                    <button class="scale-btn-large" 
+                                            data-question="${q.id}" 
+                                            data-value="${val}"
+                                            onclick="setAnswer('${q.id}', ${val})">${val}</button>
+                                `).join('')}
+                            </div>
+                            <span class="scale-label-right">Instämmer helt</span>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+            });
+        }
+        
+        // Sätt svar
+        function setAnswer(questionId, value) {
+            responses[questionId] = value;
+            
+            // Uppdatera UI för denna fråga
+            const card = document.getElementById(`card-${questionId}`);
+            card.classList.add('answered');
+            
+            // Markera vald knapp
+            const buttons = card.querySelectorAll('.scale-btn-large');
+            buttons.forEach(btn => {
+                btn.classList.remove('selected');
+                if (parseInt(btn.dataset.value) === value) {
+                    btn.classList.add('selected');
+                }
+            });
+            
+            updateProgress();
+            updateChart();
+            checkIfComplete();
+        }
+        
+        // Uppdatera framsteg
+        function updateProgress() {
+            const totalAnswered = Object.keys(responses).length;
+            const percent = (totalAnswered / 30) * 100;
+            
+            // Uppdatera progress bar
+            document.getElementById('mainProgressBar').style.width = percent + '%';
+            document.getElementById('answeredCount').textContent = `${totalAnswered}/30`;
+            
+            // Räkna klara dimensioner
+            let completedDims = 0;
+            Object.keys(dimensions).forEach(key => {
+                const dim = dimensions[key];
+                const answered = dim.questions.filter(q => responses[q.id]).length;
+                if (answered === 5) {
+                    completedDims++;
+                    document.getElementById(`badge-${key}`).classList.add('completed');
+                    
+                    // Uppdatera poäng för dimensionen
+                    const score = calculateDimensionScore(key);
+                    const scoreEl = document.getElementById(`score-${key}`);
+                    scoreEl.textContent = score.toFixed(1);
+                    scoreEl.classList.add('completed');
+                }
+            });
+            
+            document.getElementById('completedDimensions').textContent = `${completedDims}/6`;
+        }
+        
+        // Beräkna dimensionspoäng
+        function calculateDimensionScore(key) {
+            const dim = dimensions[key];
+            let total = 0;
+            let count = 0;
+            
+            dim.questions.forEach(q => {
+                if (responses[q.id]) {
+                    total += responses[q.id];
+                    count++;
+                }
+            });
+            
+            return count > 0 ? total / count : 0;
+        }
+        
+        // Uppdatera diagram
+        function updateChart() {
+            const scores = [
+                calculateDimensionScore('existential'),
+                calculateDimensionScore('emotional'),
+                calculateDimensionScore('subjective'),
+                calculateDimensionScore('occupational'),
+                calculateDimensionScore('social'),
+                calculateDimensionScore('practical')
+            ];
+            
+            wellnessChart.data.datasets[0].data = scores;
+            wellnessChart.update();
+        }
+        
+        // Kontrollera om allt är klart
+        function checkIfComplete() {
+            if (Object.keys(responses).length === 30) {
+                showResults();
+            }
+        }
+        
+        // Visa resultat
+        function showResults() {
+            const scores = {
+                existential: calculateDimensionScore('existential'),
+                emotional: calculateDimensionScore('emotional'),
+                subjective: calculateDimensionScore('subjective'),
+                occupational: calculateDimensionScore('occupational'),
+                social: calculateDimensionScore('social'),
+                practical: calculateDimensionScore('practical')
+            };
+            
+            const overall = Object.values(scores).reduce((a, b) => a + b, 0) / 6;
+            
+            // Visa sektion
+            document.getElementById('resultsSection').style.display = 'block';
+            document.getElementById('overallScore').textContent = overall.toFixed(1);
+            
+            // Dimensionspoäng grid
+            const grid = document.getElementById('dimensionScoresGrid');
+            grid.innerHTML = '';
+            Object.keys(scores).forEach(key => {
+                const dim = dimensions[key];
+                const item = document.createElement('div');
+                item.className = 'dim-score-item';
+                item.innerHTML = `
+                    <div class="dim-score-icon">${dim.icon}</div>
+                    <div class="dim-score-name">${dim.name}</div>
+                    <div class="dim-score-value">${scores[key].toFixed(1)}</div>
+                `;
+                grid.appendChild(item);
+            });
+            
+            // Tolkning
+            let interpretation = '';
+            let actions = [];
+            
+            if (overall >= 4) {
+                interpretation = 'Grattis! Ditt välmående är utmärkt. Du har en stark grund i de flesta områden av livet och verkar ha bra strategier för att hantera utmaningar. Fortsätt med vad du gör, och överväg att dela med dig av dina erfarenheter till andra som kan behöva stöd.';
+                actions = [
+                    { title: 'Fortsätt utvecklas', desc: 'Utforska nya områden för personlig tillväxt' },
+                    { title: 'Dela med dig', desc: 'Stötta andra i deras välmåenderesa' },
+                    { title: 'Sätt nya mål', desc: 'Utmana dig själv med nya ambitioner' }
+                ];
+            } else if (overall >= 3) {
+                interpretation = 'Ditt välmående är stabilt och fungerar bra. Du har flera områden där du trivs, men också några dimensioner som kan utvecklas vidare. Fokusera på de områden med lägst poäng för att höja ditt totala välmående. Kom ihåg att små förändringar kan göra stor skillnad över tid.';
+                actions = [
+                    { title: 'Fokusera på svaga områden', desc: 'Välj en dimension att arbeta med' },
+                    { title: 'Sätt konkreta mål', desc: 'Små steg leder till stor förändring' },
+                    { title: 'Sök stöd när du behöver', desc: 'Det är okej att be om hjälp' }
+                ];
+            } else if (overall >= 2) {
+                interpretation = 'Ditt välmående behöver uppmärksamhet. Det finns flera områden där du kan stärkas, och det är viktigt att du tar hand om dig själv. Börja med att fokusera på en dimension i taget. Överväg att prata med någon du litar på, eller sök professionellt stöd om du känner att du behöver det.';
+                actions = [
+                    { title: 'Börja med en dimension', desc: 'Välj den som känns viktigast just nu' },
+                    { title: 'Sök stöd', desc: 'Prata med vänner, familj eller professionella' },
+                    { title: 'Var snäll mot dig själv', desc: 'Förändring tar tid, ge dig själv kredit för att du tar tag i detta' }
+                ];
+            } else {
+                interpretation = 'Ditt välmående är lågt just nu, och det är viktigt att du prioriterar dig själv. Du behöver inte gå igenom detta ensam. Vi rekommenderar starkt att du söker stöd från vänner, familj eller professionella. Kom ihåg att det är ett tecken på styrka att be om hjälp.';
+                actions = [
+                    { title: 'Sök professionellt stöd', desc: 'Kontakta vårdcentral eller psykolog' },
+                    { title: 'Prata med någon', desc: 'Dela med dig av hur du mår till någon du litar på' },
+                    { title: 'Fokusera på grundläggande behov', desc: 'Sömn, mat, rörelse och social kontakt' }
+                ];
+            }
+            
+            document.getElementById('interpretationText').textContent = interpretation;
+            
+            // Åtgärder
+            const actionsList = document.getElementById('actionsList');
+            actionsList.innerHTML = '';
+            actions.forEach(action => {
+                const item = document.createElement('div');
+                item.className = 'action-item';
+                item.innerHTML = `
+                    <div class="action-item-title">${action.title}</div>
+                    <div class="action-item-desc">${action.desc}</div>
+                `;
+                actionsList.appendChild(item);
+            });
+            
+            // Scrolla till resultat
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Spara resultat
+        function saveResults() {
+            alert('Tack! Din välmåenderapport har sparats.\n\nI den fulla versionen skulle detta sparas i databasen och vara tillgängligt för uppföljning.');
+        }
+        
+        // Initiera
+        generateQuestions();
+    </script>
+</body>
+</html>
