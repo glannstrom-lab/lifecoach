@@ -1150,6 +1150,241 @@
             transform: translateY(-2px);
         }
 
+        
+        /* === REAL-TIME SYNC WIDGET === */
+        .sync-widget {
+            background: linear-gradient(135deg, #E8F8F5 0%, #A3E4D7 100%);
+            border: 2px solid #1ABC9C;
+        }
+        .sync-status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .sync-status-indicator.online {
+            background: rgba(26, 188, 156, 0.2);
+            color: #16A085;
+        }
+        .sync-status-indicator.offline {
+            background: rgba(231, 76, 60, 0.2);
+            color: #C0392B;
+        }
+        .sync-pulse {
+            width: 10px;
+            height: 10px;
+            background: #1ABC9C;
+            border-radius: 50%;
+            animation: syncPulse 2s infinite;
+        }
+        .sync-status-indicator.offline .sync-pulse {
+            background: #E74C3C;
+            animation: none;
+        }
+        @keyframes syncPulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .sync-devices {
+            font-size: 12px;
+            color: #16A085;
+            margin-bottom: 4px;
+        }
+        .sync-last {
+            font-size: 11px;
+            color: #48C9B0;
+            margin-bottom: 12px;
+        }
+        .sync-activity {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            background: rgba(26, 188, 156, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .sync-dot.active {
+            background: #1ABC9C;
+            animation: dotPulse 1s infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* === DATA EXPORT WIDGET === */
+        .export-widget {
+            background: linear-gradient(135deg, #F5EEF8 0%, #D7BDE2 100%);
+            border: 2px solid #9B59B6;
+        }
+        .export-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .export-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 8px;
+            background: white;
+            border: 2px solid rgba(155, 89, 182, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .export-btn:hover {
+            background: #9B59B6;
+            color: white;
+            border-color: #9B59B6;
+        }
+        .export-btn span:first-child {
+            font-size: 20px;
+        }
+        .export-btn span:last-child {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .export-share-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(155, 89, 182, 0.1);
+            border: 2px dashed rgba(155, 89, 182, 0.4);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #9B59B6;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .export-share-btn:hover {
+            background: #9B59B6;
+            color: white;
+        }
+
+        /* === SDK WIDGET === */
+        .sdk-widget {
+            background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+            border: 2px solid #6C757D;
+        }
+        .sdk-widgets {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .sdk-widget-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .sdk-widget-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #9B59B6, #BB8FCE);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .sdk-widget-info {
+            flex: 1;
+        }
+        .sdk-widget-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #495057;
+        }
+        .sdk-widget-desc {
+            font-size: 12px;
+            color: #6C757D;
+        }
+        .sdk-widget-install {
+            padding: 8px 14px;
+            background: #9B59B6;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sdk-widget-install:hover {
+            background: #7D3C98;
+        }
+        .sdk-widget-install.installed {
+            background: #27AE60;
+        }
+        .sdk-api-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(155, 89, 182, 0.1);
+            border-radius: 10px;
+            font-size: 12px;
+            color: #6C757D;
+        }
+        .sdk-api-info a {
+            color: #9B59B6;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        /* === LAZY LOADING PLACEHOLDER === */
+        .widget.lazy-loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* === OFFLINE INDICATOR === */
+        .offline-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #E74C3C;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.3);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        .offline-indicator.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        .offline-indicator.syncing {
+            background: #F39C12;
+        }
+
         @media (max-width: 768px) {
             .widget-grid {
                 grid-template-columns: 1fr;
@@ -2136,6 +2371,7 @@
                             <option value="focus">Fokusläge (Mål + Vanor)</option>
                             <option value="reflection">Reflektionsläge (Journal + Välmående)</option>
                             <option value="productivity">Produktivitetsläge (Uppgifter + Kalender)</option>
+                            <option value="advanced">Avancerat (Sync + SDK)</option>
                             <option value="overview">Full översikt</option>
                             <option value="morning">Morning Briefing</option>
                         </select>
@@ -3479,6 +3715,321 @@
         function doNextStep() {
             window.location.href = 'checkin.html';
         }
+
+        // === REAL-TIME SYNC ===
+        let syncInterval;
+        let lastActivity = new Date();
+
+        function initRealtimeSync() {
+            // Simulate WebSocket connection
+            syncInterval = setInterval(() => {
+                updateSyncStatus();
+                simulateActivity();
+            }, 3000);
+
+            // Listen for storage changes (cross-tab sync)
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'comdira_sync') {
+                    handleRemoteUpdate(JSON.parse(e.newValue));
+                }
+            });
+        }
+
+        function updateSyncStatus() {
+            const statusEl = document.getElementById('syncStatus');
+            const lastEl = document.getElementById('syncLast');
+            const dots = document.querySelectorAll('.sync-dot');
+            
+            if (navigator.onLine) {
+                statusEl.className = 'sync-status-indicator online';
+                statusEl.querySelector('.sync-text').textContent = 'Live';
+                lastEl.textContent = 'Senast: ' + Math.floor(Math.random() * 5 + 1) + ' sek sedan';
+                
+                // Animate random dot
+                dots.forEach(d => d.classList.remove('active'));
+                dots[Math.floor(Math.random() * dots.length)].classList.add('active');
+            } else {
+                statusEl.className = 'sync-status-indicator offline';
+                statusEl.querySelector('.sync-text').textContent = 'Offline';
+                lastEl.textContent = 'Väntar på anslutning...';
+            }
+        }
+
+        function simulateActivity() {
+            // Simulate receiving data from other devices
+            if (Math.random() > 0.7 && navigator.onLine) {
+                const activities = [
+                    'Mobil check-in synkad',
+                    'Tablet-uppdatering mottagen',
+                    'Desktop-sync klar'
+                ];
+                console.log('Sync:', activities[Math.floor(Math.random() * activities.length)]);
+            }
+        }
+
+        function handleRemoteUpdate(data) {
+            showNotification('Uppdatering från annan enhet! 🔄');
+            // Reload relevant widgets
+            loadLayout();
+        }
+
+        function broadcastUpdate(type, data) {
+            const syncData = {
+                type: type,
+                data: data,
+                timestamp: new Date().toISOString(),
+                device: 'desktop'
+            };
+            localStorage.setItem('comdira_sync', JSON.stringify(syncData));
+            localStorage.removeItem('comdira_sync'); // Trigger event
+        }
+
+        // === LAZY LOADING ===
+        function initLazyLoading() {
+            const widgets = document.querySelectorAll('.widget');
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const widget = entry.target;
+                        widget.classList.remove('lazy-loading');
+                        loadWidgetContent(widget);
+                        observer.unobserve(widget);
+                    }
+                });
+            }, {
+                rootMargin: '50px',
+                threshold: 0.1
+            });
+
+            widgets.forEach(widget => {
+                widget.classList.add('lazy-loading');
+                imageObserver.observe(widget);
+            });
+        }
+
+        function loadWidgetContent(widget) {
+            // Simulate loading content
+            setTimeout(() => {
+                widget.classList.remove('lazy-loading');
+            }, Math.random() * 500 + 200);
+        }
+
+        // === OFFLINE SUPPORT ===
+        function initOfflineSupport() {
+            // Create offline indicator
+            const indicator = document.createElement('div');
+            indicator.className = 'offline-indicator';
+            indicator.id = 'offlineIndicator';
+            indicator.innerHTML = '📴 Du är offline - ändringar sparas lokalt';
+            document.body.appendChild(indicator);
+
+            window.addEventListener('online', () => {
+                const indicator = document.getElementById('offlineIndicator');
+                indicator.classList.add('syncing');
+                indicator.innerHTML = '🔄 Synkar ändringar...';
+                indicator.classList.add('show');
+                
+                setTimeout(() => {
+                    indicator.classList.remove('show');
+                    indicator.classList.remove('syncing');
+                    indicator.innerHTML = '📴 Du är offline - ändringar sparas lokalt';
+                    showNotification('Tillbaka online! Ändringar synkade ✅');
+                }, 2000);
+                
+                updateSyncStatus();
+            });
+
+            window.addEventListener('offline', () => {
+                const indicator = document.getElementById('offlineIndicator');
+                indicator.classList.add('show');
+                updateSyncStatus();
+            });
+
+            // Save data before unload
+            window.addEventListener('beforeunload', () => {
+                saveLayout();
+            });
+        }
+
+        // === DATA EXPORT ===
+        function exportData(format) {
+            const data = collectUserData();
+            
+            switch(format) {
+                case 'pdf':
+                    generatePDF(data);
+                    break;
+                case 'csv':
+                    downloadCSV(data);
+                    break;
+                case 'json':
+                    downloadJSON(data);
+                    break;
+            }
+        }
+
+        function collectUserData() {
+            return {
+                user: 'Demo Användare',
+                exportDate: new Date().toISOString(),
+                stats: {
+                    checkins: 47,
+                    streak: 23,
+                    goalsCompleted: 3,
+                    habitsTracked: 5
+                },
+                weeklyProgress: {
+                    meditation: '6/7 dagar',
+                    exercise: '4/5 dagar',
+                    journaling: '7/7 dagar'
+                },
+                moodData: [7, 8, 6, 9, 7, 8, 7]
+            };
+        }
+
+        function generatePDF(data) {
+            showNotification('Genererar PDF... 📄');
+            
+            // Simulate PDF generation
+            setTimeout(() => {
+                const pdfContent = `
+COMDIRA LIFECOACH - VECKORAPPORT
+================================
+Användare: ${data.user}
+Exporterad: ${new Date(data.exportDate).toLocaleDateString('sv-SE')}
+
+STATISTIK
+---------
+✓ Check-ins: ${data.stats.checkins}
+🔥 Nuvarande streak: ${data.stats.streak} dagar
+🎯 Avslutade mål: ${data.stats.goalsCompleted}
+✓ Aktiva vanor: ${data.stats.habitsTracked}
+
+VECKANS PROGRESS
+----------------
+🧘 Meditation: ${data.weeklyProgress.meditation}
+💪 Träning: ${data.weeklyProgress.exercise}
+📔 Journal: ${data.weeklyProgress.journaling}
+
+HUMÖR (Senaste 7 dagarna)
+-------------------------
+${data.moodData.map((m, i) => `Dag ${i+1}: ${m}/10`).join('\n')}
+
+---
+Genererad av Comdira Lifecoach
+https://comdira.app
+                `.trim();
+                
+                downloadFile(pdfContent, 'comdira-veckorapport.txt', 'text/plain');
+                showNotification('PDF exporterad! ✅');
+            }, 1500);
+        }
+
+        function downloadCSV(data) {
+            const csv = `Datum,Aktivitet,Resultat
+${new Date().toISOString().split('T')[0]},Check-ins,${data.stats.checkins}
+${new Date().toISOString().split('T')[0]},Streak,${data.stats.streak}
+${new Date().toISOString().split('T')[0]},Mål avslutade,${data.stats.goalsCompleted}`;
+            
+            downloadFile(csv, 'comdira-data.csv', 'text/csv');
+            showNotification('CSV exporterad! ✅');
+        }
+
+        function downloadJSON(data) {
+            const json = JSON.stringify(data, null, 2);
+            downloadFile(json, 'comdira-data.json', 'application/json');
+            showNotification('JSON exporterad! ✅');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function shareWithCoach() {
+            const data = collectUserData();
+            const shareText = `Hej coach! Här är min veckorapport:\n\n` +
+                `🔥 Streak: ${data.stats.streak} dagar\n` +
+                `🧘 Meditation: ${data.weeklyProgress.meditation}\n` +
+                `💪 Träning: ${data.weeklyProgress.exercise}\n\n` +
+                `Hur går det för mig?`;
+            
+            if (confirm('Dela med din coach via appen?')) {
+                showNotification('Data delad med coach! 👤✅');
+            }
+        }
+
+        // === SDK / CUSTOM WIDGETS ===
+        const installedWidgets = new Set(['weather']);
+
+        function installWidget(widgetId) {
+            if (installedWidgets.has(widgetId)) {
+                showNotification('Widget redan installerad! ✓');
+                return;
+            }
+            
+            showNotification(`Installerar ${widgetId}... 🧩`);
+            
+            setTimeout(() => {
+                installedWidgets.add(widgetId);
+                showNotification(`${widgetId} installerad! ✅`);
+                
+                // Update button
+                event.target.textContent = '✓ Aktiv';
+                event.target.classList.add('installed');
+            }, 1000);
+        }
+
+        function toggleWidget(widgetId) {
+            if (installedWidgets.has(widgetId)) {
+                installedWidgets.delete(widgetId);
+                event.target.textContent = '+ Installera';
+                event.target.classList.remove('installed');
+                showNotification(`${widgetId} avaktiverad`);
+            } else {
+                installedWidgets.add(widgetId);
+                event.target.textContent = '✓ Aktiv';
+                event.target.classList.add('installed');
+                showNotification(`${widgetId} aktiverad! ✅`);
+            }
+        }
+
+        function showApiDocs() {
+            alert(`Comdira Widget SDK
+
+API Documentation:
+
+1. Register Widget:
+   Comdira.registerWidget({
+     id: 'my-widget',
+     name: 'My Widget',
+     render: (container) => { ... }
+   });
+
+2. Event System:
+   Comdira.on('checkin', (data) => { ... });
+
+3. Data Access:
+   const user = await Comdira.getUser();
+   const habits = await Comdira.getHabits();
+
+Full docs: https://comdira.app/docs/sdk`);
+        }
+
+        // Initialize everything on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initRealtimeSync();
+            initLazyLoading();
+            initOfflineSupport();
+        });
 </script>
 <!-- Share Modal -->
 <div class="share-modal-overlay" id="shareModal" onclick="closeShareModal(event)">
@@ -3516,5 +4067,109 @@
         </div>
         <button class="share-close" onclick="closeShareModal()">Stäng</button>
     </div>
-</div></body>
+</div>
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
 </html>
+                    <!-- Real-time Sync Status Widget - 1x1 -->
+                    <div class="widget size-1x1 sync-widget" data-id="sync" data-module="sync" data-size="1x1">
+                        <div class="widget-content" style="padding: 20px; text-align: center;">
+                            <div class="sync-status-indicator online" id="syncStatus">
+                                <span class="sync-pulse"></span>
+                                <span class="sync-text">Live</span>
+                            </div>
+                            <h3 style="font-size: 14px; font-weight: 700; margin: 12px 0 8px;">Realtids-sync</h3>
+                            <p class="sync-devices">📱 Mobil + 💻 Desktop</p>
+                            <p class="sync-last" id="syncLast">Senast: 2 sek sedan</p>
+                            <div class="sync-activity" id="syncActivity">
+                                <span class="sync-dot active"></span>
+                                <span class="sync-dot active"></span>
+                                <span class="sync-dot"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Export Widget - 1x1 -->
+                    <div class="widget size-1x1 export-widget" data-id="export" data-module="export" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <div class="export-icon">📊</div>
+                            <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Exportera data</h3>
+                            <div class="export-options">
+                                <button class="export-btn" onclick="exportData('pdf')">
+                                    <span>📄</span>
+                                    <span>PDF</span>
+                                </button>
+                                <button class="export-btn" onclick="exportData('csv')">
+                                    <span>📋</span>
+                                    <span>CSV</span>
+                                </button>
+                                <button class="export-btn" onclick="exportData('json')">
+                                    <span>🔧</span>
+                                    <span>JSON</span>
+                                </button>
+                            </div>
+                            <button class="export-share-btn" onclick="shareWithCoach()">
+                                👤 Dela med coach
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Custom Widgets SDK - 2x1 -->
+                    <div class="widget size-2x1 sdk-widget" data-id="sdk" data-module="sdk" data-size="2x1">
+                        <div class="widget-header" style="border-color: rgba(155, 89, 182, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">🧩</span> Widget Store</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                                Installera tredjeparts-widgets för att anpassa din dashboard
+                            </p>
+                            <div class="sdk-widgets">
+                                <div class="sdk-widget-item">
+                                    <div class="sdk-widget-icon">🎵</div>
+                                    <div class="sdk-widget-info">
+                                        <div class="sdk-widget-name">Spotify Mood</div>
+                                        <div class="sdk-widget-desc">Spela musik baserat på ditt humör</div>
+                                    </div>
+                                    <button class="sdk-widget-install" onclick="installWidget('spotify')">+ Installera</button>
+                                </div>
+                                <div class="sdk-widget-item">
+                                    <div class="sdk-widget-icon">🌤️</div>
+                                    <div class="sdk-widget-info">
+                                        <div class="sdk-widget-name">Weather</div>
+                                        <div class="sdk-widget-desc">Lokalt väder för utomhusaktiviteter</div>
+                                    </div>
+                                    <button class="sdk-widget-install installed" onclick="toggleWidget('weather')">✓ Aktiv</button>
+                                </div>
+                                <div class="sdk-widget-item">
+                                    <div class="sdk-widget-icon">💰</div>
+                                    <div class="sdk-widget-info">
+                                        <div class="sdk-widget-name">Budget Tracker</div>
+                                        <div class="sdk-widget-desc">Håll koll på dina utgifter</div>
+                                    </div>
+                                    <button class="sdk-widget-install" onclick="installWidget('budget')">+ Installera</button>
+                                </div>
+                            </div>
+                            <div class="sdk-api-info">
+                                <span>🔧</span>
+                                <span>Öppet API för utvecklare</span>
+                                <a href="#" onclick="showApiDocs()">Dokumentation →</a>
+                            </div>
+                        </div>
+                    </div>
+
