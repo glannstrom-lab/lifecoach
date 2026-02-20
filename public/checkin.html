@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagens Check-in - Comdira</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Check-in Page Styles */
+        .checkin-page {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Mode Toggle */
+        .mode-toggle {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 8px;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .mode-btn:not(.active) {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .mode-btn .icon {
+            font-size: 20px;
+        }
+        
+        /* Streak Banner */
+        .streak-banner {
+            background: linear-gradient(135deg, #FFE4B5, #FFD700);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .streak-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .streak-emoji {
+            font-size: 48px;
+        }
+        
+        .streak-text {
+            color: #7D4E00;
+        }
+        
+        .streak-count {
+            font-size: 32px;
+            font-weight: 800;
+            color: #7D4E00;
+            line-height: 1;
+        }
+        
+        .streak-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #A67C00;
+        }
+        
+        .streak-badges {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .badge-item {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .badge-item:hover {
+            transform: scale(1.1);
+            background: rgba(255,255,255,0.8);
+        }
+        
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .quick-stat {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .quick-stat:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .quick-stat-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .quick-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .quick-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Dimension Cards */
+        .dimension-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .dimension-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .dimension-icon-bg {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .dimension-icon-bg.mood { background: #FFE4E1; }
+        .dimension-icon-bg.energy { background: #FFF8DC; }
+        .dimension-icon-bg.focus { background: #E6E6FA; }
+        .dimension-icon-bg.sleep { background: #E0F0FF; }
+        .dimension-icon-bg.stress { background: #F0E6FF; }
+        
+        .dimension-title-wrap {
+            flex: 1;
+        }
+        
+        .dimension-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .dimension-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .dimension-score-display {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        /* Slider Styling */
+        .slider-container {
+            margin: 24px 0;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .slider-track {
+            position: relative;
+            height: 12px;
+            background: var(--primary-light);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .slider-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #FFD93D, #6BCB77);
+            border-radius: 6px;
+            pointer-events: none;
+        }
+        
+        .slider-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+        }
+        
+        .slider-thumb:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .slider-thumb:active {
+            cursor: grabbing;
+        }
+        
+        /* Emoji Scale */
+        .emoji-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+        
+        .emoji-btn {
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.3s;
+            padding: 8px;
+        }
+        
+        .emoji-btn:hover {
+            opacity: 0.7;
+            transform: scale(1.2);
+        }
+        
+        .emoji-btn.selected {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+        
+        /* Open Questions */
+        .open-question {
+            margin-bottom: 24px;
+        }
+        
+        .open-question-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        .open-question-hint {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+        
+        .open-question-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .open-question-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+        
+        /* Energy Tags */
+        .energy-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .energy-tag {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-light);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .energy-tag:hover {
+            border-color: var(--primary);
+        }
+        
+        .energy-tag.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        /* AI Insight Card */
+        .ai-insight-card {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 20px;
+            padding: 24px;
+            margin: 32px 0;
+            border-left: 4px solid var(--primary-dark);
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .ai-icon {
+            font-size: 24px;
+        }
+        
+        .ai-title {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .ai-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        /* Correlation Alert */
+        .correlation-alert {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .correlation-icon {
+            font-size: 28px;
+        }
+        
+        .correlation-content h4 {
+            color: #E65100;
+            margin-bottom: 8px;
+        }
+        
+        .correlation-content p {
+            color: #BF360C;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Submit Button */
+        .submit-section {
+            position: sticky;
+            bottom: 20px;
+            background: var(--bg-main);
+            padding: 20px 0;
+            border-top: 2px solid var(--primary-light);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(144, 238, 144, 0.4);
+        }
+        
+        /* Wearable Sync */
+        .wearable-sync {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .wearable-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .wearable-info {
+            flex: 1;
+        }
+        
+        .wearable-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .wearable-status {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .wearable-btn {
+            padding: 10px 20px;
+            background: var(--primary);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Community Stats */
+        .community-bar {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 24px 0;
+            text-align: center;
+        }
+        
+        .community-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .community-highlight {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        /* Notification Settings */
+        .reminder-settings {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 32px;
+        }
+        
+        .reminder-title {
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .reminder-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .reminder-checkbox {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .streak-banner {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+            
+            .quick-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | Dagens Check-in | 
+        <a href="dashboard.html">← Tillbaka till Dashboard</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="checkin.html" class="nav-item active">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="wellness.html" class="nav-item">
+                    <span>⬡</span> Välmåendehexagonen
+                </a>
+                <a href="#" class="nav-item">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="#" class="nav-item">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="checkin-page">
+                
+                <!-- Mode Toggle -->
+                <div class="mode-toggle">
+                    <button class="mode-btn active" onclick="setMode('morning')" id="morningBtn">
+                        <span class="icon">🌅</span>
+                        Morgon
+                    </button>
+                    <button class="mode-btn" onclick="setMode('evening')" id="eveningBtn">
+                        <span class="icon">🌙</span>
+                        Kväll
+                    </button>
+                </div>
+                
+                <!-- Streak Banner -->
+                <div class="streak-banner">
+                    <div class="streak-info">
+                        <span class="streak-emoji">🔥</span>
+                        <div class="streak-text">
+                            <div class="streak-count">7</div>
+                            <div class="streak-label">dagar i rad!</div>
+                        </div>
+                    </div>
+                    <div class="streak-badges">
+                        <div class="badge-item" title="Första steget">🌱</div>
+                        <div class="badge-item" title="Veckokrigare">🔥</div>
+                        <div class="badge-item" title="Morgonmänniska">🌅</div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">📊</div>
+                        <div class="quick-stat-value">47</div>
+                        <div class="quick-stat-label">Totala check-ins</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">😊</div>
+                        <div class="quick-stat-value">7.2</div>
+                        <div class="quick-stat-label">Snitt humör</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">⚡</div>
+                        <div class="quick-stat-value">6.8</div>
+                        <div class="quick-stat-label">Snitt energi</div>
+                    </div>
+                    <div class="quick-stat">
+                        <div class="quick-stat-icon">😴</div>
+                        <div class="quick-stat-value">7.5</div>
+                        <div class="quick-stat-label">Snitt sömn</div>
+                    </div>
+                </div>
+                
+                <!-- Wearable Sync -->
+                <div class="wearable-sync">
+                    <div class="wearable-icon">⌚</div>
+                    <div class="wearable-info">
+                        <div class="wearable-title">Apple Health</div>
+                        <div class="wearable-status">Senast synkad: 5 minuter sedan • 7,432 steg • 7.5h sömn</div>
+                    </div>
+                    <button class="wearable-btn">Synka</button>
+                </div>
+                
+                <!-- AI Insight -->
+                <div class="ai-insight-card">
+                    <div class="ai-header">
+                        <span class="ai-icon">🤖</span>
+                        <span class="ai-title">Dagens AI-insikt</span>
+                    </div>
+                    <p class="ai-text" id="aiInsight">
+                        Basera på dina senaste 7 dagar: Din energi är 23% högre på dagar när du får mer än 7 timmars sömn. 
+                        Du har också visat ett mönster av högre humör på fredagar. Idag är en perfekt dag att fokusera på det projekt du skjutit upp!
+                    </p>
+                </div>
+                
+                <!-- Correlation Alert -->
+                <div class="correlation-alert" id="correlationAlert">
+                    <span class="correlation-icon">💡</span>
+                    <div class="correlation-content">
+                        <h4>Mönster upptäckt!</h4>
+                        <p>När du skriver tacksamhet på morgonen är ditt humör i snitt 18% högre under dagen. 
+                        Fortsätt med denna vana!</p>
+                    </div>
+                </div>
+                
+                <!-- Mood Dimension -->
+                <div class="dimension-section">
+                    <div class="dimension-header">
+                        <div class="dimension-icon-bg mood">😊</div>
+                        <div class="dimension-title-wrap">
+                            <div class="dimension-title">Humör</div>
+                            <div class="dimension-subtitle">Hur mår du just nu?</div>
+                        </div>
+                        <div class="dimension-score-display" id="moodScore">5</div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span>Mycket dåligt</span>
+                            <span>Mycket bra</span>
+                        </div>
+                        <div class="slider-track" onclick="setSlider('mood', event)">
+                            <div class="slider-fill" id="moodFill" style="width: 50%"></div>
+                            <div class="slider-thumb" id="moodThumb" style="left: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="emoji-scale">
+                        <button class="emoji-btn" onclick="setEmoji('mood', 1)">😔</button>
+                        <button class="emoji-btn" onclick="setEmoji('mood', 3)">😐</button>
+                        <button class="emoji-btn selected" onclick="setEmoji('mood', 5)">🙂</button>
+                        <button class="emoji-btn" onclick="setEmoji('mood', 7)">😊</button>
+                        <button class="emoji-btn" onclick="setEmoji('mood', 10)">🤩</button>
+                    </div>
+                </div>
+                
+                <!-- Energy Dimension -->
+                <div class="dimension-section">
+                    <div class="dimension-header">
+                        <div class="dimension-icon-bg energy">⚡</div>
+                        <div class="dimension-title-wrap">
+                            <div class="dimension-title">Energinivå</div>
+                            <div class="dimension-subtitle">Hur mycket energi har du?</div>
+                        </div>
+                        <div class="dimension-score-display" id="energyScore">5</div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-track" onclick="setSlider('energy', event)">
+                            <div class="slider-fill" id="energyFill" style="width: 50%"></div>
+                            <div class="slider-thumb" id="energyThumb" style="left: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Focus Dimension -->
+                <div class="dimension-section">
+                    <div class="dimension-header">
+                        <div class="dimension-icon-bg focus">🎯</div>
+                        <div class="dimension-title-wrap">
+                            <div class="dimension-title">Fokus</div>
+                            <div class="dimension-subtitle">Hur är din koncentrationsförmåga?</div>
+                        </div>
+                        <div class="dimension-score-display" id="focusScore">5</div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-track" onclick="setSlider('focus', event)">
+                            <div class="slider-fill" id="focusFill" style="width: 50%"></div>
+                            <div class="slider-thumb" id="focusThumb" style="left: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sleep Dimension (Morning mode) / Evening reflection (Evening mode) -->
+                <div class="dimension-section" id="sleepSection">
+                    <div class="dimension-header">
+                        <div class="dimension-icon-bg sleep">😴</div>
+                        <div class="dimension-title-wrap">
+                            <div class="dimension-title">Sömnkvalitet</div>
+                            <div class="dimension-subtitle">Hur väl sov du inatt?</div>
+                        </div>
+                        <div class="dimension-score-display" id="sleepScore">5</div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-track" onclick="setSlider('sleep', event)">
+                            <div class="slider-fill" id="sleepFill" style="width: 50%"></div>
+                            <div class="slider-thumb" id="sleepThumb" style="left: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stress Dimension -->
+                <div class="dimension-section">
+                    <div class="dimension-header">
+                        <div class="dimension-icon-bg stress">🧘</div>
+                        <div class="dimension-title-wrap">
+                            <div class="dimension-title">Stressnivå</div>
+                            <div class="dimension-subtitle">Hur stressad känner du dig?</div>
+                        </div>
+                        <div class="dimension-score-display" id="stressScore">5</div>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-track" onclick="setSlider('stress', event)">
+                            <div class="slider-fill" id="stressFill" style="width: 50%"></div>
+                            <div class="slider-thumb" id="stressThumb" style="left: 50%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gratitude (Morning) / Reflection (Evening) -->
+                <div class="dimension-section">
+                    <div class="open-question">
+                        <label class="open-question-label" id="intentionLabel">
+                            🌟 Dagens intention
+                        </label>
+                        <p class="open-question-hint" id="intentionHint">
+                            Vad vill du fokusera på idag? Vilken känsla vill du bära med dig?
+                        </p>
+                        <textarea class="open-question-input" id="intentionInput" maxlength="280" 
+                                  placeholder="Exempel: Jag vill vara närvarande i möten och lyssna aktivt..."></textarea>
+                        <div class="char-count"><span id="charCount">0</span>/280</div>
+                    </div>
+                </div>
+                
+                <!-- Gratitude Question -->
+                <div class="dimension-section">
+                    <div class="open-question">
+                        <label class="open-question-label">
+                            💝 Tacksamhet
+                        </label>
+                        <p class="open-question-hint">
+                            Vad är du tacksam för just nu? Stort eller smått.
+                        </p>
+                        <textarea class="open-question-input" id="gratitudeInput" maxlength="280" 
+                                  placeholder="Exempel: Tacksam för morgonkaffet, solskenet, eller att min vän ringde..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Energy Sources -->
+                <div class="dimension-section">
+                    <label class="open-question-label">⚡ Vad ger dig energi idag?</label>
+                    <div class="energy-tags" id="energyBoostTags">
+                        <button class="energy-tag" onclick="toggleTag(this)">Träning</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Sömn</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Socialt umgänge</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Naturen</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Musik</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Läsa</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Meditation</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Kreativitet</button>
+                    </div>
+                    
+                    <label class="open-question-label" style="margin-top: 24px;">🔋 Vad tar energi från dig?</label>
+                    <div class="energy-tags" id="energyDrainTags">
+                        <button class="energy-tag" onclick="toggleTag(this)">Möten</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Sömnbris</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Social ångest</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Oklara mål</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Teknikproblem</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Väder</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Nyheter</button>
+                        <button class="energy-tag" onclick="toggleTag(this)">Trafik</button>
+                    </div>
+                </div>
+                
+                <!-- Community Stats -->
+                <div class="community-bar">
+                    <p class="community-text">
+                        <span class="community-highlight">1,247 personer</span> har checkat in idag. 
+                        Det genomsnittliga humöret är <span class="community-highlight">6.8/10</span>.
+                    </p>
+                </div>
+                
+                <!-- Reminder Settings -->
+                <div class="reminder-settings">
+                    <h4 class="reminder-title">🔔 Påminnelser</h4>
+                    <label class="reminder-option">
+                        <input type="checkbox" class="reminder-checkbox" checked>
+                        <span>Morgon-check-in (08:00)</span>
+                    </label>
+                    <label class="reminder-option">
+                        <input type="checkbox" class="reminder-checkbox" checked>
+                        <span>Kvälls-check-in (20:00)</span>
+                    </label>
+                    <label class="reminder-option">
+                        <input type="checkbox" class="reminder-checkbox">
+                        <span>Efter träningspass (kontext-baserad)</span>
+                    </label>
+                    <label class="reminder-option">
+                        <input type="checkbox" class="reminder-checkbox">
+                        <span>Innan viktiga möten (kalender-integration)</span>
+                    </label>
+                </div>
+                
+                <!-- Submit Section -->
+                <div class="submit-section">
+                    <button class="submit-btn" onclick="submitCheckin()">
+                        ✅ Spara min Check-in
+                    </button>
+                </div>
+                
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Nuvarande läge
+        let currentMode = 'morning';
+        let scores = {
+            mood: 5,
+            energy: 5,
+            focus: 5,
+            sleep: 5,
+            stress: 5
+        };
+        
+        // Byt mellan morgon/kväll
+        function setMode(mode) {
+            currentMode = mode;
+            
+            // Uppdatera knappar
+            document.getElementById('morningBtn').classList.toggle('active', mode === 'morning');
+            document.getElementById('eveningBtn').classList.toggle('active', mode === 'evening');
+            
+            // Uppdatera text baserat på läge
+            if (mode === 'morning') {
+                document.getElementById('intentionLabel').textContent = '🌟 Dagens intention';
+                document.getElementById('intentionHint').textContent = 'Vad vill du fokusera på idag? Vilken känsla vill du bära med dig?';
+                document.getElementById('sleepSection').style.display = 'block';
+            } else {
+                document.getElementById('intentionLabel').textContent = '🌙 Dagens reflektion';
+                document.getElementById('intentionHint').textContent = 'Hur gick dagen? Vad är du mest nöjd med?';
+                document.getElementById('sleepSection').style.display = 'none';
+            }
+            
+            // Uppdatera AI-insikt
+            updateAIInsight();
+        }
+        
+        // Slider-funktionalitet
+        function setSlider(dimension, event) {
+            const track = event.currentTarget;
+            const rect = track.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+            
+            // Konvertera till 1-10
+            const value = Math.round(1 + (percentage / 100) * 9);
+            
+            scores[dimension] = value;
+            updateSliderUI(dimension, value);
+        }
+        
+        function updateSliderUI(dimension, value) {
+            const percentage = ((value - 1) / 9) * 100;
+            document.getElementById(`${dimension}Fill`).style.width = percentage + '%';
+            document.getElementById(`${dimension}Thumb`).style.left = percentage + '%';
+            document.getElementById(`${dimension}Score`).textContent = value;
+        }
+        
+        // Emoji-val
+        function setEmoji(dimension, value) {
+            scores[dimension] = value;
+            updateSliderUI(dimension, value);
+            
+            // Uppdatera emoji-knappar
+            const buttons = document.querySelectorAll(`[onclick^="setEmoji('${dimension}'"]`);
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+        
+        // Toggle energy tags
+        function toggleTag(element) {
+            element.classList.toggle('selected');
+        }
+        
+        // Uppdatera AI-insikt
+        function updateAIInsight() {
+            const insights = {
+                morning: "Din energi är som högst på tisdagar. Idag verkar du ha sovit bra (7.5h), perfekt för att ta itu med det där projektet du skjutit upp!",
+                evening: "Du har haft 3 dagar i rad med högt humör. Sömnen verkar vara nyckeln - fortsätt prioritera 7+ timmar. Bra jobbat med konsekvensen i check-ins!"
+            };
+            
+            document.getElementById('aiInsight').textContent = insights[currentMode];
+        }
+        
+        // Karaktärräknare
+        document.getElementById('intentionInput').addEventListener('input', function() {
+            document.getElementById('charCount').textContent = this.value.length;
+        });
+        
+        // Submit check-in
+        function submitCheckin() {
+            // Simulera sparning
+            alert(`✅ ${currentMode === 'morning' ? 'Morgon' : 'Kvälls'}-check-in sparad!\n\nFortsätt så - du har nu 8 dagar i rad! 🔥`);
+        }
+        
+        // Initiera
+        updateAIInsight();
+    </script>
+</body>
+</html>
