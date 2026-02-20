@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina Mål - Comdira</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Mina Mål Page Styles */
+        .goals-page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Stats */
+        .goals-header-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .goal-stat-card {
+            background: var(--bg-surface);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .goal-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .goal-stat-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .goal-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .goal-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* AI Coach Banner */
+        .ai-coach-banner {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            border-left: 5px solid var(--primary-dark);
+        }
+        
+        .ai-coach-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .ai-coach-content {
+            flex: 1;
+        }
+        
+        .ai-coach-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-coach-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .ai-coach-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .ai-btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ai-btn-primary {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .ai-btn-secondary {
+            background: white;
+            color: var(--text-secondary);
+            border: 2px solid var(--primary-light);
+        }
+        
+        /* Tabs */
+        .goals-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--bg-surface);
+            padding: 8px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .goals-tab {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .goals-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .goals-tab .badge {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        
+        /* Goal Cards */
+        .goals-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .goal-card {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goal-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .goal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .goal-card:hover::before {
+            opacity: 1;
+        }
+        
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .goal-title-section {
+            flex: 1;
+        }
+        
+        .goal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .goal-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .goal-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .goal-tag.deadline { background: #FFF3E0; color: #E65100; }
+        .goal-tag.dimension { background: #E8F5E8; color: #2E7D32; }
+        .goal-tag.energy { background: #E3F2FD; color: #1565C0; }
+        .goal-tag.smart { background: #F3E5F5; color: #7B1FA2; }
+        
+        .goal-menu {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 8px;
+        }
+        
+        /* Progress Section */
+        .goal-progress-section {
+            margin: 20px 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .progress-percentage {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        
+        .progress-bar-container {
+            background: var(--primary-light);
+            height: 16px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Milestones */
+        .milestones-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 16px;
+        }
+        
+        .milestones-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .milestone-track {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .milestone-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .milestone-node.completed {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.4);
+        }
+        
+        .milestone-node.pending {
+            background: var(--primary-light);
+            border: 3px dashed var(--primary);
+        }
+        
+        .milestone-node.locked {
+            background: #E0E0E0;
+            color: #9E9E9E;
+        }
+        
+        .milestone-connector {
+            flex: 1;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+        
+        .milestone-connector.completed {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        /* Compassion Pause Button */
+        .compassion-pause {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #F57C00;
+        }
+        
+        .compassion-pause button {
+            background: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #F57C00;
+        }
+        
+        /* Energy Impact */
+        .energy-impact {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-radius: 12px;
+        }
+        
+        .energy-impact-icon {
+            font-size: 24px;
+        }
+        
+        .energy-impact-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .energy-impact-value {
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        /* Win Wall */
+        .win-wall-section {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .win-wall-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .win-wall-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #E65100;
+        }
+        
+        .wins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .win-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        
+        .win-card:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+        
+        .win-emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        
+        .win-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: #E65100;
+        }
+        
+        .win-date {
+            font-size: 11px;
+            color: #FF8F00;
+            margin-top: 4px;
+        }
+        
+        /* Heatmap */
+        .heatmap-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        
+        .heatmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .heatmap-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+        }
+        
+        .heatmap-cell.level-0 { background: #E0E0E0; }
+        .heatmap-cell.level-1 { background: #C8E6C9; }
+        .heatmap-cell.level-2 { background: #90EE90; }
+        .heatmap-cell.level-3 { background: #66BB6A; }
+        .heatmap-cell.level-4 { background: #2E7D32; }
+        
+        /* Mountain Climb View */
+        .mountain-view {
+            background: linear-gradient(180deg, #E3F2FD 0%, #BBDEFB 50%, #90EE90 100%);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            min-height: 400px;
+            overflow: hidden;
+        }
+        
+        .mountain-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            background: linear-gradient(180deg, #5D4037 0%, #3E2723 100%);
+            clip-path: polygon(0% 100%, 20% 60%, 40% 30%, 50% 10%, 60% 30%, 80% 60%, 100% 100%);
+        }
+        
+        .mountain-climber {
+            position: absolute;
+            font-size: 32px;
+            transition: all 0.5s ease;
+            z-index: 10;
+        }
+        
+        .mountain-flag {
+            position: absolute;
+            font-size: 40px;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* New Goal Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* Dimension Selector */
+        .dimension-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .dimension-option {
+            padding: 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dimension-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .dimension-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .dimension-option .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .dimension-option .name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Energy Selector */
+        .energy-selector {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .energy-option {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .energy-option.selected {
+            background: #E8F5E8;
+            border-color: #4CAF50;
+        }
+        
+        .energy-option .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        /* SMART Checklist */
+        .smart-checklist {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .smart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary-light);
+        }
+        
+        .smart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .smart-checkbox {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--primary);
+        }
+        
+        .smart-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .smart-hint {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Action Buttons */
+        .action-bar {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 20px 0;
+            border-top: 2px solid var(--primary-light);
+            margin-top: 24px;
+        }
+        
+        .btn-primary-lg {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s;
+        }
+        
+        .btn-primary-lg:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(144, 238, 144, 0.4);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .empty-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        .empty-text {
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto 24px;
+        }
+        
+        /* Buddy System */
+        .buddy-card {
+            background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        
+        .buddy-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .buddy-avatar {
+            width: 56px;
+            height: 56px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .buddy-info h4 {
+            color: #4A148C;
+            margin-bottom: 4px;
+        }
+        
+        .buddy-info p {
+            color: #7B1FA2;
+            font-size: 14px;
+        }
+        
+        .buddy-message {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            font-style: italic;
+            color: #4A148C;
+        }
+        
+        @media (max-width: 768px) {
+            .dimension-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .energy-selector {
+                flex-direction: column;
+            }
+            
+            .goal-header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .milestone-track {
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | Mina Mål | 
+        <a href="dashboard.html">← Tillbaka till Dashboard</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="checkin.html" class="nav-item">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="wellness.html" class="nav-item">
+                    <span>⬡</span> Välmåendehexagonen
+                </a>
+                <a href="goals.html" class="nav-item active">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="#" class="nav-item">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="goals-page">
+                
+                <!-- Header Stats -->
+                <div class="goals-header-stats">
+                    <div class="goal-stat-card">
+                        <div class="goal-stat-icon">🎯</div>
+                        <div class="goal-stat-value">4</div>
+                        <div class="goal-stat-label">Aktiva mål</div>
+                    </div>
+                    <div class="goal-stat-card">
+                        <div class="goal-stat-icon">✅</div>
+                        <div class="goal-stat-value">12</div>
+                        <div class="goal-stat-label">Avklarade</div>
+                    </div>
+                    <div class="goal-stat-card">
+                        <div class="goal-stat-icon">🏆</div>
+                        <div class="goal-stat-value">68%</div>
+                        <div class="goal-stat-label">Snitt framgång</div>
+                    </div>
+                    <div class="goal-stat-card">
+                        <div class="goal-stat-icon">🔥</div>
+                        <div class="goal-stat-value">23</div>
+                        <div class="goal-stat-label">Dagar i streak</div>
+                    </div>
+                </div>
+                
+                <!-- AI Coach Banner -->
+                <div class="ai-coach-banner">
+                    <div class="ai-coach-avatar">🤖</div>
+                    <div class="ai-coach-content">
+                        <div class="ai-coach-title">
+                            Din AI-målcoach
+                            <span style="font-size: 12px; font-weight: 400; color: var(--text-light);">• Baserat på dina 47 check-ins</span>
+                        </div>
+                        <p class="ai-coach-text" id="aiCoachText">
+                            Jag ser att du har högst energi på tisdagar och torsdagar. 
+                            Ditt mål "Springa 5km" har 85% högre chans att lyckas om du lägger det på dessa dagar. 
+                            Dessutom: När du når träningsmålen är ditt humör 34% höger enligt dina check-ins!
+                        </p>
+                        <div class="ai-coach-actions">
+                            <button class="ai-btn ai-btn-primary" onclick="applyAISuggestion()">
+                                💡 Justera schemat
+                            </button>
+                            <button class="ai-btn ai-btn-secondary" onclick="generateNewSuggestion()">
+                                🎲 Ny insikt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Win Wall -->
+                <div class="win-wall-section">
+                    <div class="win-wall-header">
+                        <h3 class="win-wall-title">🏆 Vinnarväggen</h3>
+                        <span style="color: #E65100; font-size: 14px;">Samlade segrar</span>
+                    </div>
+                    <div class="wins-grid" id="winsGrid">
+                        <!-- Dynamiskt genererat -->
+                    </div>
+                </div>
+                
+                <!-- Mountain Climb View -->
+                <div class="mountain-view">
+                    <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-primary);">🗻 Din Bestigning</h3>
+                    <div class="mountain-silhouette"></div>
+                    <div class="mountain-flag">🚩</div>
+                    <div class="mountain-climber" id="mountainClimber" style="left: 20%; bottom: 20%;">🧗</div>
+                    <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; text-align: center;">
+                        <p style="color: white; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                            Du har nått 75% av årets stora mål!
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Heatmap -->
+                <div class="heatmap-section">
+                    <div class="heatmap-header">
+                        <h3 class="heatmap-title">🔥 Konsekvens-heatmap</h3>
+                        <div class="heatmap-legend">
+                            <span>Mindre</span>
+                            <div style="display: flex; gap: 4px;">
+                                <div style="width: 16px; height: 16px; background: #E0E0E0; border-radius: 3px;"></div>
+                                <div style="width: 16px; height: 16px; background: #C8E6C9; border-radius: 3px;"></div>
+                                <div style="width: 16px; height: 16px; background: #90EE90; border-radius: 3px;"></div>
+                                <div style="width: 16px; height: 16px; background: #66BB6A; border-radius: 3px;"></div>
+                                <div style="width: 16px; height: 16px; background: #2E7D32; border-radius: 3px;"></div>
+                            </div>
+                            <span>Mer</span>
+                        </div>
+                    </div>
+                    <div class="heatmap-grid" id="heatmapGrid">
+                        <!-- 49 dagar genereras -->
+                    </div>
+                    <p style="text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 14px;">
+                        Senaste 7 veckorna • Genomsnittlig aktivitet: <strong style="color: var(--primary-dark);">Hög 🔥</strong>
+                    </p>
+                </div>
+                
+                <!-- Tabs -->
+                <div class="goals-tabs">
+                    <button class="goals-tab active" onclick="switchTab('active')">
+                        🔥 Aktiva <span class="badge">4</span>
+                    </button>
+                    <button class="goals-tab" onclick="switchTab('completed')">
+                        ✅ Avklarade <span class="badge">12</span>
+                    </button>
+                    <button class="goals-tab" onclick="switchTab('paused')">
+                        ⏸️ Pausade <span class="badge">2</span>
+                    </button>
+                </div>
+                
+                <!-- Goals Grid -->
+                <div class="goals-grid" id="goalsGrid">
+                    <!-- Mål genereras av JavaScript -->
+                </div>
+                
+                <!-- Buddy System Card -->
+                <div class="buddy-card">
+                    <div class="buddy-header">
+                        <div class="buddy-avatar">👋</div>
+                        <div class="buddy-info">
+                            <h4>Mål-kompis: Anna</h4>
+                            <p>Har stöttat dig i 3 veckor</p>
+                        </div>
+                    </div>
+                    <div class="buddy-message">
+                        "Jag såg att du klarade milstolpen 'Första 2km'! Så stolt över dig! 🎉"
+                    </div>
+                </div>
+                
+                <!-- Floating Add Button -->
+                <button class="btn btn-primary" onclick="openGoalModal()" 
+                        style="position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; 
+                               border-radius: 50%; font-size: 32px; display: flex; align-items: center; 
+                               justify-content: center; box-shadow: 0 8px 24px rgba(144, 238, 144, 0.5);
+                               z-index: 100;">
+                    +
+                </button>
+                
+            </div>
+        </main>
+    </div>
+    
+    <!-- New Goal Modal -->
+    <div class="modal-overlay" id="goalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🎯 Nytt Mål</h2>
+                <button class="modal-close" onclick="closeGoalModal()">&times;</button>
+            </div>
+            
+            <form id="goalForm" onsubmit="saveGoal(event)">
+                <div class="form-group">
+                    <label class="form-label">Vad vill du uppnå?</label>
+                    <input type="text" class="form-input" id="goalTitle" 
+                           placeholder="Ex: Springa 5km, Läsa 12 böcker, Meditera dagligen..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Beskrivning (valfritt)</label>
+                    <textarea class="form-textarea" id="goalDescription" 
+                              placeholder="Varför är detta mål viktigt för dig?"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Måldatum</label>
+                    <input type="date" class="form-input" id="goalDeadline">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vilken dimension stärker detta?</label>
+                    <div class="dimension-selector">
+                        <div class="dimension-option" onclick="selectDimension(this, 'existential')">
+                            <span class="icon">🔮</span>
+                            <span class="name">Existentiellt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'emotional')">
+                            <span class="icon">💝</span>
+                            <span class="name">Emotionellt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'subjective')">
+                            <span class="icon">✨</span>
+                            <span class="name">Subjektivt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'occupational')">
+                            <span class="icon">💼</span>
+                            <span class="name">Yrkesmässigt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'social')">
+                            <span class="icon">👥</span>
+                            <span class="name">Socialt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'practical')">
+                            <span class="icon">🛠️</span>
+                            <span class="name">Vardagligt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Energipåverkan</label>
+                    <div class="energy-selector">
+                        <div class="energy-option selected" onclick="selectEnergy(this, 'boost')">
+                            <span class="icon">⚡</span>
+                            <span>Ger energi</span>
+                        </div>
+                        <div class="energy-option" onclick="selectEnergy(this, 'maintain')">
+                            <span class="icon">🔄</span>
+                            <span>Behåller energi</span>
+                        </div>
+                        <div class="energy-option" onclick="selectEnergy(this, 'drain')">
+                            <span class="icon">🔋</span>
+                            <span>Tar energi</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">SMART-kriterier</label>
+                    <div class="smart-checklist">
+                        <div class="smart-item">
+                            <input type="checkbox" class="smart-checkbox" id="smartS">
+                            <div>
+                                <div class="smart-label">Specifikt (S)</div>
+                                <div class="smart-hint">Tydligt vad som ska uppnås</div>
+                            </div>
+                        </div>
+                        <div class="smart-item">
+                            <input type="checkbox" class="smart-checkbox" id="smartM">
+                            <div>
+                                <div class="smart-label">Mätbart (M)</div>
+                                <div class="smart-hint">Går att mäta framsteg</div>
+                            </div>
+                        </div>
+                        <div class="smart-item">
+                            <input type="checkbox" class="smart-checkbox" id="smartA">
+                            <div>
+                                <div class="smart-label">Accepterat (A)</div>
+                                <div class="smart-hint">Realistiskt och uppnåeligt</div>
+                            </div>
+                        </div>
+                        <div class="smart-item">
+                            <input type="checkbox" class="smart-checkbox" id="smartR">
+                            <div>
+                                <div class="smart-label">Relevant (R)</div>
+                                <div class="smart-hint">Viktigt för ditt välmående</div>
+                            </div>
+                        </div>
+                        <div class="smart-item">
+                            <input type="checkbox" class="smart-checkbox" id="smartT">
+                            <div>
+                                <div class="smart-label">Tidsbestämt (T)</div>
+                                <div class="smart-hint">Har en tydlig deadline</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-bar">
+                    <button type="submit" class="btn-primary-lg">
+                        🎯 Skapa Mål
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Demo-mål
+        let goals = [
+            {
+                id: 1,
+                title: "Springa 5km under 30 minuter",
+                description: "Bygga upp kondition för att må bättre och ha mer energi",
+                progress: 75,
+                deadline: "2026-04-15",
+                dimension: "practical",
+                dimensionName: "Vardagligt",
+                energy: "boost",
+                milestones: [
+                    { name: "1km", completed: true },
+                    { name: "2km", completed: true },
+                    { name: "3km", completed: true },
+                    { name: "4km", completed: false },
+                    { name: "5km", completed: false }
+                ],
+                currentValue: 3.75,
+                targetValue: 5,
+                unit: "km",
+                streak: 12,
+                lastCheckin: "2026-02-19"
+            },
+            {
+                id: 2,
+                title: "Läsa 12 böcker under 2026",
+                description: "Utvecklas personligt och bredda perspektiv",
+                progress: 33,
+                deadline: "2026-12-31",
+                dimension: "existential",
+                dimensionName: "Existentiellt",
+                energy: "boost",
+                milestones: [
+                    { name: "3 böcker", completed: true },
+                    { name: "6 böcker", completed: false },
+                    { name: "9 böcker", completed: false },
+                    { name: "12 böcker", completed: false }
+                ],
+                currentValue: 4,
+                targetValue: 12,
+                unit: "böcker",
+                streak: 45,
+                lastCheckin: "2026-02-20"
+            },
+            {
+                id: 3,
+                title: "Meditation 10 min dagligen",
+                description: "Mindre stress och bättre fokus",
+                progress: 60,
+                deadline: "2026-03-31",
+                dimension: "emotional",
+                dimensionName: "Emotionellt",
+                energy: "maintain",
+                milestones: [
+                    { name: "7 dagar", completed: true },
+                    { name: "14 dagar", completed: true },
+                    { name: "21 dagar", completed: false },
+                    { name: "30 dagar", completed: false }
+                ],
+                currentValue: 18,
+                targetValue: 30,
+                unit: "dagar",
+                streak: 18,
+                lastCheckin: "2026-02-20"
+            },
+            {
+                id: 4,
+                title: "Slutföra certifiering i projektledning",
+                description: "Karriärutveckling och nya möjligheter",
+                progress: 40,
+                deadline: "2026-06-30",
+                dimension: "occupational",
+                dimensionName: "Yrkesmässigt",
+                energy: "drain",
+                milestones: [
+                    { name: "Modul 1", completed: true },
+                    { name: "Modul 2", completed: true },
+                    { name: "Modul 3", completed: false },
+                    { name: "Modul 4", completed: false },
+                    { name: "Exam", completed: false }
+                ],
+                currentValue: 2,
+                targetValue: 5,
+                unit: "moduler",
+                streak: 5,
+                lastCheckin: "2026-02-18"
+            }
+        ];
+        
+        // Vinnare
+        const wins = [
+            { emoji: "🏃", text: "Första 2km!", date: "15 feb" },
+            { emoji: "📚", text: "4:e boken klar", date: "12 feb" },
+            { emoji: "🧘", text: "14 dagar meditation", date: "10 feb" },
+            { emoji: "🎓", text: "Modul 2 klar", date: "5 feb" },
+            { emoji: "🔥", text: "7-dagars streak", date: "1 feb" },
+            { emoji: "⭐", text: "Månadens mål", date: "31 jan" },
+        ];
+        
+        // AI-förslag
+        const aiSuggestions = [
+            "Jag ser att du har högst energi på tisdagar och torsdagar. Ditt mål 'Springa 5km' har 85% högre chans att lyckas om du lägger det på dessa dagar.",
+            "Din sömnkvalitet har förbättrats med 23% sedan du började med meditation. Fortsätt med detta mål - det ger resultat!",
+            "Baserat på dina check-ins: Du presterar bättre på yrkesmål när du har tränat samma morgon. En tydlig koppling!",
+            "Vecka 3 är kritisk för nya vanor. Du är just nu i vecka 2 av 'Meditation 10 min' - fortsätt så går det!",
+            "Ditt humör är i snitt 1.2 poäng högre på dagar du läser. Prioritera läsmålet när du känner dig lite nere."
+        ];
+        
+        let currentTab = 'active';
+        let selectedDimension = null;
+        let selectedEnergy = 'boost';
+        
+        // Rendera mål
+        function renderGoals() {
+            const grid = document.getElementById('goalsGrid');
+            grid.innerHTML = '';
+            
+            goals.forEach(goal => {
+                const card = createGoalCard(goal);
+                grid.appendChild(card);
+            });
+        }
+        
+        function createGoalCard(goal) {
+            const div = document.createElement('div');
+            div.className = 'goal-card';
+            
+            // Milestones HTML
+            const milestonesHtml = goal.milestones.map((m, i) => {
+                const nodeClass = m.completed ? 'completed' : (i === 0 || goal.milestones[i-1].completed ? 'pending' : 'locked');
+                const icon = m.completed ? '✓' : (i + 1);
+                const connector = i < goal.milestones.length - 1 ? 
+                    `<div class="milestone-connector ${m.completed && goal.milestones[i+1].completed ? 'completed' : ''}"></div>` : '';
+                return `
+                    <div class="milestone-node ${nodeClass}" title="${m.name}">${icon}</div>
+                    ${connector}
+                `;
+            }).join('');
+            
+            // Energi-färg
+            const energyColors = {
+                boost: '#4CAF50',
+                maintain: '#FF9800',
+                drain: '#F44336'
+            };
+            
+            const energyText = {
+                boost: 'Ger energi ⚡',
+                maintain: 'Behåller energi 🔄',
+                drain: 'Tar energi 🔋'
+            };
+            
+            // Dagar kvar
+            const daysLeft = Math.ceil((new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+            
+            div.innerHTML = `
+                <div class="goal-header">
+                    <div class="goal-title-section">
+                        <div class="goal-title">${goal.title}</div>
+                        <div class="goal-meta">
+                            <span class="goal-tag deadline">📅 ${daysLeft} dagar kvar</span>
+                            <span class="goal-tag dimension">${goal.dimensionName}</span>
+                            <span class="goal-tag energy" style="background: ${energyColors[goal.energy]}20; color: ${energyColors[goal.energy]};">${energyText[goal.energy]}</span>
+                            ${goal.streak > 7 ? `<span class="goal-tag smart">🔥 ${goal.streak} dagar</span>` : ''}
+                        </div>
+                    </div>
+                    <button class="goal-menu">⋮</button>
+                </div>
+                
+                <div class="goal-progress-section">
+                    <div class="progress-header">
+                        <div>
+                            <span style="color: var(--text-secondary); font-size: 14px;">
+                                ${goal.currentValue} / ${goal.targetValue} ${goal.unit}
+                            </span>
+                        </div>
+                        <div class="progress-percentage">${goal.progress}%</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: ${goal.progress}%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <span>🔥 ${goal.streak} dagars streak</span>
+                        <span>Senast aktiv: ${goal.lastCheckin}</span>
+                    </div>
+                </div>
+                
+                <div class="milestones-section">
+                    <div class="milestones-title">🎯 Milstolpar</div>
+                    <div class="milestone-track">
+                        ${milestonesHtml}
+                    </div>
+                </div>
+                
+                <div class="energy-impact">
+                    <span class="energy-impact-icon">📊</span>
+                    <span class="energy-impact-text">
+                        ${goal.energy === 'boost' ? 'Detta mål ökar ditt humör med i snitt' : 
+                          goal.energy === 'maintain' ? 'Detta mål håller din energi stabil på' : 
+                          'Detta mål är krävande men ger långsiktig tillfredsställelse'}
+                    </span>
+                    <span class="energy-impact-value">${goal.progress > 50 ? '+18%' : '+12%'}</span>
+                </div>
+                
+                ${goal.progress > 0 && goal.progress < 100 ? `
+                <div class="compassion-pause">
+                    <span>💛</span>
+                    <span>Känns det tufft? Det är okej att pausa utan skuld.</span>
+                    <button onclick="pauseGoal(${goal.id})">Pausa</button>
+                </div>
+                ` : ''}
+                
+                <div style="margin-top: 16px; display: flex; gap: 12px;">
+                    <button class="btn btn-primary" style="flex: 1;" onclick="logProgress(${goal.id})">
+                        + Logga framsteg
+                    </button>
+                    <button class="btn btn-ghost" onclick="celebrateGoal(${goal.id})">
+                        🎉 Fira
+                    </button>
+                </div>
+            `;
+            
+            return div;
+        }
+        
+        // Rendera vinnare
+        function renderWins() {
+            const grid = document.getElementById('winsGrid');
+            grid.innerHTML = wins.map(w => `
+                <div class="win-card">
+                    <div class="win-emoji">${w.emoji}</div>
+                    <div class="win-text">${w.text}</div>
+                    <div class="win-date">${w.date}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Rendera heatmap
+        function renderHeatmap() {
+            const grid = document.getElementById('heatmapGrid');
+            const levels = ['level-0', 'level-1', 'level-2', 'level-3', 'level-4'];
+            
+            grid.innerHTML = '';
+            for (let i = 0; i < 49; i++) {
+                const level = Math.floor(Math.random() * 5);
+                const cell = document.createElement('div');
+                cell.className = `heatmap-cell ${levels[level]}`;
+                cell.title = `Dag ${i + 1}: ${['Ingen aktivitet', 'Låg', 'Medium', 'Hög', 'Mycket hög'][level]}`;
+                grid.appendChild(cell);
+            }
+        }
+        
+        // Tab-växling
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.goals-tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.goals-tab').classList.add('active');
+            
+            // Filtrera mål (simplified for demo)
+            if (tab === 'completed') {
+                document.getElementById('goalsGrid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🏆</div>
+                        <div class="empty-title">Fantastiskt jobbat!</div>
+                        <div class="empty-text">Du har avklarat 12 mål. Dina vunna mål finns i historiken.</div>
+                    </div>
+                `;
+            } else if (tab === 'paused') {
+                document.getElementById('goalsGrid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⏸️</div>
+                        <div class="empty-title">Pausade mål</div>
+                        <div class="empty-text">Du har 2 mål på paus. Ta hand om dig - det är okej att vila.</div>
+                        <button class="btn btn-primary">Visa pausade mål</button>
+                    </div>
+                `;
+            } else {
+                renderGoals();
+            }
+        }
+        
+        // Modal funktioner
+        function openGoalModal() {
+            document.getElementById('goalModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeGoalModal() {
+            document.getElementById('goalModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Form-hantering
+        function selectDimension(element, dimension) {
+            document.querySelectorAll('.dimension-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedDimension = dimension;
+        }
+        
+        function selectEnergy(element, energy) {
+            document.querySelectorAll('.energy-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedEnergy = energy;
+        }
+        
+        function saveGoal(event) {
+            event.preventDefault();
+            
+            const newGoal = {
+                id: goals.length + 1,
+                title: document.getElementById('goalTitle').value,
+                description: document.getElementById('goalDescription').value,
+                deadline: document.getElementById('goalDeadline').value,
+                dimension: selectedDimension || 'practical',
+                dimensionName: selectedDimension ? selectedDimension.charAt(0).toUpperCase() + selectedDimension.slice(1) : 'Vardagligt',
+                energy: selectedEnergy,
+                progress: 0,
+                milestones: [
+                    { name: "Start", completed: true },
+                    { name: "25%", completed: false },
+                    { name: "50%", completed: false },
+                    { name: "75%", completed: false },
+                    { name: "100%", completed: false }
+                ],
+                currentValue: 0,
+                targetValue: 100,
+                unit: "%",
+                streak: 0,
+                lastCheckin: new Date().toISOString().split('T')[0]
+            };
+            
+            goals.push(newGoal);
+            renderGoals();
+            closeGoalModal();
+            
+            // Celebration
+            alert(`🎯 "${newGoal.title}" skapat!\n\n💡 AI-insikt: Mål kopplade till "${newGoal.dimensionName}" har 34% högre framgångsgrad när du checkar in dagligen.`);
+        }
+        
+        // AI-funktioner
+        function applyAISuggestion() {
+            alert(`✅ Schemat justerat!\n\n"Springa 5km" har flyttats till:\n• Tisdagar kl 07:00\n• Torsdagar kl 07:00\n\nDin förutsagda framgång: 89% (upp från 75%)`);
+        }
+        
+        function generateNewSuggestion() {
+            const random = aiSuggestions[Math.floor(Math.random() * aiSuggestions.length)];
+            document.getElementById('aiCoachText').textContent = random;
+        }
+        
+        // Mål-hantering
+        function logProgress(goalId) {
+            const goal = goals.find(g => g.id === goalId);
+            if (goal) {
+                const increment = prompt(`Hur mycket vill du logga för "${goal.title}"?\nNuvarande: ${goal.currentValue} ${goal.unit}\nMål: ${goal.targetValue} ${goal.unit}`, "1");
+                if (increment) {
+                    goal.currentValue = Math.min(goal.targetValue, goal.currentValue + parseFloat(increment));
+                    goal.progress = Math.round((goal.currentValue / goal.targetValue) * 100);
+                    goal.streak++;
+                    goal.lastCheckin = new Date().toISOString().split('T')[0];
+                    
+                    // Update milestones
+                    goal.milestones.forEach((m, i) => {
+                        const threshold = (i / (goal.milestones.length - 1)) * 100;
+                        if (goal.progress >= threshold) m.completed = true;
+                    });
+                    
+                    renderGoals();
+                    
+                    if (goal.progress >= 100) {
+                        alert(`🎉 GRATTIS!\n\nDu har nått ditt mål:\n"${goal.title}"\n\nEn ny vinst har lagts till din Vinnarvägg! 🏆`);
+                    }
+                }
+            }
+        }
+        
+        function celebrateGoal(goalId) {
+            const goal = goals.find(g => g.id === goalId);
+            alert(`🎉 Celebration mode!\n\nDu har kämpat i ${goal.streak} dagar med "${goal.title}"!\n\n💭 Din kompis Anna skulle säga:\n"Så stolt över dig! Fortsätt så! 💪"`);
+        }
+        
+        function pauseGoal(goalId) {
+            if (confirm("💛 Är du säker på att du vill pausa detta mål?\n\nKom ihåg: Det är okej att vila. Din streak sparas och du kan återuppta när du är redo.")) {
+                alert("⏸️ Målet pausat. Ta hand om dig! 🌱");
+            }
+        }
+        
+        // Mountain climber position
+        function updateMountainClimber() {
+            const avgProgress = goals.reduce((sum, g) => sum + g.progress, 0) / goals.length;
+            const climber = document.getElementById('mountainClimber');
+            const baseLeft = 20;
+            const maxLeft = 80;
+            const leftPos = baseLeft + (avgProgress / 100) * (maxLeft - baseLeft);
+            const bottomPos = 20 + (avgProgress / 100) * 50;
+            
+            climber.style.left = leftPos + '%';
+            climber.style.bottom = bottomPos + '%';
+        }
+        
+        // Initiera
+        renderGoals();
+        renderWins();
+        renderHeatmap();
+        updateMountainClimber();
+        
+        // Stäng modal vid klick utanför
+        document.getElementById('goalModal').addEventListener('click', function(e) {
+            if (e.target === this) closeGoalModal();
+        });
+    </script>
+</body>
+</html>
