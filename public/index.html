@@ -1385,6 +1385,354 @@
             background: #F39C12;
         }
 
+        
+        /* === QUICK ACTIONS === */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--primary-light);
+        }
+        .quick-action-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .quick-action-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        .quick-mood-selector {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .quick-mood-btn {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-mood-btn:hover {
+            transform: scale(1.2);
+            border-color: var(--primary);
+        }
+        .quick-mood-btn.selected {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+        .quick-habit-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-habit-checkbox:hover {
+            background: var(--primary-light);
+        }
+        .quick-habit-checkbox input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-dark);
+        }
+        .quick-habit-checkbox.checked {
+            background: rgba(39, 174, 96, 0.1);
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+        .quick-goal-adjust {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+        .quick-goal-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary-light);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-goal-btn:hover {
+            background: var(--primary);
+        }
+        .quick-goal-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        /* === EMPTY STATES === */
+        .empty-state {
+            text-align: center;
+            padding: 32px 20px;
+        }
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .empty-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .empty-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .empty-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .empty-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* === CONTEXTUAL HELP === */
+        .widget-help-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 24px;
+            height: 24px;
+            background: rgba(0,0,0,0.05);
+            border: none;
+            border-radius: 50%;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .widget:hover .widget-help-btn {
+            opacity: 1;
+        }
+        .widget-help-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        .help-tooltip {
+            position: absolute;
+            top: 45px;
+            right: 10px;
+            width: 240px;
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            z-index: 100;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .help-tooltip.show {
+            display: block;
+        }
+        .help-tooltip h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        .help-tooltip p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .help-tooltip a {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* === ERROR STATES === */
+        .error-state {
+            text-align: center;
+            padding: 32px 20px;
+        }
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .error-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #E74C3C;
+            margin-bottom: 8px;
+        }
+        .error-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .retry-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(231, 76, 60, 0.1);
+            color: #E74C3C;
+            border: 2px solid #E74C3C;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .retry-btn:hover {
+            background: #E74C3C;
+            color: white;
+        }
+        .widget-error {
+            border-color: #E74C3C !important;
+        }
+        .widget-error .widget-header {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        /* === ACCESSIBILITY === */
+        .widget:focus-within {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+        .widget-btn:focus,
+        .quick-action-btn:focus,
+        .quick-mood-btn:focus {
+            outline: 2px solid var(--primary-dark);
+            outline-offset: 2px;
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .keyboard-shortcut {
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: monospace;
+        }
+        .high-contrast .widget {
+            border-width: 3px;
+        }
+        .high-contrast .widget-title {
+            font-weight: 800;
+        }
+        .high-contrast .btn {
+            border: 2px solid currentColor;
+        }
+
+        /* === ACCESSIBILITY TOGGLE === */
+        .accessibility-menu {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            z-index: 100;
+        }
+        .accessibility-toggle {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .accessibility-toggle:hover {
+            background: var(--primary-light);
+            transform: scale(1.1);
+        }
+        .accessibility-options {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: none;
+            min-width: 200px;
+        }
+        .accessibility-options.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        .accessibility-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .accessibility-option:hover {
+            background: var(--primary-light);
+        }
+        .accessibility-option span:first-child {
+            font-size: 20px;
+        }
+        .accessibility-option span:last-child {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .widget-grid {
                 grid-template-columns: 1fr;
@@ -3183,7 +3531,28 @@
         <!-- Floating Share Button -->
 <button class="floating-share-btn" onclick="openShareModal()" title="Dela din framsteg!">
     <span>📤</span>
-</button></main>
+</button>
+        <!-- Accessibility Menu -->
+        <div class="accessibility-menu">
+            <button class="accessibility-toggle" onclick="toggleAccessibilityMenu()" title="Tillgänglighetsalternativ (Alt+A)">
+                ♿
+            </button>
+            <div class="accessibility-options" id="accessibilityOptions">
+                <div class="accessibility-option" onclick="toggleHighContrast()">
+                    <span>👁️</span>
+                    <span>Hög kontrast</span>
+                </div>
+                <div class="accessibility-option" onclick="toggleLargeText()">
+                    <span>🔤</span>
+                    <span>Stor text</span>
+                </div>
+                <div class="accessibility-option" onclick="toggleReducedMotion()">
+                    <span>⏹️</span>
+                    <span>Reducerad rörelse</span>
+                </div>
+            </div>
+        </div>
+</main>
     </div>
 
     <script>
@@ -4081,7 +4450,209 @@ Full docs: https://comdira.app/docs/sdk`);
                     });
             });
         }
-    </script>
+    
+        // === QUICK ACTIONS ===
+        function selectQuickMood(btn, mood) {
+            document.querySelectorAll('.quick-mood-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            showNotification('Humör registrerat: ' + mood + ' 😊');
+            
+            // Broadcast sync
+            broadcastUpdate('mood', { mood: mood, timestamp: new Date().toISOString() });
+        }
+
+        function toggleQuickHabit(checkbox) {
+            const item = checkbox.closest('.quick-habit-checkbox');
+            if (checkbox.checked) {
+                item.classList.add('checked');
+                showNotification('Vana checkad! 🔥 Streak +1');
+            } else {
+                item.classList.remove('checked');
+            }
+        }
+
+        function adjustGoalProgress(delta) {
+            const valueEl = document.getElementById('goalProgressValue');
+            let value = parseInt(valueEl.textContent);
+            value = Math.max(0, Math.min(100, value + delta));
+            valueEl.textContent = value + '%';
+            
+            // Update progress bar
+            const progressBar = document.getElementById('goalProgressBar');
+            if (progressBar) {
+                progressBar.style.width = value + '%';
+            }
+            
+            if (value === 100) {
+                showNotification('🎉 Mål uppnått! Bra jobbat!');
+            }
+        }
+
+        // === EMPTY STATES ===
+        function showEmptyState(widgetId, type) {
+            const widget = document.querySelector(`[data-id="${widgetId}"] .widget-content`);
+            if (!widget) return;
+            
+            const emptyStates = {
+                habits: {
+                    icon: '🌱',
+                    title: 'Inga vanor än',
+                    text: 'Skapa din första vana för att komma igång',
+                    cta: 'Skapa vana →',
+                    link: 'habits.html'
+                },
+                journal: {
+                    icon: '📔',
+                    title: 'Journalen är tom',
+                    text: 'Börja skriva för att spåra dina tankar',
+                    cta: 'Skriv första inlägget →',
+                    link: 'journal.html'
+                },
+                goals: {
+                    icon: '🎯',
+                    title: 'Inga mål satta',
+                    text: 'Sätt upp ett mål för att ha något att sträva mot',
+                    cta: 'Skapa mål →',
+                    link: 'goals.html'
+                }
+            };
+            
+            const state = emptyStates[type];
+            if (!state) return;
+            
+            widget.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">${state.icon}</div>
+                    <div class="empty-title">${state.title}</div>
+                    <div class="empty-text">${state.text}</div>
+                    <a href="${state.link}" class="empty-cta">${state.cta}</a>
+                </div>
+            `;
+        }
+
+        // === CONTEXTUAL HELP ===
+        function toggleHelp(widgetId) {
+            const tooltip = document.getElementById('help-' + widgetId);
+            document.querySelectorAll('.help-tooltip').forEach(t => {
+                if (t !== tooltip) t.classList.remove('show');
+            });
+            tooltip.classList.toggle('show');
+        }
+
+        function closeAllHelp() {
+            document.querySelectorAll('.help-tooltip').forEach(t => t.classList.remove('show'));
+        }
+
+        // Close help when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.widget-help-btn') && !e.target.closest('.help-tooltip')) {
+                closeAllHelp();
+            }
+        });
+
+        // === ERROR STATES ===
+        function showErrorState(widgetId, message) {
+            const widget = document.querySelector(`[data-id="${widgetId}"]`);
+            if (!widget) return;
+            
+            widget.classList.add('widget-error');
+            const content = widget.querySelector('.widget-content');
+            
+            content.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">⚠️</div>
+                    <div class="error-title">Kunde inte ladda data</div>
+                    <div class="error-text">${message || 'Något gick fel. Försök igen.'}</div>
+                    <button class="retry-btn" onclick="retryLoadWidget('${widgetId}')">
+                        🔄 Försök igen
+                    </button>
+                </div>
+            `;
+        }
+
+        function retryLoadWidget(widgetId) {
+            const widget = document.querySelector(`[data-id="${widgetId}"]`);
+            widget.classList.remove('widget-error');
+            showNotification('Laddar om... 🔄');
+            
+            // Simulate reload
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }
+
+        // === ACCESSIBILITY ===
+        let highContrast = false;
+        let largeText = false;
+
+        function toggleAccessibilityMenu() {
+            document.getElementById('accessibilityOptions').classList.toggle('show');
+        }
+
+        function toggleHighContrast() {
+            highContrast = !highContrast;
+            document.body.classList.toggle('high-contrast', highContrast);
+            showNotification(highContrast ? 'Hög kontrast aktiverad 👁️' : 'Hög kontrast avaktiverad');
+        }
+
+        function toggleLargeText() {
+            largeText = !largeText;
+            document.body.style.fontSize = largeText ? '120%' : '';
+            showNotification(largeText ? 'Stor text aktiverad 🔤' : 'Normal textstorlek');
+        }
+
+        function toggleReducedMotion() {
+            const prefersReduced = document.body.classList.toggle('reduced-motion');
+            document.body.style.setProperty('--animation-duration', prefersReduced ? '0.01ms' : '');
+            showNotification(prefersReduced ? 'Reducerad rörelse aktiverad' : 'Fulla animationer aktiverade');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Alt + W: Focus next widget
+            if (e.altKey && e.key === 'w') {
+                e.preventDefault();
+                focusNextWidget();
+            }
+            
+            // Alt + H: Toggle help for focused widget
+            if (e.altKey && e.key === 'h') {
+                e.preventDefault();
+                const focused = document.activeElement.closest('.widget');
+                if (focused) {
+                    const helpBtn = focused.querySelector('.widget-help-btn');
+                    if (helpBtn) helpBtn.click();
+                }
+            }
+            
+            // Escape: Close all modals and help
+            if (e.key === 'Escape') {
+                closeAllHelp();
+                closeShareModal();
+                document.getElementById('accessibilityOptions').classList.remove('show');
+            }
+        });
+
+        let currentWidgetIndex = -1;
+        function focusNextWidget() {
+            const widgets = document.querySelectorAll('.widget');
+            currentWidgetIndex = (currentWidgetIndex + 1) % widgets.length;
+            widgets[currentWidgetIndex].focus();
+            widgets[currentWidgetIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Announce to screen readers
+        function announceToScreenReader(message) {
+            const announcer = document.getElementById('sr-announcer');
+            if (announcer) {
+                announcer.textContent = message;
+                setTimeout(() => announcer.textContent = '', 1000);
+            }
+        }
+</script>
+
+    <!-- Screen Reader Announcer -->
+    <div id="sr-announcer" class="sr-only" role="status" aria-live="polite"></div>
 </body>
 </html>
                     <!-- Real-time Sync Status Widget - 1x1 -->
