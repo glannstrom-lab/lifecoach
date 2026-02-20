@@ -3,59 +3,925 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logga in - Comdira Lifecoach (Demo)</title>
+    <title>Comdira Lifecoach - En intelligent plattform för personlig utveckling</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/sidebar-v2.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <style>
+        /* Dashboard Grid System */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .control-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .preset-selector {
+            padding: 10px 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preset-selector:hover {
+            border-color: var(--primary);
+        }
+        
+        .control-btn {
+            padding: 10px 16px;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .control-btn:hover {
+            background: var(--primary);
+        }
+        
+        /* Widget Grid */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: minmax(180px, auto);
+            gap: 20px;
+            align-items: start;
+        }
+        
+        /* Widget Sizes */
+        .widget {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s var(--ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .widget:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .widget.dragging {
+            opacity: 0.8;
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        
+        .widget.size-1x1 {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        
+        .widget.size-1x2 {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+        
+        .widget.size-2x1 {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+        
+        .widget.size-2x2 {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        /* Widget Header */
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--primary-light);
+            cursor: grab;
+            user-select: none;
+        }
+        
+        .widget-header:active {
+            cursor: grabbing;
+        }
+        
+        .widget-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .widget-icon {
+            font-size: 20px;
+        }
+        
+        .widget-controls {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .widget:hover .widget-controls {
+            opacity: 1;
+        }
+        
+        .widget-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--bg-card);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        .widget-btn.pin.active {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        /* Collapsed Widget */
+        .widget.collapsed .widget-content {
+            display: none;
+        }
+        
+        .widget.collapsed {
+            grid-row: span 1 !important;
+            min-height: auto;
+        }
+        
+        /* Widget Content */
+        .widget-content {
+            padding: 20px 24px;
+        }
+        
+        /* Resize Handle */
+        .resize-handle {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            cursor: se-resize;
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget:hover .resize-handle {
+            opacity: 1;
+        }
+        
+        .resize-handle::after {
+            content: '⤢';
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Ghost Element for Drag */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: var(--primary-light);
+            border: 2px dashed var(--primary);
+        }
+        
+        /* Size Menu */
+        .size-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            z-index: 100;
+            display: none;
+            min-width: 160px;
+        }
+        
+        .size-menu.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .size-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .size-option:hover {
+            background: var(--primary-light);
+        }
+        
+        .size-option.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .size-preview {
+            display: grid;
+            gap: 2px;
+        }
+        
+        .size-preview-1x1 { grid-template-columns: 1fr; width: 20px; height: 20px; }
+        .size-preview-1x2 { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; width: 20px; height: 30px; }
+        .size-preview-2x1 { grid-template-columns: 1fr 1fr; width: 30px; height: 20px; }
+        .size-preview-2x2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 30px; height: 30px; }
+        
+        .size-preview div {
+            background: currentColor;
+            opacity: 0.3;
+            border-radius: 2px;
+        }
+        
+        /* Module Filter Bar */
+        .module-filter-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .filter-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-light);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .filter-chip:hover {
+            border-color: var(--primary);
+        }
+        
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .filter-chip input {
+            display: none;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .widget-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .widget.size-2x1,
+            .widget.size-2x2 {
+                grid-column: span 1;
+            }
+            
+            .widget-controls {
+                opacity: 1;
+            }
+            
+            .dashboard-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Demo-banner -->
-    <div class="demo-banner">
-        🚀 DEMO-VERSION | GitHub Pages | 
-        <a href="dashboard.html">Gå till Dashboard →</a>
-    </div>
-    
-    <div class="login-page">
-        <div class="login-card">
-            <div class="logo-icon">C</div>
-            <h1 class="login-title">Välkommen till Comdira</h1>
-            <p class="login-subtitle">Din personliga livscoach för balans och utveckling</p>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label class="form-label">E-post</label>
-                    <input type="email" class="form-input" placeholder="demo@comdira.com" value="demo@comdira.com">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </a>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">◀</button>
+            </div>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-item active" data-tooltip="Översikt">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    <span class="nav-item-text">Översikt</span>
+                </a>
+                <a href="checkin.html" class="nav-item" data-tooltip="Dagens Check-in">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span class="nav-item-text">Dagens Check-in</span>
+                </a>
+                <div class="nav-item" onclick="toggleSubmenu(this)" data-tooltip="Välmåendehexagonen">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    <span class="nav-item-text">Välmåendehexagonen</span>
+                    <span class="nav-item-expand">▶</span>
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Lösenord</label>
-                    <input type="password" class="form-input" placeholder="demo" value="demo">
+                <div class="nav-submenu">
+                    <a href="wellness.html" class="nav-subitem"><span class="nav-subitem-icon">📊</span><span class="nav-item-text">Översikt</span></a>
+                    <a href="wellness.html" class="nav-subitem existential"><span class="nav-subitem-icon">🔮</span><span class="nav-item-text">Existentiellt</span></a>
+                    <a href="wellness.html" class="nav-subitem emotional"><span class="nav-subitem-icon">💝</span><span class="nav-item-text">Emotionellt</span></a>
+                    <a href="wellness.html" class="nav-subitem subjective"><span class="nav-subitem-icon">✨</span><span class="nav-item-text">Subjektivt</span></a>
+                    <a href="wellness.html" class="nav-subitem occupational"><span class="nav-subitem-icon">💼</span><span class="nav-item-text">Yrkesmässigt</span></a>
+                    <a href="wellness.html" class="nav-subitem social"><span class="nav-subitem-icon">👥</span><span class="nav-item-text">Socialt</span></a>
+                    <a href="wellness.html" class="nav-subitem practical"><span class="nav-subitem-icon">🛠️</span><span class="nav-item-text">Vardagligt</span></a>
                 </div>
-                
-                <button type="submit" class="btn-primary">Logga in</button>
-            </form>
-            
-            <button onclick="window.location.href='dashboard.html'" class="btn-primary demo-login-btn">
-                👆 Snabb-demo: Gå direkt till Dashboard
-            </button>
-            
-            <div class="feature-badges">
-                <div class="feature-badge">
-                    <span>🔒</span> Säkert
-                </div>
-                <div class="feature-badge">
-                    <span>✨</span> Personligt
-                </div>
-                <div class="feature-badge">
-                    <span>🌱</span> 24/7
+                <a href="goals.html" class="nav-item" data-tooltip="Mina Mål">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    <span class="nav-item-text">Mina Mål</span>
+                </a>
+                <a href="habits.html" class="nav-item" data-tooltip="Vanor">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="m8 21 4 3 4-3"/><path d="M8 3 12 0l4 3"/></svg>
+                    <span class="nav-item-text">Vanor</span>
+                </a>
+                <a href="journal.html" class="nav-item" data-tooltip="Journal">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    <span class="nav-item-text">Journal</span>
+                </a>
+                <a href="coach.html" class="nav-item" data-tooltip="Coach">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span class="nav-item-text">Coach</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar">👤</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Demo Användare</div>
+                        <div class="sidebar-user-role">Premium</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </aside>
+        <div class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-container">
+                <!-- Header -->
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h2>God morgon! ☀️</h2>
+                        <p>Välkommen till din personliga coachportal</p>
+                    </div>
+                    <div class="welcome-date">
+                        <div class="day" id="currentDay">20</div>
+                        <div class="month" id="currentMonth">Februari 2026</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Controls -->
+                <div class="dashboard-controls">
+                    <div class="control-group">
+                        <span class="control-label">Layout:</span>
+                        <select class="preset-selector" id="presetSelector" onchange="applyPreset(this.value)">
+                            <option value="custom">Anpassad</option>
+                            <option value="focus">Fokusläge (Mål + Vanor)</option>
+                            <option value="reflection">Reflektionsläge (Journal + Välmående)</option>
+                            <option value="productivity">Produktivitetsläge (Uppgifter + Kalender)</option>
+                            <option value="overview">Full översikt</option>
+                        </select>
+                    </div>
+                    <button class="control-btn" onclick="saveCurrentLayout()">
+                        💾 Spara layout
+                    </button>
+                    <button class="control-btn" onclick="resetLayout()">
+                        🔄 Återställ
+                    </button>
+                </div>
+
+                <!-- Module Filter -->
+                <div class="module-filter-bar">
+                    <div class="filter-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        <span>Visa moduler:</span>
+                    </div>
+                    <div class="filter-chips">
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')"><span>⬡ Välmående</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')"><span>○ Check-in</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')"><span>✓ Vanor</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')"><span>◆ Mål</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')"><span>📝 Journal</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="calendar" onchange="toggleModule('calendar')"><span>📅 Kalender</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="tasks" onchange="toggleModule('tasks')"><span>📋 Uppgifter</span></label>
+                    </div>
+                </div>
+
+                <!-- Draggable Widget Grid -->
+                <div class="widget-grid" id="widgetGrid">
+                    
+                    <!-- Wellness Widget - 2x2 -->
+                    <div class="widget size-2x2" data-id="wellness" data-module="wellness" data-size="2x2">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">⬡</span> Välmåendehexagonen</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn pin" onclick="togglePin(this)" title="Fäst överst">📌</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)" title="Minimera">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)" title="Ändra storlek">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                            <div class="size-option active" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="hexagon-preview" style="display: flex; gap: 20px; align-items: center;">
+                                <div style="width: 150px; height: 120px;"><canvas id="wellnessChart"></canvas></div>
+                                <div style="flex: 1;">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Utforska dina sex dimensioner av välmående. Identifiera styrkor och områden för utveckling.</p>
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        <span style="padding: 4px 10px; background: #E8D5F2; border-radius: 12px; font-size: 11px; color: #6C3483;">🔮 Existentiellt</span>
+                                        <span style="padding: 4px 10px; background: #FFE4C4; border-radius: 12px; font-size: 11px; color: #935116;">💝 Emotionellt</span>
+                                        <span style="padding: 4px 10px; background: #D5F5E3; border-radius: 12px; font-size: 11px; color: #1E8449;">🛠️ Vardagligt</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="wellness.html" class="btn btn-primary" style="width: 100%; margin-top: 16px; text-align: center; display: block; text-decoration: none;">Öppna Välmåendehexagonen →</a>
+                        </div>
+                    </div>
+
+                    <!-- Check-in Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="checkin" data-module="checkin" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">○</span> Dagens Check-in</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 42px; margin-bottom: 8px;">😊</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--primary-dark);">7.2</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Dagens humör</div>
+                            <a href="checkin.html" class="btn btn-primary" style="width: 100%;">Checka in</a>
+                        </div>
+                    </div>
+
+                    <!-- Habits Widget - 1x2 -->
+                    <div class="widget size-1x2" data-id="habits" data-module="habits" data-size="1x2">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">✓</span> Vanor</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option active" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🧘 Meditation</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 23 dagar</div></div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🥤 Vatten (5/8)</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 15 dagar</div></div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-card); border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: var(--primary-light); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🏃 Träning</div><div style="font-size: 12px; color: var(--text-secondary);">Väntar...</div></div>
+                                </div>
+                            </div>
+                            <a href="habits.html" class="btn btn-primary" style="width: 100%; margin-top: 12px; text-align: center; display: block; text-decoration: none;">Se alla vanor</a>
+                        </div>
+                    </div>
+
+                    <!-- Goals Widget - 2x1 -->
+                    <div class="widget size-2x1" data-id="goals" data-module="goals" data-size="2x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">◆</span> Aktiva Mål</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option active" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div style="display: flex; gap: 20px;">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-weight: 600;">🎯 Springa 5km</span>
+                                        <span style="font-weight: 700; color: var(--primary-dark);">75%</span>
+                                    </div>
+                                    <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
+                                        <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 75%; border-radius: 5px;"></div>
+                                    </div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-weight: 600;">📚 Läsa 12 böcker</span>
+                                        <span style="font-weight: 700; color: var(--primary-dark);">33%</span>
+                                    </div>
+                                    <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
+                                        <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 33%; border-radius: 5px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="goals.html" class="btn btn-primary" style="width: 100%; margin-top: 16px; text-align: center; display: block; text-decoration: none;">Hantera mål</a>
+                        </div>
+                    </div>
+
+                    <!-- Journal Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="journal" data-module="journal" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📝</span> Journal</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 8px;">📔</div>
+                            <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">47</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Inlägg</div>
+                            <a href="journal.html" class="btn btn-primary" style="width: 100%;">Skriv</a>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="calendar" data-module="calendar" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📅</span> Kalender</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary-dark);">20</div>
+                            <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Februari</div>
+                            <div style="font-size: 12px; color: var(--text-light);">Torsdag</div>
+                            <div style="margin-top: 12px; padding: 8px; background: var(--primary-light); border-radius: 8px; font-size: 12px;">
+                                📋 3 uppgifter idag
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="tasks" data-module="tasks" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📋</span> Uppgifter</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--primary-light);">
+                                    <span style="width: 8px; height: 8px; background: #E74C3C; border-radius: 50%;"></span>
+                                    <span style="font-size: 14px;">Checka in med coach</span>
+                                </li>
+                                <li style="display: flex; align-items: center; gap: 8px; padding: 8px 0;">
+                                    <span style="width: 8px; height: 8px; background: #F39C12; border-radius: 50%;"></span>
+                                    <span style="font-size: 14px;">Uppdatera mål</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
     </div>
-    
+
     <script>
-        // Demo-login som alltid går till dashboard
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            window.location.href = 'dashboard.html';
+        // Initialize Sortable for drag and drop
+        const widgetGrid = document.getElementById('widgetGrid');
+        const sortable = Sortable.create(widgetGrid, {
+            animation: 300,
+            handle: '.widget-header',
+            ghostClass: 'sortable-ghost',
+            dragClass: 'dragging',
+            onEnd: function() {
+                saveLayout();
+            }
+        });
+
+        // Toggle collapse
+        function toggleCollapse(btn) {
+            const widget = btn.closest('.widget');
+            widget.classList.toggle('collapsed');
+            btn.textContent = widget.classList.contains('collapsed') ? '+' : '−';
+            saveLayout();
+        }
+
+        // Toggle pin
+        function togglePin(btn) {
+            btn.classList.toggle('active');
+            const widget = btn.closest('.widget');
+            if (btn.classList.contains('active')) {
+                widgetGrid.insertBefore(widget, widgetGrid.firstChild);
+            }
+            saveLayout();
+        }
+
+        // Toggle size menu
+        function toggleSizeMenu(btn) {
+            const widget = btn.closest('.widget');
+            const menu = widget.querySelector('.size-menu');
+            
+            // Close all other menus
+            document.querySelectorAll('.size-menu').forEach(m => {
+                if (m !== menu) m.classList.remove('show');
+            });
+            
+            menu.classList.toggle('show');
+        }
+
+        // Resize widget
+        function resizeWidget(option) {
+            const size = option.dataset.size;
+            const widget = option.closest('.widget');
+            
+            // Remove old size classes
+            widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+            // Add new size class
+            widget.classList.add(`size-${size}`);
+            widget.dataset.size = size;
+            
+            // Update active state in menu
+            const menu = option.closest('.size-menu');
+            menu.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            
+            // Close menu
+            menu.classList.remove('show');
+            
+            saveLayout();
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.widget-controls')) {
+                document.querySelectorAll('.size-menu').forEach(m => m.classList.remove('show'));
+            }
+        });
+
+        // Save layout to localStorage
+        function saveLayout() {
+            const widgets = document.querySelectorAll('.widget');
+            const layout = [];
+            
+            widgets.forEach(widget => {
+                layout.push({
+                    id: widget.dataset.id,
+                    size: widget.dataset.size,
+                    collapsed: widget.classList.contains('collapsed'),
+                    pinned: widget.querySelector('.pin.active') !== null
+                });
+            });
+            
+            localStorage.setItem('dashboardLayout', JSON.stringify(layout));
+        }
+
+        // Load layout from localStorage
+        function loadLayout() {
+            const saved = localStorage.getItem('dashboardLayout');
+            if (saved) {
+                const layout = JSON.parse(saved);
+                const grid = document.getElementById('widgetGrid');
+                
+                layout.forEach(item => {
+                    const widget = document.querySelector(`.widget[data-id="${item.id}"]`);
+                    if (widget) {
+                        // Update size
+                        widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+                        widget.classList.add(`size-${item.size}`);
+                        widget.dataset.size = item.size;
+                        
+                        // Update collapsed state
+                        if (item.collapsed) {
+                            widget.classList.add('collapsed');
+                            widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
+                        }
+                        
+                        // Update pinned state
+                        if (item.pinned) {
+                            widget.querySelector('.pin').classList.add('active');
+                            grid.insertBefore(widget, grid.firstChild);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Save current layout
+        function saveCurrentLayout() {
+            saveLayout();
+            alert('Layout sparad! ✅');
+        }
+
+        // Reset layout
+        function resetLayout() {
+            localStorage.removeItem('dashboardLayout');
+            location.reload();
+        }
+
+        // Apply preset
+        function applyPreset(preset) {
+            const widgets = document.querySelectorAll('.widget');
+            
+            const presets = {
+                focus: {
+                    goals: '2x1',
+                    habits: '1x2',
+                    wellness: '1x1',
+                    checkin: '1x1'
+                },
+                reflection: {
+                    wellness: '2x2',
+                    journal: '1x2',
+                    checkin: '1x1'
+                },
+                productivity: {
+                    tasks: '1x2',
+                    calendar: '1x1',
+                    goals: '2x1',
+                    habits: '1x1'
+                },
+                overview: {
+                    wellness: '2x2',
+                    habits: '1x2',
+                    goals: '2x1',
+                    checkin: '1x1',
+                    journal: '1x1',
+                    calendar: '1x1'
+                }
+            };
+            
+            if (presets[preset]) {
+                widgets.forEach(widget => {
+                    const id = widget.dataset.id;
+                    if (presets[preset][id]) {
+                        widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+                        widget.classList.add(`size-${presets[preset][id]}`);
+                        widget.dataset.size = presets[preset][id];
+                        widget.classList.remove('collapsed');
+                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '−';
+                    } else if (preset !== 'overview') {
+                        widget.classList.add('collapsed');
+                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
+                    }
+                });
+                saveLayout();
+            }
+        }
+
+        // Toggle module visibility
+        function toggleModule(module) {
+            const checkbox = document.querySelector(`input[data-module="${module}"]`);
+            const chip = checkbox.closest('.filter-chip');
+            const widgets = document.querySelectorAll(`.widget[data-module="${module}"]`);
+            
+            if (checkbox.checked) {
+                chip.classList.add('active');
+                widgets.forEach(w => w.style.display = '');
+            } else {
+                chip.classList.remove('active');
+                widgets.forEach(w => w.style.display = 'none');
+            }
+        }
+
+        // Sidebar functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        function toggleSubmenu(element) {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('collapsed')) {
+                sidebar.classList.remove('collapsed');
+            }
+            element.classList.toggle('expanded');
+            const submenu = element.nextElementSibling;
+            if (submenu) submenu.classList.toggle('expanded');
+        }
+
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Restore sidebar state
+            const sidebar = document.getElementById('sidebar');
+            if (localStorage.getItem('sidebarCollapsed') === 'true') {
+                sidebar.classList.add('collapsed');
+            }
+            
+            // Load saved layout
+            loadLayout();
+            
+            // Set date
+            const now = new Date();
+            document.getElementById('currentDay').textContent = now.getDate();
+            const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+            document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
         });
     </script>
 </body>

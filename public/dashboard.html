@@ -3,300 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Översikt - Comdira Lifecoach (Demo)</title>
+    <title>Översikt - Comdira Lifecoach</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/sidebar-v2.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
-        /* Välmåendehexagonen Modul-stilar */
-        .hexagon-widget {
-            grid-column: 1 / -1;
+        /* Dashboard Grid System */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
-        .hexagon-preview {
+        .dashboard-controls {
             display: flex;
-            align-items: center;
-            gap: 24px;
-            margin-top: 16px;
-        }
-        
-        .hexagon-chart-small {
-            width: 150px;
-            height: 120px;
-            flex-shrink: 0;
-        }
-        
-        .hexagon-info {
-            flex: 1;
-        }
-        
-        .hexagon-info h4 {
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        
-        .hexagon-info p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-        
-        .hexagon-dimensions {
-            display: flex;
-            gap: 8px;
+            gap: 16px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
-        }
-        
-        .dim-badge {
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .dim-badge.existential { background: #E8D5F2; color: #6C3483; }
-        .dim-badge.emotional { background: #FFE4C4; color: #935116; }
-        .dim-badge.subjective { background: #D4E6F1; color: #1F618D; }
-        .dim-badge.occupational { background: #D5DBDB; color: #515A5A; }
-        .dim-badge.social { background: #FADBD8; color: #943126; }
-        .dim-badge.practical { background: #D5F5E3; color: #1E8449; }
-        
-        /* Modal för Välmåendehexagonen */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
         }
         
-        .modal-overlay.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 32px;
-            position: relative;
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 2px solid var(--primary-light);
-        }
-        
-        .modal-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            line-height: 1;
-        }
-        
-        .modal-close:hover {
-            color: var(--text-primary);
-        }
-        
-        /* Hexagon full layout */
-        .hexagon-full {
-            margin-bottom: 24px;
-        }
-        
-        .hexagon-chart-container {
-            display: flex;
-            justify-content: center;
-            margin: 24px 0;
-        }
-        
-        .hexagon-chart {
-            max-width: 400px;
-        }
-        
-        /* Dimension-kort i modal */
-        .dimensions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin: 24px 0;
-        }
-        
-        .dimension-card {
-            background: var(--bg-card);
-            border: 2px solid var(--primary-light);
-            border-radius: 12px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-        
-        .dimension-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .dimension-card.completed {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, var(--bg-card), var(--primary-light));
-        }
-        
-        .dimension-icon {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-        
-        .dimension-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-        
-        .dimension-score {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-top: 4px;
-        }
-        
-        /* Frågesektion */
-        .questions-section {
-            display: none;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid var(--primary-light);
-        }
-        
-        .questions-section.active {
-            display: block;
-        }
-        
-        .question-item {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-        
-        .question-text {
-            font-size: 16px;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-        
-        .scale-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .scale-label {
-            font-size: 12px;
-            color: var(--text-light);
-            min-width: 80px;
-        }
-        
-        .scale-options {
+        .control-group {
             display: flex;
             gap: 8px;
-            flex: 1;
-            justify-content: center;
+            align-items: center;
         }
         
-        .scale-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-light);
-            background: white;
-            cursor: pointer;
+        .control-label {
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-secondary);
+        }
+        
+        .preset-selector {
+            padding: 10px 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
             transition: all 0.2s;
         }
         
-        .scale-btn:hover {
+        .preset-selector:hover {
             border-color: var(--primary);
-            background: var(--primary-light);
         }
         
-        .scale-btn.selected {
+        .control-btn {
+            padding: 10px 16px;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .control-btn:hover {
             background: var(--primary);
-            border-color: var(--primary);
-            color: var(--text-primary);
-            transform: scale(1.1);
         }
         
-        .progress-bar {
-            background: var(--primary-light);
-            height: 8px;
-            border-radius: 4px;
-            margin: 24px 0;
+        /* Widget Grid */
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-auto-rows: minmax(180px, auto);
+            gap: 20px;
+            align-items: start;
+        }
+        
+        /* Widget Sizes */
+        .widget {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s var(--ease-smooth);
+            position: relative;
             overflow: hidden;
         }
         
-        .progress-fill {
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
+        .widget:hover {
+            box-shadow: var(--shadow-md);
         }
         
-        /* Resultat */
-        .results-section {
-            display: none;
-            text-align: center;
-            padding: 32px;
-            background: linear-gradient(135deg, var(--bg-main), var(--primary-light));
-            border-radius: 16px;
-            margin-top: 24px;
+        .widget.dragging {
+            opacity: 0.8;
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            z-index: 100;
         }
         
-        .results-section.active {
-            display: block;
+        .widget.size-1x1 {
+            grid-column: span 1;
+            grid-row: span 1;
         }
         
-        .overall-score {
-            font-size: 64px;
+        .widget.size-1x2 {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+        
+        .widget.size-2x1 {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+        
+        .widget.size-2x2 {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        /* Widget Header */
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid var(--primary-light);
+            cursor: grab;
+            user-select: none;
+        }
+        
+        .widget-header:active {
+            cursor: grabbing;
+        }
+        
+        .widget-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-primary);
-            line-height: 1;
         }
         
-        .overall-label {
+        .widget-icon {
+            font-size: 20px;
+        }
+        
+        .widget-controls {
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .widget:hover .widget-controls {
+            opacity: 1;
+        }
+        
+        .widget-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--bg-card);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        .widget-btn.pin.active {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        /* Collapsed Widget */
+        .widget.collapsed .widget-content {
+            display: none;
+        }
+        
+        .widget.collapsed {
+            grid-row: span 1 !important;
+            min-height: auto;
+        }
+        
+        /* Widget Content */
+        .widget-content {
+            padding: 20px 24px;
+        }
+        
+        /* Resize Handle */
+        .resize-handle {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            cursor: se-resize;
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .widget:hover .resize-handle {
+            opacity: 1;
+        }
+        
+        .resize-handle::after {
+            content: '⤢';
+            font-size: 14px;
             color: var(--text-secondary);
-            margin-top: 8px;
-            font-size: 16px;
+        }
+        
+        /* Ghost Element for Drag */
+        .sortable-ghost {
+            opacity: 0.4;
+            background: var(--primary-light);
+            border: 2px dashed var(--primary);
+        }
+        
+        /* Size Menu */
+        .size-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 12px;
+            z-index: 100;
+            display: none;
+            min-width: 160px;
+        }
+        
+        .size-menu.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .size-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .size-option:hover {
+            background: var(--primary-light);
+        }
+        
+        .size-option.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .size-preview {
+            display: grid;
+            gap: 2px;
+        }
+        
+        .size-preview-1x1 { grid-template-columns: 1fr; width: 20px; height: 20px; }
+        .size-preview-1x2 { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; width: 20px; height: 30px; }
+        .size-preview-2x1 { grid-template-columns: 1fr 1fr; width: 30px; height: 20px; }
+        .size-preview-2x2 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; width: 30px; height: 30px; }
+        
+        .size-preview div {
+            background: currentColor;
+            opacity: 0.3;
+            border-radius: 2px;
         }
         
         /* Module Filter Bar */
         .module-filter-bar {
             background: white;
             border-radius: 20px;
-            padding: 20px 24px;
+            padding: 16px 20px;
             margin-bottom: 24px;
             box-shadow: var(--shadow-sm);
             display: flex;
@@ -311,19 +306,12 @@
             gap: 8px;
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 15px;
-            white-space: nowrap;
-        }
-        
-        .filter-icon {
-            width: 18px;
-            height: 18px;
-            stroke: var(--primary-dark);
+            font-size: 14px;
         }
         
         .filter-chips {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             flex: 1;
         }
@@ -332,12 +320,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 10px 16px;
+            padding: 8px 14px;
             background: var(--bg-card);
             border: 2px solid var(--primary-light);
-            border-radius: 24px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: var(--text-secondary);
             transition: all 0.2s;
@@ -346,147 +334,91 @@
         
         .filter-chip:hover {
             border-color: var(--primary);
-            transform: translateY(-1px);
         }
         
         .filter-chip.active {
             background: var(--primary);
             border-color: var(--primary);
             color: var(--text-primary);
-            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.3);
         }
         
         .filter-chip input {
             display: none;
         }
         
-        .filter-reset {
-            padding: 10px 20px;
-            background: transparent;
-            border: 2px solid var(--primary-light);
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        
-        .filter-reset:hover {
-            background: var(--primary-light);
-            color: var(--text-primary);
-        }
-        
-        /* Hidden module state */
-        .dashboard-grid .card.hidden {
-            display: none;
-        }
-        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hexagon-preview {
+            .widget-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .widget.size-2x1,
+            .widget.size-2x2 {
+                grid-column: span 1;
+            }
+            
+            .widget-controls {
+                opacity: 1;
+            }
+            
+            .dashboard-controls {
                 flex-direction: column;
-                text-align: center;
-            }
-            
-            .hexagon-chart-small {
-                width: 200px;
-                height: 160px;
-            }
-            
-            .modal-content {
-                padding: 20px;
-                max-height: 95vh;
+                align-items: stretch;
             }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Mobile Menu Toggle -->
-        <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
-        
-        <!-- Sidebar -->
+        <!-- Sidebar (unchanged) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="dashboard.html" class="logo">
                     <div class="logo-icon-sm">C</div>
                     <span class="logo-text">Comdira</span>
                 </a>
-                <button class="sidebar-toggle" onclick="toggleSidebar()" title="Expandera/Kollapsa">
-                    ◀
-                </button>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">◀</button>
             </div>
-            
             <nav class="nav-menu">
                 <a href="dashboard.html" class="nav-item active" data-tooltip="Översikt">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     <span class="nav-item-text">Översikt</span>
                 </a>
-                
                 <a href="checkin.html" class="nav-item" data-tooltip="Dagens Check-in">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
                     <span class="nav-item-text">Dagens Check-in</span>
                 </a>
-                
-                <!-- Wellness Hexagon with Submenu -->
                 <div class="nav-item" onclick="toggleSubmenu(this)" data-tooltip="Välmåendehexagonen">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                     <span class="nav-item-text">Välmåendehexagonen</span>
                     <span class="nav-item-expand">▶</span>
                 </div>
                 <div class="nav-submenu">
-                    <a href="wellness.html" class="nav-subitem">
-                        <span class="nav-subitem-icon">📊</span>
-                        <span class="nav-item-text">Översikt</span>
-                    </a>
-                    <a href="wellness.html#existential" class="nav-subitem existential" data-tooltip="Existentiellt">
-                        <span class="nav-subitem-icon">🔮</span>
-                        <span class="nav-item-text">Existentiellt</span>
-                    </a>
-                    <a href="wellness.html#emotional" class="nav-subitem emotional" data-tooltip="Emotionellt">
-                        <span class="nav-subitem-icon">💝</span>
-                        <span class="nav-item-text">Emotionellt</span>
-                    </a>
-                    <a href="wellness.html#subjective" class="nav-subitem subjective" data-tooltip="Subjektivt">
-                        <span class="nav-subitem-icon">✨</span>
-                        <span class="nav-item-text">Subjektivt</span>
-                    </a>
-                    <a href="wellness.html#occupational" class="nav-subitem occupational" data-tooltip="Yrkesmässigt">
-                        <span class="nav-subitem-icon">💼</span>
-                        <span class="nav-item-text">Yrkesmässigt</span>
-                    </a>
-                    <a href="wellness.html#social" class="nav-subitem social" data-tooltip="Socialt">
-                        <span class="nav-subitem-icon">👥</span>
-                        <span class="nav-item-text">Socialt</span>
-                    </a>
-                    <a href="wellness.html#practical" class="nav-subitem practical" data-tooltip="Vardagligt">
-                        <span class="nav-subitem-icon">🛠️</span>
-                        <span class="nav-item-text">Vardagligt</span>
-                    </a>
+                    <a href="wellness.html" class="nav-subitem"><span class="nav-subitem-icon">📊</span><span class="nav-item-text">Översikt</span></a>
+                    <a href="wellness.html" class="nav-subitem existential"><span class="nav-subitem-icon">🔮</span><span class="nav-item-text">Existentiellt</span></a>
+                    <a href="wellness.html" class="nav-subitem emotional"><span class="nav-subitem-icon">💝</span><span class="nav-item-text">Emotionellt</span></a>
+                    <a href="wellness.html" class="nav-subitem subjective"><span class="nav-subitem-icon">✨</span><span class="nav-item-text">Subjektivt</span></a>
+                    <a href="wellness.html" class="nav-subitem occupational"><span class="nav-subitem-icon">💼</span><span class="nav-item-text">Yrkesmässigt</span></a>
+                    <a href="wellness.html" class="nav-subitem social"><span class="nav-subitem-icon">👥</span><span class="nav-item-text">Socialt</span></a>
+                    <a href="wellness.html" class="nav-subitem practical"><span class="nav-subitem-icon">🛠️</span><span class="nav-item-text">Vardagligt</span></a>
                 </div>
-                
                 <a href="goals.html" class="nav-item" data-tooltip="Mina Mål">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                     <span class="nav-item-text">Mina Mål</span>
                 </a>
-                
                 <a href="habits.html" class="nav-item" data-tooltip="Vanor">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="m8 21 4 3 4-3"/><path d="M8 3 12 0l4 3"/></svg>
                     <span class="nav-item-text">Vanor</span>
                 </a>
-                
                 <a href="journal.html" class="nav-item" data-tooltip="Journal">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     <span class="nav-item-text">Journal</span>
                 </a>
-                
                 <a href="coach.html" class="nav-item" data-tooltip="Coach">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <span class="nav-item-text">Coach</span>
                 </a>
             </nav>
-            
             <div class="sidebar-footer">
                 <div class="sidebar-user">
                     <div class="sidebar-user-avatar">👤</div>
@@ -498,668 +430,468 @@
             </div>
         </aside>
         <div class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
-        
+
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Welcome Banner -->
-            <div class="welcome-banner">
-                <div class="welcome-text">
-                    <h2>Hej, Demo-användare! 👋</h2>
-                    <p>Vad vill du fokusera på idag?</p>
-                </div>
-                <div class="welcome-date">
-                    <div class="day" id="currentDay">20</div>
-                    <div class="month" id="currentMonth">Februari 2026</div>
-                </div>
-            </div>
-            
-            <!-- Module Filter Bar -->
-            <div class="module-filter-bar">
-                <div class="filter-label">
-                    <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-                    <span>Visa moduler:</span>
-                </div>
-                <div class="filter-chips">
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')">
-                        <span>⬡ Välmående</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')">
-                        <span>○ Check-in</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')">
-                        <span>◆ Mål</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')">
-                        <span>✓ Vanor</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')">
-                        <span>📝 Journal</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="calendar" onchange="toggleModule('calendar')">
-                        <span>📅 Kalender</span>
-                    </label>
-                    <label class="filter-chip active">
-                        <input type="checkbox" checked data-module="tasks" onchange="toggleModule('tasks')">
-                        <span>📋 Uppgifter</span>
-                    </label>
-                </div>
-                <button class="filter-reset" onclick="resetFilters()">Återställ</button>
-            </div>
-            
-            <!-- Dashboard Grid -->
-            <div class="dashboard-grid">
-                
-                <!-- VÄLMÅENDEHEXAGONEN -->
-                <div class="card hexagon-widget" data-module="wellness">
-                    <div class="card-header">
-                        <h3 class="card-title">⬡ Välmåendehexagonen</h3>
-                        <span class="stat-trend up">Ny modul</span>
+            <div class="dashboard-container">
+                <!-- Header -->
+                <div class="welcome-banner">
+                    <div class="welcome-text">
+                        <h2>God morgon, Demo-användare! ☀️</h2>
+                        <p>Vad vill du fokusera på idag?</p>
                     </div>
-                    <p style="color: var(--text-secondary); margin-bottom: 16px;">
-                        Bedöm ditt välmående över sex dimensioner: existentiellt, emotionellt, socialt, subjektivt, yrkesmässigt och vardagligt.
-                    </p>
+                    <div class="welcome-date">
+                        <div class="day" id="currentDay">20</div>
+                        <div class="month" id="currentMonth">Februari 2026</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Controls -->
+                <div class="dashboard-controls">
+                    <div class="control-group">
+                        <span class="control-label">Layout:</span>
+                        <select class="preset-selector" id="presetSelector" onchange="applyPreset(this.value)">
+                            <option value="custom">Anpassad</option>
+                            <option value="focus">Fokusläge (Mål + Vanor)</option>
+                            <option value="reflection">Reflektionsläge (Journal + Välmående)</option>
+                            <option value="productivity">Produktivitetsläge (Uppgifter + Kalender)</option>
+                            <option value="overview">Full översikt</option>
+                        </select>
+                    </div>
+                    <button class="control-btn" onclick="saveCurrentLayout()">
+                        💾 Spara layout
+                    </button>
+                    <button class="control-btn" onclick="resetLayout()">
+                        🔄 Återställ
+                    </button>
+                </div>
+
+                <!-- Module Filter -->
+                <div class="module-filter-bar">
+                    <div class="filter-label">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                        <span>Visa moduler:</span>
+                    </div>
+                    <div class="filter-chips">
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')"><span>⬡ Välmående</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')"><span>○ Check-in</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')"><span>✓ Vanor</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')"><span>◆ Mål</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')"><span>📝 Journal</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="calendar" onchange="toggleModule('calendar')"><span>📅 Kalender</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="tasks" onchange="toggleModule('tasks')"><span>📋 Uppgifter</span></label>
+                    </div>
+                </div>
+
+                <!-- Draggable Widget Grid -->
+                <div class="widget-grid" id="widgetGrid">
                     
-                    <div class="hexagon-preview">
-                        <div class="hexagon-chart-small">
-                            <canvas id="hexagonPreviewChart"></canvas>
+                    <!-- Wellness Widget - 2x2 -->
+                    <div class="widget size-2x2" data-id="wellness" data-module="wellness" data-size="2x2">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">⬡</span> Välmåendehexagonen</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn pin" onclick="togglePin(this)" title="Fäst överst">📌</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)" title="Minimera">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)" title="Ändra storlek">⤢</button>
+                            </div>
                         </div>
-                        <div class="hexagon-info">
-                            <h4>Senaste bedömningen</h4>
-                            <p>Ingen bedömning gjord än. Gör din första bedömning för att få en helhetsbild av ditt välmående.</p>
-                            <div class="hexagon-dimensions">
-                                <span class="dim-badge existential">Existentiellt</span>
-                                <span class="dim-badge emotional">Emotionellt</span>
-                                <span class="dim-badge subjective">Subjektivt</span>
-                                <span class="dim-badge occupational">Yrkesmässigt</span>
-                                <span class="dim-badge social">Socialt</span>
-                                <span class="dim-badge practical">Vardagligt</span>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                            <div class="size-option active" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="hexagon-preview" style="display: flex; gap: 20px; align-items: center;">
+                                <div style="width: 150px; height: 120px;"><canvas id="wellnessChart"></canvas></div>
+                                <div style="flex: 1;">
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Senaste bedömningen visar starkt välmående inom emotionella och praktiska områden.</p>
+                                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                        <span style="padding: 4px 10px; background: #E8D5F2; border-radius: 12px; font-size: 11px; color: #6C3483;">🔮 Existentiellt</span>
+                                        <span style="padding: 4px 10px; background: #FFE4C4; border-radius: 12px; font-size: 11px; color: #935116;">💝 Emotionellt</span>
+                                        <span style="padding: 4px 10px; background: #D5F5E3; border-radius: 12px; font-size: 11px; color: #1E8449;">🛠️ Vardagligt</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="wellness.html" class="btn btn-primary" style="width: 100%; margin-top: 16px; text-align: center; display: block; text-decoration: none;">Öppna Välmåendehexagonen →</a>
+                        </div>
+                    </div>
+
+                    <!-- Check-in Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="checkin" data-module="checkin" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">○</span> Dagens Check-in</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 42px; margin-bottom: 8px;">😊</div>
+                            <div style="font-size: 28px; font-weight: 700; color: var(--primary-dark);">7.2</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Dagens humör</div>
+                            <a href="checkin.html" class="btn btn-primary" style="width: 100%;">Checka in</a>
+                        </div>
+                    </div>
+
+                    <!-- Habits Widget - 1x2 -->
+                    <div class="widget size-1x2" data-id="habits" data-module="habits" data-size="1x2">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">✓</span> Vanor</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option active" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🧘 Meditation</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 23 dagar</div></div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🥤 Vatten (5/8)</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 15 dagar</div></div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-card); border-radius: 12px;">
+                                    <div style="width: 24px; height: 24px; background: var(--primary-light); border-radius: 6px;"></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🏃 Träning</div><div style="font-size: 12px; color: var(--text-secondary);">Väntar...</div></div>
+                                </div>
+                            </div>
+                            <a href="habits.html" class="btn btn-primary" style="width: 100%; margin-top: 12px; text-align: center; display: block; text-decoration: none;">Se alla vanor</a>
+                        </div>
+                    </div>
+
+                    <!-- Goals Widget - 2x1 -->
+                    <div class="widget size-2x1" data-id="goals" data-module="goals" data-size="2x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">◆</span> Aktiva Mål</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option active" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div style="display: flex; gap: 20px;">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-weight: 600;">🎯 Springa 5km</span>
+                                        <span style="font-weight: 700; color: var(--primary-dark);">75%</span>
+                                    </div>
+                                    <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
+                                        <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 75%; border-radius: 5px;"></div>
+                                    </div>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-weight: 600;">📚 Läsa 12 böcker</span>
+                                        <span style="font-weight: 700; color: var(--primary-dark);">33%</span>
+                                    </div>
+                                    <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
+                                        <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 33%; border-radius: 5px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="goals.html" class="btn btn-primary" style="width: 100%; margin-top: 16px; text-align: center; display: block; text-decoration: none;">Hantera mål</a>
+                        </div>
+                    </div>
+
+                    <!-- Journal Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="journal" data-module="journal" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📝</span> Journal</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 8px;">📔</div>
+                            <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">47</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Inlägg</div>
+                            <a href="journal.html" class="btn btn-primary" style="width: 100%;">Skriv</a>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="calendar" data-module="calendar" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📅</span> Kalender</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content" style="text-align: center;">
+                            <div style="font-size: 32px; font-weight: 700; color: var(--primary-dark);">20</div>
+                            <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 8px;">Februari</div>
+                            <div style="font-size: 12px; color: var(--text-light);">Torsdag</div>
+                            <div style="margin-top: 12px; padding: 8px; background: var(--primary-light); border-radius: 8px; font-size: 12px;">
+                                📋 3 uppgifter idag
                             </div>
                         </div>
                     </div>
-                    
-                    <a href="wellness.html" class="btn btn-primary" style="margin-top: 20px; width: 100%; text-decoration: none; display: block; text-align: center;">
-                        Starta Välmåendehexagonen →
-                    </a>
-                </div>
-                
-                <!-- Check-in kort -->
-                <div class="card checkin-section" data-module="checkin">
-                    <div class="card-header">
-                        <h3 class="card-title">Dagens Check-in</h3>
-                        <span class="stat-trend up">+12% från igår</span>
-                    </div>
-                    <div class="checkin-card">
-                        <div class="checkin-title">Hur mår du idag?</div>
-                        <div class="mood-selector">
-                            <button class="mood-btn">😔</button>
-                            <button class="mood-btn">😕</button>
-                            <button class="mood-btn">😐</button>
-                            <button class="mood-btn">🙂</button>
-                            <button class="mood-btn">😊</button>
+
+                    <!-- Tasks Widget - 1x1 -->
+                    <div class="widget size-1x1" data-id="tasks" data-module="tasks" data-size="1x1">
+                        <div class="widget-header">
+                            <div class="widget-title"><span class="widget-icon">📋</span> Uppgifter</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
                         </div>
-                        <a href="checkin.html" class="btn btn-primary" style="text-decoration: none; display: block; text-align: center;">Gör Full Check-in →</a>
-                    </div>
-                </div>
-                
-                <!-- Veckostatistik -->
-                <div class="card stat-card" data-module="checkin">
-                    <div class="stat-header">
-                        <div class="stat-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x1"><div></div></div><span>Liten</span></div>
+                            <div class="size-option" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
                         </div>
-                        <span class="stat-trend up">+8%</span>
-                    </div>
-                    <div class="stat-value">7.2</div>
-                    <div class="stat-label">Genomsnittligt humör (7 dagar)</div>
-                </div>
-                
-                <!-- Vanor -->
-                <div class="card" data-module="habits">
-                    <div class="card-header">
-                        <h3 class="card-title">Dina Vanor</h3>
-                        <a href="habits.html" class="btn btn-ghost">Se alla</a>
-                    </div>
-                    <div class="habits-grid">
-                        <div class="habit-item">
-                            <div class="habit-checkbox" style="background: linear-gradient(135deg, var(--primary), var(--accent));"></div>
-                            <span class="habit-name">🧘 Morgonmeditation</span>
-                            <span class="habit-streak">🔥 23 dagar</span>
-                        </div>
-                        <div class="habit-item">
-                            <div class="habit-checkbox" style="background: linear-gradient(135deg, var(--primary), var(--accent));"></div>
-                            <span class="habit-name">🥤 Dricka vatten (5/8)</span>
-                            <span class="habit-streak">🔥 15 dagar</span>
-                        </div>
-                        <div class="habit-item">
-                            <div class="habit-checkbox" style="background: var(--primary-light);"></div>
-                            <span class="habit-name">🏃 Träning (väntar)</span>
-                            <span class="habit-streak">🔥 8 dagar</span>
+                        <div class="widget-content">
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--primary-light);">
+                                    <span style="width: 8px; height: 8px; background: #E74C3C; border-radius: 50%;"></span>
+                                    <span style="font-size: 14px;">Checka in med coach</span>
+                                </li>
+                                <li style="display: flex; align-items: center; gap: 8px; padding: 8px 0;">
+                                    <span style="width: 8px; height: 8px; background: #F39C12; border-radius: 50%;"></span>
+                                    <span style="font-size: 14px;">Uppdatera mål</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div style="margin-top: 16px; padding: 12px; background: linear-gradient(135deg, #E8F5E8, #D4EFDF); border-radius: 12px;">
-                        <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
-                            💡 <strong>AI-insikt:</strong> Din meditation ökar sannolikheten för träning med 89%!
-                        </p>
-                    </div>
-                    <a href="habits.html" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none; display: block; margin-top: 16px;">
-                        Hantera Vanor →
-                    </a>
-                </div>
-                
-                <!-- Kalender -->
-                <div class="card" data-module="calendar">
-                    <div class="card-header">
-                        <h3 class="card-title">Kalender</h3>
-                    </div>
-                    <div class="calendar-widget">
-                        <div class="calendar-header">
-                            <button class="btn btn-ghost">←</button>
-                            <span class="calendar-title">Februari 2026</span>
-                            <button class="btn btn-ghost">→</button>
-                        </div>
-                        <div class="calendar-grid">
-                            <div class="calendar-day">M</div>
-                            <div class="calendar-day">T</div>
-                            <div class="calendar-day">O</div>
-                            <div class="calendar-day">T</div>
-                            <div class="calendar-day">F</div>
-                            <div class="calendar-day">L</div>
-                            <div class="calendar-day">S</div>
-                            <div class="calendar-day"></div>
-                            <div class="calendar-day"></div>
-                            <div class="calendar-day"></div>
-                            <div class="calendar-day"></div>
-                            <div class="calendar-day"></div>
-                            <div class="calendar-day today">20</div>
-                            <div class="calendar-day">21</div>
-                            <div class="calendar-day">22</div>
-                            <div class="calendar-day">23</div>
-                            <div class="calendar-day">24</div>
-                            <div class="calendar-day">25</div>
-                            <div class="calendar-day">26</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Aktiva mål -->
-                <div class="card" data-module="goals">
-                    <div class="card-header">
-                        <h3 class="card-title">Aktiva Mål</h3>
-                        <a href="goals.html" class="btn btn-ghost">+ Nytt</a>
-                    </div>
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>🎯 Springa 5km</span>
-                            <span style="font-weight: 700; color: var(--primary-dark);">75%</span>
-                        </div>
-                        <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
-                            <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 75%; border-radius: 5px; transition: width 0.5s;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: var(--text-secondary);">
-                            <span>🔥 12 dagars streak</span>
-                            <span>3.75 / 5 km</span>
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>📚 Läsa 12 böcker</span>
-                            <span style="font-weight: 700; color: var(--primary-dark);">33%</span>
-                        </div>
-                        <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
-                            <div style="background: linear-gradient(90deg, var(--primary), var(--accent)); height: 100%; width: 33%; border-radius: 5px; transition: width 0.5s;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: var(--text-secondary);">
-                            <span>🔥 45 dagars streak</span>
-                            <span>4 / 12 böcker</span>
-                        </div>
-                    </div>
-                    <a href="goals.html" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none; display: block;">
-                        Se alla mål →
-                    </a>
-                </div>
-                
-                <!-- Journal Preview -->
-                <div class="card" data-module="journal">
-                    <div class="card-header">
-                        <h3 class="card-title">📝 Senaste Journal</h3>
-                        <a href="journal.html" class="btn btn-ghost">Se alla</a>
-                    </div>
-                    <div style="padding: 16px; background: var(--bg-card); border-radius: 12px; margin-bottom: 12px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span style="font-size: 12px; color: var(--text-secondary);">Idag 19:30</span>
-                            <span>😊</span>
-                        </div>
-                        <p style="font-size: 14px; color: var(--text-primary); line-height: 1.5; margin: 0;">
-                            "Idag kändes det tufft på jobbet men jag är stolt över att jag ändå tog mig till gymmet..."
-                        </p>
-                        <div style="margin-top: 12px;">
-                            <span style="font-size: 12px; padding: 4px 10px; background: #E8F5E8; border-radius: 10px; color: #2E7D32;">🎯 Springa 5km</span>
-                            <span style="font-size: 12px; padding: 4px 10px; background: #E3F2FD; border-radius: 10px; color: #1565C0; margin-left: 8px;">✓ Träning</span>
-                        </div>
-                    </div>
-                    <div style="padding: 12px; background: linear-gradient(135deg, #E8F5E8, #D4EFDF); border-radius: 10px;">
-                        <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
-                            🤖 <strong>AI-insikt:</strong> Du nämner "träning" som coping-mekanism för stress
-                        </p>
-                    </div>
-                    <a href="journal.html" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none; display: block; margin-top: 16px;">
-                        Skriv nytt inlägg ✍️
-                    </a>
-                </div>
-                
-                <!-- Dagens uppgifter -->
-                <div class="card" data-module="tasks">
-                    <div class="card-header">
-                        <h3 class="card-title">Dagens Uppgifter</h3>
-                        <span class="stat-trend" style="background: var(--primary-light); color: var(--text-secondary);">3 kvar</span>
-                    </div>
-                    <ul class="task-list">
-                        <li class="task-item">
-                            <span class="task-priority high"></span>
-                            <span class="task-title">Checka in med coach</span>
-                        </li>
-                        <li class="task-item">
-                            <span class="task-priority medium"></span>
-                            <span class="task-title">Uppdatera mål för veckan</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Veckans framsteg -->
-                <div class="card" data-module="goals">
-                    <div class="card-header">
-                        <h3 class="card-title">Veckans Framsteg</h3>
-                    </div>
-                    <div class="progress-ring progress-large">
-                        <svg width="120" height="120">
-                            <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
-                            <circle class="progress-ring-fill" cx="60" cy="60" r="52" 
-                                    stroke-dasharray="326.73" 
-                                    stroke-dashoffset="98"/>
-                        </svg>
-                        <div class="progress-text">70%</div>
-                    </div>
-                    <p style="text-align: center; color: var(--text-secondary); margin-top: 16px;">Bra jobbat! 🌟</p>
+
                 </div>
             </div>
         </main>
     </div>
-    
-    <!-- MODAL: Välmåendehexagonen -->
-    <div class="modal-overlay" id="hexagonModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">⬡ Välmåendehexagonen</h2>
-                <button class="modal-close" onclick="closeHexagonModal()">&times;</button>
-            </div>
-            
-            <p style="color: var(--text-secondary); margin-bottom: 24px;">
-                Bedöm ditt välmående över sex dimensioner. Svara på 30 frågor (5 per dimension). 
-                Skala: 1 = Instämmer inte alls, 5 = Instämmer helt.
-            </p>
-            
-            <!-- Progress -->
-            <div class="progress-bar">
-                <div class="progress-fill" id="hexagonProgress" style="width: 0%"></div>
-            </div>
-            <p style="text-align: center; color: var(--text-secondary); font-size: 14px; margin-top: 8px;" id="progressText">0/30 besvarade</p>
-            
-            <!-- Spindeldiagram -->
-            <div class="hexagon-chart-container">
-                <div class="hexagon-chart">
-                    <canvas id="hexagonChart" width="400" height="320"></canvas>
-                </div>
-            </div>
-            
-            <!-- Dimension-kort -->
-            <div class="dimensions-grid" id="dimensionsGrid">
-                <!-- Genereras av JavaScript -->
-            </div>
-            
-            <!-- Frågesektion -->
-            <div class="questions-section" id="questionsSection">
-                <h3 id="dimensionTitle" style="color: var(--text-primary); margin-bottom: 16px;"></h3>
-                <div id="questionsContainer">
-                    <!-- Frågor genereras här -->
-                </div>
-                <button class="btn btn-primary" onclick="saveDimension()" style="width: 100%; margin-top: 16px;">
-                    Spara och fortsätt
-                </button>
-            </div>
-            
-            <!-- Resultat -->
-            <div class="results-section" id="resultsSection">
-                <div class="overall-score" id="overallScore">-</div>
-                <div class="overall-label">Genomsnittligt välmående</div>
-                <p id="resultText" style="margin-top: 16px; color: var(--text-secondary);"></p>
-                <button class="btn btn-primary" onclick="closeHexagonModal()" style="margin-top: 24px;">
-                    Stäng
-                </button>
-            </div>
-        </div>
-    </div>
-    
+
     <script>
-        // === DAGENS DATUM ===
-        const now = new Date();
-        document.getElementById('currentDay').textContent = now.getDate();
-        const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 
-                       'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
-        document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
-        
-        // === VÄLMÅENDEHEXAGONEN DATA ===
-        const dimensions = {
-            existential: { name: 'Existentiellt', icon: '🔮', color: '#E8D5F2', questions: [
-                { id: 'e1', text: 'Jag känner att mitt liv har en mening och ett syfte' },
-                { id: 'e2', text: 'Jag är nöjd med mitt liv som det är just nu' },
-                { id: 'e3', text: 'Jag känner mig del av något större än mig själv' },
-                { id: 'e4', text: 'Jag har en klar uppfattning om vad som är viktigt i mitt liv' },
-                { id: 'e5', text: 'Jag känner mig nöjd med min roll i samhället' }
-            ]},
-            emotional: { name: 'Emotionellt', icon: '💝', color: '#FFE4C4', questions: [
-                { id: 'em1', text: 'Jag mår bra just nu' },
-                { id: 'em2', text: 'Jag kan hantera mina känslor på ett konstruktivt sätt' },
-                { id: 'em3', text: 'Jag känner mig lugn och avslappnad i vardagen' },
-                { id: 'em4', text: 'Jag tycker om mig själv och den jag är' },
-                { id: 'em5', text: 'Jag har ett bra självförtroende och tror på mig själv' }
-            ]},
-            subjective: { name: 'Subjektivt', icon: '✨', color: '#D4E6F1', questions: [
-                { id: 's1', text: 'Jag känner mig nöjd med mitt liv' },
-                { id: 's2', text: 'Jag upplever att jag har kontroll över mitt liv' },
-                { id: 's3', text: 'Jag känner mig energisk och livskraftig' },
-                { id: 's4', text: 'Jag är nöjd med min nuvarande partnerstatus' },
-                { id: 's5', text: 'Jag har lätt för att anpassa mig till nya situationer' }
-            ]},
-            occupational: { name: 'Yrkesmässigt', icon: '💼', color: '#D5DBDB', questions: [
-                { id: 'o1', text: 'Jag trivs bra med min nuvarande sysselsättning' },
-                { id: 'o2', text: 'Jag känner mig tillfreds med mitt arbete/sysselsättning' },
-                { id: 'o3', text: 'Jag har en bra balans mellan arbete och fritid' },
-                { id: 'o4', text: 'Jag känner mig kompetent i det jag gör' },
-                { id: 'o5', text: 'Jag ser en framtid för mig själv inom mitt område' }
-            ]},
-            social: { name: 'Socialt', icon: '👥', color: '#FADBD8', questions: [
-                { id: 'so1', text: 'Jag är nöjd med relationen till mina vänner' },
-                { id: 'so2', text: 'Jag har nära relationer som ger mig stöd' },
-                { id: 'so3', text: 'Jag är nöjd med den relation jag har med min familj' },
-                { id: 'so4', text: 'Jag känner mig bekväm i sociala sammanhang' },
-                { id: 'so5', text: 'Jag har människor jag kan lita på' }
-            ]},
-            practical: { name: 'Vardagligt', icon: '🛠️', color: '#D5F5E3', questions: [
-                { id: 'p1', text: 'Jag klarar av mina vardagliga sysslor och uppgifter' },
-                { id: 'p2', text: 'Jag känner mig trygg med min ekonomi' },
-                { id: 'p3', text: 'Jag har bra rutiner och struktur i vardagen' },
-                { id: 'p4', text: 'Fritiden räcker till för det jag vill göra' },
-                { id: 'p5', text: 'Jag kan organisera mina uppgifter på ett bra sätt' }
-            ]}
-        };
-        
-        let responses = {};
-        let currentDimension = null;
-        let hexagonChart = null;
-        
-        // Initiera preview chart
-        const previewCtx = document.getElementById('hexagonPreviewChart').getContext('2d');
-        new Chart(previewCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Ex.', 'Em.', 'Sub.', 'Yrk.', 'Soc.', 'Var.'],
-                datasets: [{
-                    data: [0, 0, 0, 0, 0, 0],
-                    backgroundColor: 'rgba(144, 238, 144, 0.2)',
-                    borderColor: '#90EE90',
-                    borderWidth: 2,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 5,
-                        ticks: { display: false },
-                        pointLabels: { font: { size: 10 } }
-                    }
-                },
-                plugins: { legend: { display: false } }
+        // Initialize Sortable for drag and drop
+        const widgetGrid = document.getElementById('widgetGrid');
+        const sortable = Sortable.create(widgetGrid, {
+            animation: 300,
+            handle: '.widget-header',
+            ghostClass: 'sortable-ghost',
+            dragClass: 'dragging',
+            onEnd: function() {
+                saveLayout();
             }
         });
-        
-        // === MODAL FUNKTIONER ===
-        function openHexagonModal() {
-            document.getElementById('hexagonModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            if (!hexagonChart) {
-                initHexagonChart();
+
+        // Toggle collapse
+        function toggleCollapse(btn) {
+            const widget = btn.closest('.widget');
+            widget.classList.toggle('collapsed');
+            btn.textContent = widget.classList.contains('collapsed') ? '+' : '−';
+            saveLayout();
+        }
+
+        // Toggle pin
+        function togglePin(btn) {
+            btn.classList.toggle('active');
+            const widget = btn.closest('.widget');
+            if (btn.classList.contains('active')) {
+                widgetGrid.insertBefore(widget, widgetGrid.firstChild);
             }
-            renderDimensionCards();
+            saveLayout();
         }
-        
-        function closeHexagonModal() {
-            document.getElementById('hexagonModal').classList.remove('active');
-            document.body.style.overflow = '';
-            resetHexagon();
+
+        // Toggle size menu
+        function toggleSizeMenu(btn) {
+            const widget = btn.closest('.widget');
+            const menu = widget.querySelector('.size-menu');
+            
+            // Close all other menus
+            document.querySelectorAll('.size-menu').forEach(m => {
+                if (m !== menu) m.classList.remove('show');
+            });
+            
+            menu.classList.toggle('show');
         }
-        
-        function initHexagonChart() {
-            const ctx = document.getElementById('hexagonChart').getContext('2d');
-            hexagonChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['Existentiellt', 'Emotionellt', 'Subjektivt', 'Yrkesmässigt', 'Socialt', 'Vardagligt'],
-                    datasets: [{
-                        label: 'Ditt välmående',
-                        data: [0, 0, 0, 0, 0, 0],
-                        backgroundColor: 'rgba(144, 238, 144, 0.3)',
-                        borderColor: '#90EE90',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#5CB85C',
-                        pointRadius: 5
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 5,
-                            min: 0,
-                            ticks: { stepSize: 1 }
+
+        // Resize widget
+        function resizeWidget(option) {
+            const size = option.dataset.size;
+            const widget = option.closest('.widget');
+            
+            // Remove old size classes
+            widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+            // Add new size class
+            widget.classList.add(`size-${size}`);
+            widget.dataset.size = size;
+            
+            // Update active state in menu
+            const menu = option.closest('.size-menu');
+            menu.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            
+            // Close menu
+            menu.classList.remove('show');
+            
+            saveLayout();
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.widget-controls')) {
+                document.querySelectorAll('.size-menu').forEach(m => m.classList.remove('show'));
+            }
+        });
+
+        // Save layout to localStorage
+        function saveLayout() {
+            const widgets = document.querySelectorAll('.widget');
+            const layout = [];
+            
+            widgets.forEach(widget => {
+                layout.push({
+                    id: widget.dataset.id,
+                    size: widget.dataset.size,
+                    collapsed: widget.classList.contains('collapsed'),
+                    pinned: widget.querySelector('.pin.active') !== null
+                });
+            });
+            
+            localStorage.setItem('dashboardLayout', JSON.stringify(layout));
+        }
+
+        // Load layout from localStorage
+        function loadLayout() {
+            const saved = localStorage.getItem('dashboardLayout');
+            if (saved) {
+                const layout = JSON.parse(saved);
+                const grid = document.getElementById('widgetGrid');
+                
+                layout.forEach(item => {
+                    const widget = document.querySelector(`.widget[data-id="${item.id}"]`);
+                    if (widget) {
+                        // Update size
+                        widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+                        widget.classList.add(`size-${item.size}`);
+                        widget.dataset.size = item.size;
+                        
+                        // Update collapsed state
+                        if (item.collapsed) {
+                            widget.classList.add('collapsed');
+                            widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
                         }
-                    },
-                    plugins: { legend: { display: false } }
+                        
+                        // Update pinned state
+                        if (item.pinned) {
+                            widget.querySelector('.pin').classList.add('active');
+                            grid.insertBefore(widget, grid.firstChild);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Save current layout
+        function saveCurrentLayout() {
+            saveLayout();
+            alert('Layout sparad! ✅');
+        }
+
+        // Reset layout
+        function resetLayout() {
+            localStorage.removeItem('dashboardLayout');
+            location.reload();
+        }
+
+        // Apply preset
+        function applyPreset(preset) {
+            const widgets = document.querySelectorAll('.widget');
+            
+            const presets = {
+                focus: {
+                    goals: '2x1',
+                    habits: '1x2',
+                    wellness: '1x1',
+                    checkin: '1x1'
+                },
+                reflection: {
+                    wellness: '2x2',
+                    journal: '1x2',
+                    checkin: '1x1'
+                },
+                productivity: {
+                    tasks: '1x2',
+                    calendar: '1x1',
+                    goals: '2x1',
+                    habits: '1x1'
+                },
+                overview: {
+                    wellness: '2x2',
+                    habits: '1x2',
+                    goals: '2x1',
+                    checkin: '1x1',
+                    journal: '1x1',
+                    calendar: '1x1'
                 }
-            });
-        }
-        
-        function renderDimensionCards() {
-            const grid = document.getElementById('dimensionsGrid');
-            grid.innerHTML = '';
+            };
             
-            Object.keys(dimensions).forEach(key => {
-                const dim = dimensions[key];
-                const score = calculateDimensionScore(key);
-                const isCompleted = score > 0;
-                
-                const card = document.createElement('div');
-                card.className = `dimension-card ${isCompleted ? 'completed' : ''}`;
-                card.onclick = () => selectDimension(key);
-                card.innerHTML = `
-                    <div class="dimension-icon">${dim.icon}</div>
-                    <div class="dimension-name">${dim.name}</div>
-                    ${isCompleted ? `<div class="dimension-score">${score.toFixed(1)}</div>` : '<div style="color: #8FBA8F; font-size: 12px; margin-top: 4px;">Klicka för att besvara</div>'}
-                `;
-                grid.appendChild(card);
-            });
-        }
-        
-        function selectDimension(key) {
-            currentDimension = key;
-            const dim = dimensions[key];
-            
-            document.getElementById('dimensionTitle').textContent = dim.name;
-            
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-            
-            dim.questions.forEach((q, idx) => {
-                const div = document.createElement('div');
-                div.className = 'question-item';
-                const currentValue = responses[q.id] || 0;
-                
-                div.innerHTML = `
-                    <p class="question-text">${idx + 1}. ${q.text}</p>
-                    <div class="scale-container">
-                        <span class="scale-label">Instämmer inte</span>
-                        <div class="scale-options">
-                            ${[1, 2, 3, 4, 5].map(val => `
-                                <button class="scale-btn ${currentValue === val ? 'selected' : ''}" 
-                                        onclick="setAnswer('${q.id}', ${val})">${val}</button>
-                            `).join('')}
-                        </div>
-                        <span class="scale-label">Instämmer helt</span>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-            
-            document.getElementById('questionsSection').classList.add('active');
-            document.getElementById('questionsSection').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function setAnswer(questionId, value) {
-            responses[questionId] = value;
-            event.target.classList.add('selected');
-            
-            // Uppdatera UI för denna fråga
-            const buttons = event.target.parentElement.querySelectorAll('.scale-btn');
-            buttons.forEach(btn => {
-                if (btn !== event.target) btn.classList.remove('selected');
-            });
-            
-            updateProgress();
-            updateChart();
-        }
-        
-        function saveDimension() {
-            if (!currentDimension) return;
-            
-            // Kontrollera att alla 5 frågor är besvarade
-            const dim = dimensions[currentDimension];
-            const answered = dim.questions.filter(q => responses[q.id]).length;
-            
-            if (answered < 5) {
-                alert('Besvara alla 5 frågor för denna dimension');
-                return;
-            }
-            
-            renderDimensionCards();
-            document.getElementById('questionsSection').classList.remove('active');
-            
-            // Om alla 6 dimensioner är klara, visa resultat
-            if (Object.keys(responses).length === 30) {
-                showResults();
+            if (presets[preset]) {
+                widgets.forEach(widget => {
+                    const id = widget.dataset.id;
+                    if (presets[preset][id]) {
+                        widget.classList.remove('size-1x1', 'size-1x2', 'size-2x1', 'size-2x2');
+                        widget.classList.add(`size-${presets[preset][id]}`);
+                        widget.dataset.size = presets[preset][id];
+                        widget.classList.remove('collapsed');
+                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '−';
+                    } else if (preset !== 'overview') {
+                        widget.classList.add('collapsed');
+                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
+                    }
+                });
+                saveLayout();
             }
         }
-        
-        function calculateDimensionScore(key) {
-            const dim = dimensions[key];
-            let total = 0;
-            let count = 0;
+
+        // Toggle module visibility
+        function toggleModule(module) {
+            const checkbox = document.querySelector(`input[data-module="${module}"]`);
+            const chip = checkbox.closest('.filter-chip');
+            const widgets = document.querySelectorAll(`.widget[data-module="${module}"]`);
             
-            dim.questions.forEach(q => {
-                if (responses[q.id]) {
-                    total += responses[q.id];
-                    count++;
-                }
-            });
-            
-            return count > 0 ? total / count : 0;
-        }
-        
-        function updateProgress() {
-            const answered = Object.keys(responses).length;
-            const percent = (answered / 30) * 100;
-            
-            document.getElementById('hexagonProgress').style.width = percent + '%';
-            document.getElementById('progressText').textContent = `${answered}/30 besvarade`;
-        }
-        
-        function updateChart() {
-            if (!hexagonChart) return;
-            
-            const scores = [
-                calculateDimensionScore('existential'),
-                calculateDimensionScore('emotional'),
-                calculateDimensionScore('subjective'),
-                calculateDimensionScore('occupational'),
-                calculateDimensionScore('social'),
-                calculateDimensionScore('practical')
-            ];
-            
-            hexagonChart.data.datasets[0].data = scores;
-            hexagonChart.update();
-        }
-        
-        function showResults() {
-            const scores = [
-                calculateDimensionScore('existential'),
-                calculateDimensionScore('emotional'),
-                calculateDimensionScore('subjective'),
-                calculateDimensionScore('occupational'),
-                calculateDimensionScore('social'),
-                calculateDimensionScore('practical')
-            ];
-            
-            const overall = scores.reduce((a, b) => a + b, 0) / 6;
-            
-            document.getElementById('overallScore').textContent = overall.toFixed(1);
-            
-            let text = '';
-            if (overall >= 4) text = 'Utmärkt välmående! Du har en stark grund i livet.';
-            else if (overall >= 3) text = 'Bra välmående. Några områden kan utvecklas vidare.';
-            else if (overall >= 2) text = 'Du kan behöva fokusera på vissa områden för att må bättre.';
-            else text = 'Prioritera ditt välbefinnande. Sök stöd om du behöver.';
-            
-            document.getElementById('resultText').textContent = text;
-            document.getElementById('resultsSection').classList.add('active');
-            document.getElementById('dimensionsGrid').style.display = 'none';
-            document.getElementById('questionsSection').style.display = 'none';
-        }
-        
-        function resetHexagon() {
-            responses = {};
-            currentDimension = null;
-            document.getElementById('questionsSection').classList.remove('active');
-            document.getElementById('resultsSection').classList.remove('active');
-            document.getElementById('dimensionsGrid').style.display = 'grid';
-            document.getElementById('hexagonProgress').style.width = '0%';
-            document.getElementById('progressText').textContent = '0/30 besvarade';
-        }
-        
-        // Stäng modal vid klick utanför
-        document.getElementById('hexagonModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeHexagonModal();
+            if (checkbox.checked) {
+                chip.classList.add('active');
+                widgets.forEach(w => w.style.display = '');
+            } else {
+                chip.classList.remove('active');
+                widgets.forEach(w => w.style.display = 'none');
             }
-        });
-        
-        // Sidebar Toggle Functionality
+        }
+
+        // Sidebar functions
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('collapsed');
             localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
         }
-        
+
         function toggleSubmenu(element) {
             const sidebar = document.getElementById('sidebar');
             if (sidebar.classList.contains('collapsed')) {
@@ -1167,75 +899,29 @@
             }
             element.classList.toggle('expanded');
             const submenu = element.nextElementSibling;
-            if (submenu && submenu.classList.contains('nav-submenu')) {
-                submenu.classList.toggle('expanded');
-            }
+            if (submenu) submenu.classList.toggle('expanded');
         }
-        
+
         function toggleMobileSidebar() {
             document.getElementById('sidebar').classList.toggle('mobile-open');
         }
-        
-        // Module Filter Functionality
-        function toggleModule(moduleName) {
-            const checkbox = document.querySelector(`input[data-module="${moduleName}"]`);
-            const chip = checkbox.closest('.filter-chip');
-            const cards = document.querySelectorAll(`.card[data-module="${moduleName}"]`);
-            
-            if (checkbox.checked) {
-                chip.classList.add('active');
-                cards.forEach(card => card.classList.remove('hidden'));
-            } else {
-                chip.classList.remove('active');
-                cards.forEach(card => card.classList.add('hidden'));
-            }
-            
-            // Save preference
-            saveFilterPreferences();
-        }
-        
-        function resetFilters() {
-            const checkboxes = document.querySelectorAll('.filter-chip input');
-            const chips = document.querySelectorAll('.filter-chip');
-            const cards = document.querySelectorAll('.card[data-module]');
-            
-            checkboxes.forEach(cb => cb.checked = true);
-            chips.forEach(chip => chip.classList.add('active'));
-            cards.forEach(card => card.classList.remove('hidden'));
-            
-            saveFilterPreferences();
-        }
-        
-        function saveFilterPreferences() {
-            const preferences = {};
-            document.querySelectorAll('.filter-chip input').forEach(cb => {
-                preferences[cb.dataset.module] = cb.checked;
-            });
-            localStorage.setItem('dashboardFilters', JSON.stringify(preferences));
-        }
-        
-        function loadFilterPreferences() {
-            const saved = localStorage.getItem('dashboardFilters');
-            if (saved) {
-                const preferences = JSON.parse(saved);
-                Object.entries(preferences).forEach(([module, checked]) => {
-                    const checkbox = document.querySelector(`input[data-module="${module}"]`);
-                    if (checkbox) {
-                        checkbox.checked = checked;
-                        toggleModule(module);
-                    }
-                });
-            }
-        }
-        
+
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Restore sidebar state
             const sidebar = document.getElementById('sidebar');
             if (localStorage.getItem('sidebarCollapsed') === 'true') {
                 sidebar.classList.add('collapsed');
             }
             
-            // Load saved filter preferences
-            loadFilterPreferences();
+            // Load saved layout
+            loadLayout();
+            
+            // Set date
+            const now = new Date();
+            document.getElementById('currentDay').textContent = now.getDate();
+            const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+            document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
         });
     </script>
 </body>
