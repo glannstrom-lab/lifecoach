@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Översikt - Comdira Lifecoach</title>
+    <title>Comdira Lifecoach - En intelligent plattform för personlig utveckling</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/sidebar-v2.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -194,31 +194,6 @@
             padding: 20px 24px;
         }
         
-        /* Resize Handle */
-        .resize-handle {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            width: 20px;
-            height: 20px;
-            cursor: se-resize;
-            opacity: 0;
-            transition: opacity 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .widget:hover .resize-handle {
-            opacity: 1;
-        }
-        
-        .resize-handle::after {
-            content: '⤢';
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
         /* Ghost Element for Drag */
         .sortable-ghost {
             opacity: 0.4;
@@ -346,6 +321,475 @@
             display: none;
         }
         
+        /* === MORNING BRIEFING WIDGET === */
+        .briefing-widget {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFECB3 100%);
+            border: 2px solid #FFD54F;
+        }
+        
+        .briefing-content {
+            padding: 24px;
+        }
+        
+        .briefing-greeting {
+            font-size: 24px;
+            font-weight: 700;
+            color: #5D4E37;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .briefing-sun {
+            font-size: 32px;
+            animation: sunPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes sunPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+        
+        .briefing-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .briefing-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(245, 176, 65, 0.3);
+            font-size: 15px;
+            color: #5D4E37;
+        }
+        
+        .briefing-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .briefing-list li::before {
+            content: '•';
+            color: #F39C12;
+            font-weight: bold;
+            font-size: 20px;
+            line-height: 1;
+        }
+        
+        .briefing-highlight {
+            font-weight: 600;
+            color: #E67E22;
+        }
+        
+        /* === STREAK FLAME ANIMATION === */
+        .streak-flame {
+            display: inline-block;
+            font-size: 24px;
+            animation: flameFlicker 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.6));
+        }
+        
+        @keyframes flameFlicker {
+            0%, 100% { 
+                transform: scale(1) rotate(-2deg);
+                filter: drop-shadow(0 0 8px rgba(255, 100, 0, 0.6));
+            }
+            25% { 
+                transform: scale(1.1) rotate(2deg);
+                filter: drop-shadow(0 0 12px rgba(255, 150, 0, 0.8));
+            }
+            50% { 
+                transform: scale(1.05) rotate(-1deg);
+                filter: drop-shadow(0 0 15px rgba(255, 200, 0, 1));
+            }
+            75% { 
+                transform: scale(1.15) rotate(1deg);
+                filter: drop-shadow(0 0 10px rgba(255, 120, 0, 0.7));
+            }
+        }
+        
+        .streak-celebration {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 40px 60px;
+            border-radius: 30px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+            animation: celebrationPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none;
+        }
+        
+        .streak-celebration.show {
+            display: block;
+        }
+        
+        @keyframes celebrationPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+        
+        .streak-celebration .flame-big {
+            font-size: 80px;
+            animation: flameFlicker 0.5s ease-in-out infinite;
+            margin-bottom: 16px;
+        }
+        
+        .streak-celebration h3 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .streak-celebration p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .share-btn {
+            background: white;
+            color: #FF6B35;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 0 8px;
+        }
+        
+        .share-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .habit-streak-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #FFF5EB;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        
+        .habit-streak-item:hover {
+            background: #FFECD9;
+            transform: translateX(4px);
+        }
+        
+        /* === DAILY QUOTE WIDGET === */
+        .quote-widget {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border: 2px solid var(--primary);
+        }
+        
+        .quote-content {
+            text-align: center;
+            padding: 24px;
+        }
+        
+        .quote-icon {
+            font-size: 48px;
+            color: var(--primary-dark);
+            opacity: 0.5;
+            margin-bottom: 12px;
+        }
+        
+        .quote-text {
+            font-size: 18px;
+            font-style: italic;
+            color: #2E5A3B;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .quote-author {
+            font-size: 14px;
+            color: #5A8C6A;
+            margin-bottom: 20px;
+        }
+        
+        .quote-focus-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(144, 238, 144, 0.4);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1E8449;
+            margin-bottom: 16px;
+        }
+        
+        .quote-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        
+        .quote-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .quote-btn-save {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .quote-btn-save:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        .quote-btn-refresh {
+            background: white;
+            color: var(--text-secondary);
+        }
+        
+        .quote-btn-refresh:hover {
+            background: var(--primary-light);
+        }
+        
+        .quote-saved {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #27AE60;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+            animation: slideUp 0.3s ease;
+            z-index: 1000;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        /* === PROGRESS SUMMARY WIDGET === */
+        .progress-widget {
+            background: linear-gradient(135deg, #EBF5FB 0%, #D6EAF8 100%);
+            border: 2px solid #85C1E9;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .progress-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A5276;
+        }
+        
+        .progress-week {
+            font-size: 12px;
+            color: #5DADE2;
+            background: rgba(133, 193, 233, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+        
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .progress-stat {
+            text-align: center;
+            padding: 16px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .progress-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1A5276;
+            line-height: 1;
+        }
+        
+        .progress-stat-label {
+            font-size: 12px;
+            color: #5DADE2;
+            margin-top: 4px;
+        }
+        
+        .progress-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: rgba(133, 193, 233, 0.15);
+            border-radius: 12px;
+            font-size: 14px;
+            color: #1A5276;
+        }
+        
+        .progress-arrow {
+            font-size: 16px;
+        }
+        
+        .progress-positive {
+            color: #27AE60;
+            font-weight: 700;
+        }
+        
+        .progress-negative {
+            color: #E74C3C;
+            font-weight: 700;
+        }
+        
+        /* === RECOMMENDATION ENGINE WIDGET === */
+        .recommendation-widget {
+            background: linear-gradient(135deg, #F5EEF8 0%, #EBDEF0 100%);
+            border: 2px solid #BB8FCE;
+        }
+        
+        .recommendation-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        
+        .recommendation-icon {
+            font-size: 24px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+        
+        .recommendation-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5B2C6F;
+        }
+        
+        .recommendation-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #9B59B6;
+            transition: all 0.2s;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        
+        .recommendation-type {
+            font-size: 11px;
+            font-weight: 700;
+            color: #9B59B6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-text {
+            font-size: 15px;
+            color: #5B2C6F;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .recommendation-reason {
+            font-size: 13px;
+            color: #8E44AD;
+            background: rgba(155, 89, 182, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .recommendation-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .recommendation-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .recommendation-btn-primary {
+            background: #9B59B6;
+            color: white;
+        }
+        
+        .recommendation-btn-primary:hover {
+            background: #7D3C98;
+        }
+        
+        .recommendation-btn-secondary {
+            background: rgba(155, 89, 182, 0.1);
+            color: #9B59B6;
+        }
+        
+        .recommendation-btn-secondary:hover {
+            background: rgba(155, 89, 182, 0.2);
+        }
+        
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #9B59B6;
+            background: rgba(155, 89, 182, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+        
+        .ai-badge::before {
+            content: '✨';
+        }
+        
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .widget-grid {
@@ -365,22 +809,31 @@
                 flex-direction: column;
                 align-items: stretch;
             }
+            
+            .progress-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .streak-celebration {
+                width: 90%;
+                padding: 30px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar (unchanged) -->
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <a href="dashboard.html" class="logo">
+                <a href="index.html" class="logo">
                     <div class="logo-icon-sm">C</div>
                     <span class="logo-text">Comdira</span>
                 </a>
                 <button class="sidebar-toggle" onclick="toggleSidebar()">◀</button>
             </div>
             <nav class="nav-menu">
-                <a href="dashboard.html" class="nav-item active" data-tooltip="Översikt">
+                <a href="index.html" class="nav-item active" data-tooltip="Översikt">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
                     <span class="nav-item-text">Översikt</span>
                 </a>
@@ -431,14 +884,25 @@
         </aside>
         <div class="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
+        <!-- Streak Celebration Overlay -->
+        <div class="streak-celebration" id="streakCelebration">
+            <div class="flame-big">🔥</div>
+            <h3>Streak Milestone!</h3>
+            <p id="streakCelebrationText">Du har nått 23 dagar i rad!</p>
+            <div>
+                <button class="share-btn" onclick="shareStreak('twitter')">🐦 Dela på Twitter</button>
+                <button class="share-btn" onclick="shareStreak('copy')">📋 Kopiera</button>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <main class="main-content">
             <div class="dashboard-container">
                 <!-- Header -->
                 <div class="welcome-banner">
                     <div class="welcome-text">
-                        <h2>God morgon, Demo-användare! ☀️</h2>
-                        <p>Vad vill du fokusera på idag?</p>
+                        <h2>God morgon! ☀️</h2>
+                        <p>Välkommen till din personliga coachportal</p>
                     </div>
                     <div class="welcome-date">
                         <div class="day" id="currentDay">20</div>
@@ -456,6 +920,7 @@
                             <option value="reflection">Reflektionsläge (Journal + Välmående)</option>
                             <option value="productivity">Produktivitetsläge (Uppgifter + Kalender)</option>
                             <option value="overview">Full översikt</option>
+                            <option value="morning">Morning Briefing</option>
                         </select>
                     </div>
                     <button class="control-btn" onclick="saveCurrentLayout()">
@@ -473,9 +938,13 @@
                         <span>Visa moduler:</span>
                     </div>
                     <div class="filter-chips">
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="briefing" onchange="toggleModule('briefing')"><span>☀️ Briefing</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')"><span>⬡ Välmående</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="quote" onchange="toggleModule('quote')"><span>💭 Citat</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')"><span>○ Check-in</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="progress" onchange="toggleModule('progress')"><span>📊 Progress</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')"><span>✓ Vanor</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="recommendation" onchange="toggleModule('recommendation')"><span>💡 Rekommendation</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')"><span>◆ Mål</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')"><span>📝 Journal</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="calendar" onchange="toggleModule('calendar')"><span>📅 Kalender</span></label>
@@ -485,6 +954,112 @@
 
                 <!-- Draggable Widget Grid -->
                 <div class="widget-grid" id="widgetGrid">
+
+                    <!-- Morning Briefing Widget - 2x1 -->
+                    <div class="widget size-2x1 briefing-widget" data-id="briefing" data-module="briefing" data-size="2x1">
+                        <div class="briefing-content">
+                            <div class="briefing-greeting">
+                                <span>God morgon, Demo-användare!</span>
+                                <span class="briefing-sun">☀️</span>
+                            </div>
+                            <ul class="briefing-list">
+                                <li>Du har <span class="briefing-highlight">3 vanor</span> att checka av idag</li>
+                                <li>Ditt humör igår: <span class="briefing-highlight">8/10</span> ⭐</li>
+                                <li>Dagens intention: <em>"Vara närvarande i möten"</em> (från journal)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Daily Quote Widget - 1x1 -->
+                    <div class="widget size-1x1 quote-widget" data-id="quote" data-module="quote" data-size="1x1">
+                        <div class="quote-content">
+                            <div class="quote-icon">❝</div>
+                            <p class="quote-text" id="quoteText">"Success is not final, failure is not fatal: it is the courage to continue that counts."</p>
+                            <p class="quote-author" id="quoteAuthor">— Winston Churchill</p>
+                            <span class="quote-focus-tag">💼 Fokus: Disciplin</span>
+                            <div class="quote-actions">
+                                <button class="quote-btn quote-btn-save" onclick="saveQuote()">
+                                    💾 Spara till journal
+                                </button>
+                                <button class="quote-btn quote-btn-refresh" onclick="refreshQuote()">
+                                    🔄 Nytt
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Summary Widget - 1x2 -->
+                    <div class="widget size-1x2 progress-widget" data-id="progress" data-module="progress" data-size="1x2">
+                        <div class="widget-header" style="border-color: rgba(133, 193, 233, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">📊</span> Veckosammanfattning</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="1x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-1x2"><div></div><div></div></div><span>Hög</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="progress-header">
+                                <span class="progress-title">Denna vecka</span>
+                                <span class="progress-week">v8 2026</span>
+                            </div>
+                            <div class="progress-stats">
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value">4/5</div>
+                                    <div class="progress-stat-label">Träningsdagar</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value">6/7</div>
+                                    <div class="progress-stat-label">Meditation</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value">85%</div>
+                                    <div class="progress-stat-label">Mål uppnådda</div>
+                                </div>
+                                <div class="progress-stat">
+                                    <div class="progress-stat-value">7.4</div>
+                                    <div class="progress-stat-label">Snitt humör</div>
+                                </div>
+                            </div>
+                            <div class="progress-comparison">
+                                <span class="progress-arrow">📈</span>
+                                <span><span class="progress-positive">+20%</span> bättre än förra veckan!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation Engine Widget - 2x1 -->
+                    <div class="widget size-2x1 recommendation-widget" data-id="recommendation" data-module="recommendation" data-size="2x1">
+                        <div class="widget-header" style="border-color: rgba(187, 143, 206, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">💡</span> AI Rekommendationer</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="recommendation-card">
+                                <div class="recommendation-type">🎯 Nästa steg</div>
+                                <div class="recommendation-text">Baserat på dina data har du tränat 4 dagar denna vecka. En sista träning idag skulle ge dig 100% veckomål!</div>
+                                <div class="recommendation-reason">
+                                    <span>📊</span>
+                                    <span>Du är nära ditt veckomål (4/5 träningar)</span>
+                                </div>
+                                <div class="recommendation-actions">
+                                    <button class="recommendation-btn recommendation-btn-primary" onclick="window.location.href='habits.html'">Registrera träning</button>
+                                    <button class="recommendation-btn recommendation-btn-secondary" onclick="dismissRecommendation(this)">Avfärda</button>
+                                </div>
+                            </div>
+                            <div class="ai-badge">Baserat på dina senaste 14 dagars data</div>
+                        </div>
+                    </div>
                     
                     <!-- Wellness Widget - 2x2 -->
                     <div class="widget size-2x2" data-id="wellness" data-module="wellness" data-size="2x2">
@@ -506,7 +1081,7 @@
                             <div class="hexagon-preview" style="display: flex; gap: 20px; align-items: center;">
                                 <div style="width: 150px; height: 120px;"><canvas id="wellnessChart"></canvas></div>
                                 <div style="flex: 1;">
-                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Senaste bedömningen visar starkt välmående inom emotionella och praktiska områden.</p>
+                                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Utforska dina sex dimensioner av välmående. Identifiera styrkor och områden för utveckling.</p>
                                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                         <span style="padding: 4px 10px; background: #E8D5F2; border-radius: 12px; font-size: 11px; color: #6C3483;">🔮 Existentiellt</span>
                                         <span style="padding: 4px 10px; background: #FFE4C4; border-radius: 12px; font-size: 11px; color: #935116;">💝 Emotionellt</span>
@@ -539,7 +1114,7 @@
                         </div>
                     </div>
 
-                    <!-- Habits Widget - 1x2 -->
+                    <!-- Habits Widget - 1x2 (with animated streaks) -->
                     <div class="widget size-1x2" data-id="habits" data-module="habits" data-size="1x2">
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">✓</span> Vanor</div>
@@ -554,18 +1129,25 @@
                             <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
                         </div>
                         <div class="widget-content">
-                            <div style="display: flex; flex-direction: column; gap: 12px;">
-                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
-                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🧘 Meditation</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 23 dagar</div></div>
+                            <div class="habit-streak-item" onclick="showStreakCelebration(23, '🧘 Meditation')">
+                                <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 14px;">🧘 Meditation</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);"><span class="streak-flame">🔥</span> 23 dagar</div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
-                                    <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🥤 Vatten (5/8)</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 15 dagar</div></div>
+                            </div>
+                            <div class="habit-streak-item" onclick="showStreakCelebration(15, '🥤 Vatten')">
+                                <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 14px;">🥤 Vatten (5/8)</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);"><span class="streak-flame">🔥</span> 15 dagar</div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-card); border-radius: 12px;">
-                                    <div style="width: 24px; height: 24px; background: var(--primary-light); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🏃 Träning</div><div style="font-size: 12px; color: var(--text-secondary);">Väntar...</div></div>
+                            </div>
+                            <div class="habit-streak-item" onclick="showStreakCelebration(7, '🏃 Träning')">
+                                <div style="width: 24px; height: 24px; background: var(--primary-light); border-radius: 6px;"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 14px;">🏃 Träning</div>
+                                    <div style="font-size: 12px; color: var(--text-secondary);"><span class="streak-flame">🔥</span> 7 dagar</div>
                                 </div>
                             </div>
                             <a href="habits.html" class="btn btn-primary" style="width: 100%; margin-top: 12px; text-align: center; display: block; text-decoration: none;">Se alla vanor</a>
@@ -688,6 +1270,20 @@
     </div>
 
     <script>
+        // Quotes database
+        const quotes = [
+            { text: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill", focus: "💼 Disciplin" },
+            { text: "The only way to do great work is to love what you do.", author: "Steve Jobs", focus: "💼 Yrkesmässigt" },
+            { text: "Be the change that you wish to see in the world.", author: "Mahatma Gandhi", focus: "🔮 Existentiellt" },
+            { text: "Happiness depends upon ourselves.", author: "Aristotle", focus: "💝 Emotionellt" },
+            { text: "It always seems impossible until it's done.", author: "Nelson Mandela", focus: "✨ Motivation" },
+            { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb", focus: "🛠️ Vardagligt" },
+            { text: "Your vibe attracts your tribe.", author: "Unknown", focus: "👥 Socialt" },
+            { text: "Small steps every day lead to big results.", author: "Unknown", focus: "✨ Subjektivt" }
+        ];
+
+        let currentQuoteIndex = 0;
+
         // Initialize Sortable for drag and drop
         const widgetGrid = document.getElementById('widgetGrid');
         const sortable = Sortable.create(widgetGrid, {
@@ -795,13 +1391,17 @@
                         // Update collapsed state
                         if (item.collapsed) {
                             widget.classList.add('collapsed');
-                            widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
+                            const collapseBtn = widget.querySelector('.widget-btn:nth-child(2)');
+                            if (collapseBtn) collapseBtn.textContent = '+';
                         }
                         
                         // Update pinned state
                         if (item.pinned) {
-                            widget.querySelector('.pin').classList.add('active');
-                            grid.insertBefore(widget, grid.firstChild);
+                            const pinBtn = widget.querySelector('.pin');
+                            if (pinBtn) {
+                                pinBtn.classList.add('active');
+                                grid.insertBefore(widget, grid.firstChild);
+                            }
                         }
                     }
                 });
@@ -834,7 +1434,8 @@
                 reflection: {
                     wellness: '2x2',
                     journal: '1x2',
-                    checkin: '1x1'
+                    checkin: '1x1',
+                    quote: '1x1'
                 },
                 productivity: {
                     tasks: '1x2',
@@ -849,6 +1450,13 @@
                     checkin: '1x1',
                     journal: '1x1',
                     calendar: '1x1'
+                },
+                morning: {
+                    briefing: '2x1',
+                    quote: '1x1',
+                    progress: '1x2',
+                    habits: '1x1',
+                    checkin: '1x1'
                 }
             };
             
@@ -860,10 +1468,12 @@
                         widget.classList.add(`size-${presets[preset][id]}`);
                         widget.dataset.size = presets[preset][id];
                         widget.classList.remove('collapsed');
-                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '−';
-                    } else if (preset !== 'overview') {
+                        const collapseBtn = widget.querySelector('.widget-btn:nth-child(2)');
+                        if (collapseBtn) collapseBtn.textContent = '−';
+                    } else if (preset !== 'overview' && preset !== 'morning') {
                         widget.classList.add('collapsed');
-                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
+                        const collapseBtn = widget.querySelector('.widget-btn:nth-child(2)');
+                        if (collapseBtn) collapseBtn.textContent = '+';
                     }
                 });
                 saveLayout();
@@ -883,6 +1493,70 @@
                 chip.classList.remove('active');
                 widgets.forEach(w => w.style.display = 'none');
             }
+        }
+
+        // Show streak celebration
+        function showStreakCelebration(days, habitName) {
+            if (days >= 7) { // Only celebrate milestones
+                const celebration = document.getElementById('streakCelebration');
+                const text = document.getElementById('streakCelebrationText');
+                text.textContent = `Du har nått ${days} dagar i rad med ${habitName}! 🔥`;
+                celebration.classList.add('show');
+                
+                setTimeout(() => {
+                    celebration.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        // Share streak
+        function shareStreak(platform) {
+            const text = "Jag har nått 23 dagars streak på Comdira! 🔥 Vem slår mig?";
+            
+            if (platform === 'twitter') {
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('Kopierat till urklipp! 📋');
+            }
+        }
+
+        // Save quote to journal
+        function saveQuote() {
+            const quote = quotes[currentQuoteIndex];
+            const savedQuotes = JSON.parse(localStorage.getItem('savedQuotes') || '[]');
+            savedQuotes.push({
+                ...quote,
+                savedAt: new Date().toISOString()
+            });
+            localStorage.setItem('savedQuotes', JSON.stringify(savedQuotes));
+            
+            // Show notification
+            const notification = document.createElement('div');
+            notification.className = 'quote-saved';
+            notification.textContent = 'Sparat till journal! 📔';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Refresh quote
+        function refreshQuote() {
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            const quote = quotes[currentQuoteIndex];
+            
+            document.getElementById('quoteText').textContent = `"${quote.text}"`;
+            document.getElementById('quoteAuthor').textContent = `— ${quote.author}`;
+            document.querySelector('.quote-focus-tag').textContent = quote.focus;
+        }
+
+        // Dismiss recommendation
+        function dismissRecommendation(btn) {
+            const card = btn.closest('.recommendation-card');
+            card.style.opacity = '0.5';
+            setTimeout(() => {
+                card.remove();
+            }, 300);
         }
 
         // Sidebar functions
