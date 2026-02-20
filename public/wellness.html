@@ -469,6 +469,260 @@
             box-shadow: var(--shadow-lg);
         }
         
+        /* Dimension Tabs */
+        .dimension-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            background: white;
+            padding: 12px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+        
+        .dimension-tab {
+            flex: 1;
+            min-width: 140px;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 14px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .dimension-tab:hover {
+            background: var(--primary-light);
+        }
+        
+        .dimension-tab.active {
+            background: var(--primary);
+            color: var(--text-primary);
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.3);
+        }
+        
+        .dimension-tab .tab-icon {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .dimension-tab .tab-name {
+            font-size: 13px;
+            display: block;
+        }
+        
+        .dimension-tab .tab-score {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        /* Dimension Detail View */
+        .dimension-detail {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .dimension-detail.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dimension-hero {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        
+        .dimension-hero-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+        
+        .dimension-hero-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .dimension-hero-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+        
+        .dimension-hero-score {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 16px;
+            font-size: 36px;
+            font-weight: 800;
+            background: var(--primary-light);
+        }
+        
+        .dimension-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .dimension-stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .dimension-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .dimension-stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Tips Section */
+        .tips-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tips-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .tip-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .tip-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tip-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        
+        .tip-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        /* History Chart */
+        .history-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .history-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .history-chart-container {
+            height: 200px;
+        }
+        
+        /* Related Goals & Habits */
+        .related-section {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .related-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .related-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .related-icon {
+            font-size: 24px;
+        }
+        
+        .related-content {
+            flex: 1;
+        }
+        
+        .related-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .related-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .related-progress {
+            width: 100px;
+            height: 8px;
+            background: var(--primary-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .related-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
         /* Mobile */
         @media (max-width: 768px) {
             .wellness-title {
@@ -618,6 +872,47 @@
                     </div>
                 </div>
                 
+                <!-- Dimension Tabs Navigation -->
+                <div class="dimension-tabs">
+                    <button class="dimension-tab active" onclick="showDimensionTab('overview')">
+                        <span class="tab-icon">⬡</span>
+                        <span class="tab-name">Översikt</span>
+                    </button>
+                    <button class="dimension-tab existential" onclick="showDimensionTab('existential')">
+                        <span class="tab-icon">🔮</span>
+                        <span class="tab-name">Existentiellt</span>
+                        <span class="tab-score" id="tab-score-existential">-</span>
+                    </button>
+                    <button class="dimension-tab emotional" onclick="showDimensionTab('emotional')">
+                        <span class="tab-icon">💝</span>
+                        <span class="tab-name">Emotionellt</span>
+                        <span class="tab-score" id="tab-score-emotional">-</span>
+                    </button>
+                    <button class="dimension-tab subjective" onclick="showDimensionTab('subjective')">
+                        <span class="tab-icon">✨</span>
+                        <span class="tab-name">Subjektivt</span>
+                        <span class="tab-score" id="tab-score-subjective">-</span>
+                    </button>
+                    <button class="dimension-tab occupational" onclick="showDimensionTab('occupational')">
+                        <span class="tab-icon">💼</span>
+                        <span class="tab-name">Yrkesmässigt</span>
+                        <span class="tab-score" id="tab-score-occupational">-</span>
+                    </button>
+                    <button class="dimension-tab social" onclick="showDimensionTab('social')">
+                        <span class="tab-icon">👥</span>
+                        <span class="tab-name">Socialt</span>
+                        <span class="tab-score" id="tab-score-social">-</span>
+                    </button>
+                    <button class="dimension-tab practical" onclick="showDimensionTab('practical')">
+                        <span class="tab-icon">🛠️</span>
+                        <span class="tab-name">Vardagligt</span>
+                        <span class="tab-score" id="tab-score-practical">-</span>
+                    </button>
+                </div>
+                
+                <!-- TAB: Overview - Shows all dimensions -->
+                <div id="tab-overview" class="dimension-detail active">
+                    
                 <!-- Dimension 1: Existentiellt -->
                 <div class="dimension-full-section existential" id="section-existential">
                     <div class="dimension-header-large">
@@ -705,6 +1000,314 @@
                     </div>
                     <div class="questions-list" id="questions-practical">
                         <!-- Genereras av JS -->
+                    </div>
+                </div>
+                
+                </div><!-- End of Overview Tab -->
+                
+                <!-- TAB: Existential Detail View -->
+                <div id="tab-existential" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #9B59B6;">
+                        <div class="dimension-hero-icon" style="background: #E8D5F2;">🔮</div>
+                        <h2 class="dimension-hero-title" style="color: #9B59B6;">Existentiellt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Existentiellt välmående handlar om känslan av mening, syfte och tillfredsställelse med livet. 
+                            Det inkluderar din förmåga att reflektera över livets stora frågor och känna dig del av något större.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-existential" style="background: #E8D5F2; color: #6C3483;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-existential-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-existential-trend">↗️</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-existential-rank">#3</div>
+                                <div class="dimension-stat-label">Din starkaste dimension</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för att stärka ditt existentiella välmående</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Reflektera regelbundet</div>
+                            <div class="tip-text">Använd Journal-modulen för att skriva om vad som ger ditt liv mening. Forskningsstudier visar att regelbunden reflexion ökar livstillfredsställelsen.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Utforska dina värderingar</div>
+                            <div class="tip-text">Identifiera 3-5 kärnvärden som är viktiga för dig. Använd dem som kompass när du fattar beslut.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Engagera dig i något större</div>
+                            <div class="tip-text">Volunteering eller att hjälpa andra kan ge en stark känsla av mening och syfte.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="existentialChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="related-section">
+                        <h3 class="related-title">🎯 Kopplade mål och vanor</h3>
+                        <div class="related-item">
+                            <span class="related-icon">📚</span>
+                            <div class="related-content">
+                                <div class="related-name">Läsa 12 böcker</div>
+                                <div class="related-meta">Mål • 33% avklarat</div>
+                            </div>
+                            <div class="related-progress"><div class="related-progress-fill" style="width: 33%"></div></div>
+                        </div>
+                        <div class="related-item">
+                            <span class="related-icon">🧘</span>
+                            <div class="related-content">
+                                <div class="related-name">Morgonmeditation</div>
+                                <div class="related-meta">Vana • 23 dagars streak</div>
+                            </div>
+                            <div class="related-progress"><div class="related-progress-fill" style="width: 92%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TAB: Emotional Detail View -->
+                <div id="tab-emotional" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #F39C12;">
+                        <div class="dimension-hero-icon" style="background: #FFE4C4;">💝</div>
+                        <h2 class="dimension-hero-title" style="color: #F39C12;">Emotionellt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Emotionellt välmående handlar om din förmåga att hantera känslor, 
+                            självkänsla och emotionell balans i vardagen.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-emotional" style="background: #FFE4C4; color: #935116;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-emotional-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-emotional-trend">→</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-emotional-rank">#2</div>
+                                <div class="dimension-stat-label">Din starkaste dimension</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för emotionell balans</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Känn efter dagligen</div>
+                            <div class="tip-text">Använd Dagens Check-in för att regelbundet reflektera över ditt humör och dina känslor. Att sätta ord på känslor hjälper att hantera dem.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Självmedkänsla</div>
+                            <div class="tip-text">Prata med dig själv som du skulle prata med en god vän. Vi är ofta hårdare mot oss själva än mot andra.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="emotionalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TAB: Subjective Detail View -->
+                <div id="tab-subjective" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #3498DB;">
+                        <div class="dimension-hero-icon" style="background: #D4E6F1;">✨</div>
+                        <h2 class="dimension-hero-title" style="color: #3498DB;">Subjektivt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Subjektivt välmående är din upplevda livskvalitet, energinivå och 
+                            känslan av kontroll över ditt eget liv.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-subjective" style="background: #D4E6F1; color: #1F618D;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-subjective-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-subjective-trend">↗️</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-subjective-rank">#1</div>
+                                <div class="dimension-stat-label">Din starkaste dimension</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för ökad livskvalitet</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Fokusera på det positiva</div>
+                            <div class="tip-text">Använd Journal-modulen för tacksamhets-reflektion. Att notera 3 bra saker varje dag kan förändra ditt perspektiv.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Återhämtning är viktigt</div>
+                            <div class="tip-text">Prioritera sömn och återhämtning. Din data visar att du presterar bättre efter en god natts sömn.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="subjectiveChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TAB: Occupational Detail View -->
+                <div id="tab-occupational" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #95A5A6;">
+                        <div class="dimension-hero-icon" style="background: #D5DBDB;">💼</div>
+                        <h2 class="dimension-hero-title" style="color: #5D6D7E;">Yrkesmässigt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Yrkesmässigt välmående handlar om tillfredsställelsen med din sysselsättning, 
+                            karriärutveckling och balans mellan arbete och fritid.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-occupational" style="background: #D5DBDB; color: #515A5A;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-occupational-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-occupational-trend">↗️</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-occupational-rank">#4</div>
+                                <div class="dimension-stat-label">Rankning</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för yrkesmässig tillfredsställelse</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Sätt karriärmål</div>
+                            <div class="tip-text">Använd Mina Mål för att definiera vad du vill uppnå i din karriär. Små steg leder till stora förändringar.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Balans är nyckeln</div>
+                            <div class="tip-text">Använd Vanor-modulen för att säkerställa att du har tid för återhämtning utanför arbetet.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="occupationalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TAB: Social Detail View -->
+                <div id="tab-social" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #E74C3C;">
+                        <div class="dimension-hero-icon" style="background: #FADBD8;">👥</div>
+                        <h2 class="dimension-hero-title" style="color: #E74C3C;">Socialt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Socialt välmående handlar om kvaliteten på dina relationer, 
+                            känslan av tillhörighet och tillgång till socialt stöd.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-social" style="background: #FADBD8; color: #943126;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-social-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-social-trend">↘️</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-social-rank">#5</div>
+                                <div class="dimension-stat-label">Rankning</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för starkare relationer</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Kvalitet framför kvantitet</div>
+                            <div class="tip-text">Fokusera på att fördjupa några få relationer snarare än att ha många ytliga bekantskaper.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Schemalägg social tid</div>
+                            <div class="tip-text">Använd Vanor för att påminna dig om att regelbundet nätverka och underhålla dina relationer.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="socialChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- TAB: Practical Detail View -->
+                <div id="tab-practical" class="dimension-detail">
+                    <div class="dimension-hero" style="border-top: 6px solid #27AE60;">
+                        <div class="dimension-hero-icon" style="background: #D5F5E3;">🛠️</div>
+                        <h2 class="dimension-hero-title" style="color: #27AE60;">Vardagligt välmående</h2>
+                        <p class="dimension-hero-desc">
+                            Vardagligt välmående handlar om din förmåga att hantera vardagens praktiska 
+                            utmaningar, ekonomi, boende och dagliga rutiner.
+                        </p>
+                        <div class="dimension-hero-score" id="detail-score-practical" style="background: #D5F5E3; color: #1E8449;">-</div>
+                        
+                        <div class="dimension-stats-grid">
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-practical-questions">5</div>
+                                <div class="dimension-stat-label">Frågor besvarade</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-practical-trend">↗️</div>
+                                <div class="dimension-stat-label">Trend senaste månaden</div>
+                            </div>
+                            <div class="dimension-stat-card">
+                                <div class="dimension-stat-value" id="stat-practical-rank">#6</div>
+                                <div class="dimension-stat-label">Rankning</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3 class="tips-title">💡 Tips för bättre vardagsstruktur</h3>
+                        <div class="tip-card">
+                            <div class="tip-title">Rutiner skapar trygghet</div>
+                            <div class="tip-text">Använd Vanor-modulen för att bygga starka morgon- och kvällsrutiner. Konsekvens reducerar stress.</div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-title">Planera veckovis</div>
+                            <div class="tip-text">Sätt av tid varje söndag för att planera kommande vecka. Det ger kontroll och minskar överraskningar.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3 class="history-title">📈 Din utveckling över tid</h3>
+                        <div class="history-chart-container">
+                            <canvas id="practicalChart"></canvas>
+                        </div>
                     </div>
                 </div>
                 
@@ -1081,6 +1684,87 @@
         function saveResults() {
             alert('Tack! Din välmåenderapport har sparats.\n\nI den fulla versionen skulle detta sparas i databasen och vara tillgängligt för uppföljning.');
         }
+        
+        // Dimension Tab Switching
+        function showDimensionTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.dimension-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.closest('.dimension-tab').classList.add('active');
+            
+            // Hide all detail views
+            document.querySelectorAll('.dimension-detail').forEach(detail => {
+                detail.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // If switching to a dimension tab, render its mini chart
+            if (tabName !== 'overview') {
+                renderDimensionChart(tabName);
+            }
+        }
+        
+        // Render mini chart for each dimension
+        function renderDimensionChart(dimension) {
+            const ctx = document.getElementById(dimension + 'Chart');
+            if (!ctx) return;
+            
+            // Destroy existing chart if any
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun'],
+                    datasets: [{
+                        label: dimensions[dimension].name,
+                        data: [3.2, 3.5, 3.8, 3.6, 4.0, 4.2],
+                        borderColor: dimensions[dimension].color,
+                        backgroundColor: dimensions[dimension].color + '40',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            min: 1,
+                            max: 5,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Update tab scores when questions are answered
+        function updateTabScores() {
+            Object.keys(scores).forEach(dim => {
+                const scoreEl = document.getElementById('tab-score-' + dim);
+                const detailEl = document.getElementById('detail-score-' + dim);
+                if (scores[dim] > 0) {
+                    const displayScore = scores[dim].toFixed(1);
+                    if (scoreEl) scoreEl.textContent = displayScore;
+                    if (detailEl) detailEl.textContent = displayScore;
+                }
+            });
+        }
+        
+        // Override setAnswer to also update tab scores
+        const originalSetAnswer = setAnswer;
+        setAnswer = function(questionId, value) {
+            originalSetAnswer(questionId, value);
+            updateTabScores();
+        };
         
         // Initiera
         generateQuestions();
