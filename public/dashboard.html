@@ -819,7 +819,582 @@
                 padding: 30px;
             }
         }
-    </style>
+    
+        /* === SOCIAL PROOF WIDGET === */
+        .social-proof-widget {
+            background: linear-gradient(135deg, #FDF2E9 0%, #F5CBA7 100%);
+            border: 2px solid #E67E22;
+        }
+        .social-proof-content {
+            padding: 24px;
+            text-align: center;
+        }
+        .social-proof-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #E67E22;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .social-proof-text {
+            font-size: 15px;
+            color: #935116;
+            margin-bottom: 16px;
+        }
+        .social-proof-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #F39C12, #E67E22);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .social-proof-avatars {
+            display: flex;
+            justify-content: center;
+            margin-top: 16px;
+            margin-bottom: 12px;
+        }
+        .social-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-left: -10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .social-avatar:first-child {
+            margin-left: 0;
+        }
+        .social-avatar-more {
+            background: #E67E22;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* === CHALLENGE WIDGET === */
+        .challenge-widget {
+            background: linear-gradient(135deg, #E8F6F3 0%, #A9DFBF 100%);
+            border: 2px solid #27AE60;
+        }
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .challenge-icon {
+            font-size: 32px;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .challenge-title-section {
+            flex: 1;
+        }
+        .challenge-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1E8449;
+        }
+        .challenge-subtitle {
+            font-size: 12px;
+            color: #52BE80;
+        }
+        .challenge-days {
+            background: #27AE60;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .challenge-progress-container {
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .challenge-progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #1E8449;
+        }
+        .challenge-progress-bar {
+            height: 12px;
+            background: rgba(39, 174, 96, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .challenge-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27AE60, #2ECC71);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        .challenge-community {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #1E8449;
+        }
+        .challenge-community-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(39, 174, 96, 0.15);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .challenge-community-fill {
+            height: 100%;
+            background: #52BE80;
+            border-radius: 3px;
+        }
+        .challenge-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .challenge-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .challenge-btn-primary {
+            background: #27AE60;
+            color: white;
+        }
+        .challenge-btn-primary:hover {
+            background: #1E8449;
+            transform: translateY(-2px);
+        }
+        .challenge-btn-secondary {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27AE60;
+        }
+        .challenge-btn-secondary:hover {
+            background: rgba(39, 174, 96, 0.2);
+        }
+
+        /* === FRIEND ACTIVITY WIDGET === */
+        .friend-activity-widget {
+            background: linear-gradient(135deg, #F4ECF7 0%, #D7BDE2 100%);
+            border: 2px solid #9B59B6;
+        }
+        .friend-activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .friend-activity-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #5B2C6F;
+        }
+        .friend-activity-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #8E44AD;
+        }
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background: #9B59B6;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            right: 2px;
+            transition: transform 0.2s;
+        }
+        .toggle-switch.off {
+            background: #ccc;
+        }
+        .toggle-switch.off::after {
+            transform: translateX(-20px);
+        }
+        .friend-activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .friend-activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .friend-activity-item:hover {
+            transform: translateX(4px);
+        }
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #9B59B6, #BB8FCE);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .friend-activity-content {
+            flex: 1;
+        }
+        .friend-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #5B2C6F;
+        }
+        .friend-action {
+            font-size: 12px;
+            color: #8E44AD;
+        }
+        .friend-streak {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #E67E22;
+        }
+        .friend-activity-time {
+            font-size: 11px;
+            color: #A569BD;
+        }
+        .friend-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(155, 89, 182, 0.1);
+            border-radius: 12px;
+        }
+        .friend-comparison-text {
+            font-size: 13px;
+            color: #5B2C6F;
+        }
+        .friend-comparison-badge {
+            background: #9B59B6;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* === SHARE MODAL === */
+        .share-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .share-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .share-modal {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 420px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+        .share-modal-overlay.show .share-modal {
+            transform: scale(1);
+        }
+        .share-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            aspect-ratio: 9/16;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .share-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        .share-preview-content {
+            position: relative;
+            z-index: 1;
+        }
+        .share-preview-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .share-preview-stat {
+            font-size: 72px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .share-preview-label {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        .share-preview-streak {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .share-preview-hashtags {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 8px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        .share-option:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+        .share-option-icon {
+            font-size: 28px;
+        }
+        .share-option-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .share-close {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-card);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .share-close:hover {
+            background: var(--primary-light);
+        }
+
+        /* === COMMUNITY STATS WIDGET === */
+        .community-stats-widget {
+            background: linear-gradient(135deg, #E8F4FD 0%, #AED6F1 100%);
+            border: 2px solid #3498DB;
+        }
+        .community-stats-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .community-stats-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1A5276;
+            margin-bottom: 4px;
+        }
+        .community-stats-subtitle {
+            font-size: 12px;
+            color: #5DADE2;
+        }
+        .community-big-stat {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+        }
+        .community-big-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #3498DB;
+            line-height: 1;
+        }
+        .community-big-label {
+            font-size: 14px;
+            color: #5DADE2;
+            margin-top: 4px;
+        }
+        .community-goals {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .community-goal {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .community-goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .community-goal-name {
+            font-weight: 600;
+            color: #1A5276;
+        }
+        .community-goal-percent {
+            font-weight: 700;
+            color: #3498DB;
+        }
+        .community-goal-bar {
+            height: 8px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .community-goal-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498DB, #5DADE2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .community-belonging {
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 12px;
+        }
+        .community-belonging-text {
+            font-size: 14px;
+            color: #1A5276;
+            font-style: italic;
+        }
+
+        /* Floating Share Button */
+        .floating-share-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #E91E63, #F48FB1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+            transition: all 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .floating-share-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(233, 30, 99, 0.5);
+        }
+        .floating-share-btn span {
+            animation: sharePulse 2s ease-in-out infinite;
+        }
+        @keyframes sharePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @media (max-width: 768px) {
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .floating-share-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+</style>
 </head>
 <body>
     <div class="app-container">
@@ -954,6 +1529,165 @@
 
                 <!-- Draggable Widget Grid -->
                 <div class="widget-grid" id="widgetGrid">
+                    <!-- Social Proof Widget - 1x1 -->
+                    <div class="widget size-1x1 social-proof-widget" data-id="socialproof" data-module="socialproof" data-size="1x1">
+                        <div class="social-proof-content">
+                            <div class="social-proof-avatars">
+                                <div class="social-avatar">👤</div>
+                                <div class="social-avatar">👩</div>
+                                <div class="social-avatar">👨</div>
+                                <div class="social-avatar social-avatar-more">+</div>
+                            </div>
+                            <div class="social-proof-number">1,247</div>
+                            <div class="social-proof-text">personer har checkat in idag</div>
+                            <div class="social-proof-badge">
+                                <span>🏆</span>
+                                <span>Du är i topp 10%!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Challenge Widget - 1x2 -->
+                    <div class="widget size-1x2 challenge-widget" data-id="challenge" data-module="challenge" data-size="1x2">
+                        <div class="widget-header" style="border-color: rgba(39, 174, 96, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">🎯</span> Veckans Utmaning</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="challenge-header">
+                                <div class="challenge-icon">🙏</div>
+                                <div class="challenge-title-section">
+                                    <div class="challenge-title">7 dagar av tacksamhet</div>
+                                    <div class="challenge-subtitle">Skriv 3 saker du är tacksam för</div>
+                                </div>
+                                <div class="challenge-days">Dag 4/7</div>
+                            </div>
+                            <div class="challenge-progress-container">
+                                <div class="challenge-progress-header">
+                                    <span>Din progress</span>
+                                    <span>57%</span>
+                                </div>
+                                <div class="challenge-progress-bar">
+                                    <div class="challenge-progress-fill" style="width: 57%"></div>
+                                </div>
+                                <div class="challenge-community">
+                                    <span>👥</span>
+                                    <span>Community:</span>
+                                    <div class="challenge-community-bar">
+                                        <div class="challenge-community-fill" style="width: 68%"></div>
+                                    </div>
+                                    <span>68%</span>
+                                </div>
+                            </div>
+                            <div class="challenge-actions">
+                                <button class="challenge-btn challenge-btn-primary">Checka in idag</button>
+                                <button class="challenge-btn challenge-btn-secondary">Se ledartavla</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community Stats Widget - 2x1 -->
+                    <div class="widget size-2x1 community-stats-widget" data-id="community" data-module="community" data-size="2x1">
+                        <div class="widget-header" style="border-color: rgba(52, 152, 219, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">🌍</span> Community</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option active" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="community-stats-header">
+                                <div class="community-stats-title">Tillsammans gör vi skillnad</div>
+                                <div class="community-stats-subtitle">12,847 aktiva medlemmar denna vecka</div>
+                            </div>
+                            <div class="community-big-stat">
+                                <div class="community-big-number">5,247</div>
+                                <div class="community-big-label">timmar mediterade tillsammans 🧘</div>
+                            </div>
+                            <div class="community-goals">
+                                <div class="community-goal">
+                                    <div class="community-goal-header">
+                                        <span class="community-goal-name">🎯 Gemensamt mål: 10,000 träningar</span>
+                                        <span class="community-goal-percent">73%</span>
+                                    </div>
+                                    <div class="community-goal-bar">
+                                        <div class="community-goal-fill" style="width: 73%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="community-belonging">
+                                <div class="community-belonging-text">"Du är en del av något större. Tillsammans växer vi." 💚</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Friend Activity Widget - 1x2 (opt-in) -->
+                    <div class="widget size-1x2 friend-activity-widget" data-id="friends" data-module="friends" data-size="1x2">
+                        <div class="widget-header" style="border-color: rgba(155, 89, 182, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">👥</span> Vänner</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="friend-activity-header">
+                                <span class="friend-activity-title">Vänaktivitet</span>
+                                <div class="friend-activity-toggle">
+                                    <span>Visa</span>
+                                    <div class="toggle-switch" id="friendToggle" onclick="toggleFriendActivity()"></div>
+                                </div>
+                            </div>
+                            <div class="friend-activity-list" id="friendActivityList">
+                                <div class="friend-activity-item">
+                                    <div class="friend-avatar">👩</div>
+                                    <div class="friend-activity-content">
+                                        <div class="friend-name">Anna</div>
+                                        <div class="friend-action">Checkade just in 🧘</div>
+                                    </div>
+                                    <div class="friend-streak">
+                                        <span>🔥</span>
+                                        <span>12</span>
+                                    </div>
+                                    <div class="friend-activity-time">2m</div>
+                                </div>
+                                <div class="friend-activity-item">
+                                    <div class="friend-avatar">👨</div>
+                                    <div class="friend-activity-content">
+                                        <div class="friend-name">Marcus</div>
+                                        <div class="friend-action">Nådde sitt mål! 🎯</div>
+                                    </div>
+                                    <div class="friend-streak">
+                                        <span>🔥</span>
+                                        <span>31</span>
+                                    </div>
+                                    <div class="friend-activity-time">15m</div>
+                                </div>
+                                <div class="friend-activity-item">
+                                    <div class="friend-avatar">👩</div>
+                                    <div class="friend-activity-content">
+                                        <div class="friend-name">Lisa</div>
+                                        <div class="friend-action">Skrev i journalen ✍️</div>
+                                    </div>
+                                    <div class="friend-streak">
+                                        <span>🔥</span>
+                                        <span>8</span>
+                                    </div>
+                                    <div class="friend-activity-time">1h</div>
+                                </div>
+                            </div>
+                            <div class="friend-comparison">
+                                <span class="friend-comparison-text">🏃 Du leder just nu! Bra jobbat!</span>
+                                <span class="friend-comparison-badge">#1</span>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Morning Briefing Widget - 2x1 -->
                     <div class="widget size-2x1 briefing-widget" data-id="briefing" data-module="briefing" data-size="2x1">
@@ -1266,7 +2000,10 @@
 
                 </div>
             </div>
-        </main>
+        <!-- Floating Share Button -->
+<button class="floating-share-btn" onclick="openShareModal()" title="Dela din framsteg!">
+    <span>📤</span>
+</button></main>
     </div>
 
     <script>
@@ -1597,6 +2334,84 @@
             const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
             document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
         });
-    </script>
-</body>
+    
+        // Toggle friend activity (opt-in)
+        function toggleFriendActivity() {
+            const toggle = document.getElementById('friendToggle');
+            const list = document.getElementById('friendActivityList');
+            toggle.classList.toggle('off');
+            if (toggle.classList.contains('off')) {
+                list.style.opacity = '0.3';
+            } else {
+                list.style.opacity = '1';
+            }
+        }
+
+        // Share modal functions
+        function openShareModal() {
+            document.getElementById('shareModal').classList.add('show');
+        }
+
+        function closeShareModal(event) {
+            if (!event || event.target.id === 'shareModal') {
+                document.getElementById('shareModal').classList.remove('show');
+            }
+        }
+
+        function shareTo(platform) {
+            const text = "Jag har nått 23 dagars streak på Comdira! 🔥 #Comdira #Streak #SelfImprovement";
+            switch(platform) {
+                case 'instagram':
+                    alert('Bilden sparad! Öppna Instagram för att dela. 📸');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(text);
+                    alert('Kopierat till urklipp! 📋');
+                    break;
+            }
+        }
+</script>
+<!-- Share Modal -->
+<div class="share-modal-overlay" id="shareModal" onclick="closeShareModal(event)">
+    <div class="share-modal" onclick="event.stopPropagation()">
+        <h3 style="text-align: center; margin-bottom: 20px; color: var(--text-primary);">Dela din framsteg! 🎉</h3>
+        <div class="share-preview">
+            <div class="share-preview-content">
+                <div class="share-preview-logo">COMDIRA</div>
+                <div class="share-preview-stat">23</div>
+                <div class="share-preview-label">dagar i rad! 🔥</div>
+                <div class="share-preview-streak">
+                    <span>🔥</span>
+                    <span>Meditation</span>
+                </div>
+                <div class="share-preview-hashtags">#Comdira #Streak #SelfImprovement</div>
+            </div>
+        </div>
+        <div class="share-options">
+            <div class="share-option" onclick="shareTo('instagram')">
+                <div class="share-option-icon">📸</div>
+                <div class="share-option-label">Instagram</div>
+            </div>
+            <div class="share-option" onclick="shareTo('twitter')">
+                <div class="share-option-icon">🐦</div>
+                <div class="share-option-label">Twitter</div>
+            </div>
+            <div class="share-option" onclick="shareTo('facebook')">
+                <div class="share-option-icon">📘</div>
+                <div class="share-option-label">Facebook</div>
+            </div>
+            <div class="share-option" onclick="shareTo('copy')">
+                <div class="share-option-icon">📋</div>
+                <div class="share-option-label">Kopiera</div>
+            </div>
+        </div>
+        <button class="share-close" onclick="closeShareModal()">Stäng</button>
+    </div>
+</div></body>
 </html>
