@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanor - Comdira</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Vanor Page Styles */
+        .habits-page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* AI Coach Banner */
+        .habits-ai-banner {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            border-left: 5px solid var(--primary-dark);
+        }
+        
+        .habits-ai-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .habits-ai-content {
+            flex: 1;
+        }
+        
+        .habits-ai-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .habits-ai-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* Date Navigator */
+        .date-navigator {
+            background: var(--bg-surface);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .date-nav-btn {
+            background: var(--primary-light);
+            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .date-nav-btn:hover {
+            background: var(--primary);
+        }
+        
+        .date-display {
+            text-align: center;
+        }
+        
+        .date-day {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .date-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Stats Row */
+        .habits-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .habit-stat-card {
+            background: var(--bg-surface);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s;
+        }
+        
+        .habit-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .habit-stat-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .habit-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .habit-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Today's Habits */
+        .today-habits-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .completion-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        /* Habit Cards */
+        .habit-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .habit-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .habit-card:hover {
+            border-color: var(--primary-light);
+            transform: translateX(4px);
+        }
+        
+        .habit-card.completed {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-color: var(--primary);
+        }
+        
+        .habit-card.skipped {
+            opacity: 0.6;
+        }
+        
+        .habit-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .habit-checkbox {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 24px;
+            flex-shrink: 0;
+            background: white;
+        }
+        
+        .habit-checkbox:hover {
+            background: var(--primary-light);
+        }
+        
+        .habit-checkbox.checked {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-color: var(--primary-dark);
+        }
+        
+        .habit-info {
+            flex: 1;
+        }
+        
+        .habit-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .habit-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .habit-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .habit-tag.streak { background: #FFF3E0; color: #E65100; }
+        .habit-tag.dimension { background: #E8F5E8; color: #2E7D32; }
+        .habit-tag.linked { background: #E3F2FD; color: #1565C0; }
+        .habit-tag.flexible { background: #F3E5F5; color: #7B1FA2; }
+        
+        .habit-growth {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 18px;
+        }
+        
+        /* Numeric Habit Input */
+        .habit-input-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 12px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--primary-light);
+        }
+        
+        .habit-input-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .habit-input-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            background: white;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .habit-input-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        .habit-input-value {
+            min-width: 80px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .habit-input-unit {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* Progress Bar for Numeric */
+        .habit-mini-progress {
+            flex: 1;
+            height: 8px;
+            background: var(--primary-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .habit-mini-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        /* Compassion Skip Button */
+        .skip-compassion-btn {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #F57C00;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .skip-compassion-btn:hover {
+            background: #FFE082;
+        }
+        
+        /* Weekly Grid */
+        .weekly-grid-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .week-days-header {
+            display: grid;
+            grid-template-columns: 2fr repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .week-day-label {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .week-day-label.today {
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 4px;
+            border-radius: 8px;
+        }
+        
+        .week-habit-row {
+            display: grid;
+            grid-template-columns: 2fr repeat(7, 1fr);
+            gap: 8px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary-light);
+        }
+        
+        .week-habit-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        
+        .week-day-cell {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .week-day-cell.empty {
+            background: transparent;
+            cursor: default;
+        }
+        
+        .week-day-cell.pending {
+            background: var(--primary-light);
+            border: 2px dashed var(--primary);
+        }
+        
+        .week-day-cell.completed {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.4);
+        }
+        
+        .week-day-cell.skipped {
+            background: #FFF8E1;
+            border: 2px solid #FFE082;
+        }
+        
+        .week-day-cell:hover:not(.empty) {
+            transform: scale(1.1);
+        }
+        
+        /* Routines Section */
+        .routines-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .routine-card {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .routine-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .routine-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .routine-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1565C0;
+        }
+        
+        .routine-trigger {
+            font-size: 14px;
+            color: #1976D2;
+            background: rgba(255,255,255,0.5);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+        
+        .routine-habits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .routine-habit-chip {
+            background: white;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .routine-arrow {
+            color: #1976D2;
+            font-weight: 700;
+        }
+        
+        .routine-start-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 14px;
+            background: #1565C0;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .routine-start-btn:hover {
+            background: #0D47A1;
+        }
+        
+        /* Analytics Section */
+        .analytics-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .analytics-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        
+        .analytics-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .compliance-curve {
+            height: 150px;
+            position: relative;
+        }
+        
+        .keystone-habit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .keystone-emoji {
+            font-size: 28px;
+        }
+        
+        .keystone-info {
+            flex: 1;
+        }
+        
+        .keystone-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .keystone-effect {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .keystone-stat {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        
+        /* Tabs */
+        .habits-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: var(--bg-surface);
+            padding: 8px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .habits-tab {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .habits-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* Compassion Message */
+        .compassion-message {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            margin: 24px 0;
+        }
+        
+        .compassion-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        
+        .compassion-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #E65100;
+            margin-bottom: 8px;
+        }
+        
+        .compassion-subtext {
+            color: #F57C00;
+            font-size: 14px;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        /* Habit Type Selector */
+        .habit-type-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .habit-type-option {
+            padding: 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .habit-type-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .habit-type-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .habit-type-option .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        /* Schedule Selector */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        .schedule-day {
+            aspect-ratio: 1;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .schedule-day:hover {
+            border-color: var(--primary);
+        }
+        
+        .schedule-day.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        /* Dimension Selector */
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        
+        .dimension-option {
+            padding: 16px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .dimension-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .dimension-option .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .dimension-option .name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .btn-primary-lg {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-top: 24px;
+        }
+        
+        /* Floating Add Button */
+        .fab-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            font-size: 32px;
+            color: var(--text-primary);
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(144, 238, 144, 0.5);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .fab-button:hover {
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 768px) {
+            .habits-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .week-days-header,
+            .week-habit-row {
+                grid-template-columns: 1.5fr repeat(7, 1fr);
+                font-size: 12px;
+            }
+            
+            .habit-type-selector,
+            .dimension-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | Vanor | 
+        <a href="dashboard.html">← Tillbaka till Dashboard</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="checkin.html" class="nav-item">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="wellness.html" class="nav-item">
+                    <span>⬡</span> Välmåendehexagonen
+                </a>
+                <a href="goals.html" class="nav-item">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="habits.html" class="nav-item active">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="habits-page">
+                
+                <!-- AI Coach Banner -->
+                <div class="habits-ai-banner">
+                    <div class="habits-ai-avatar">🤖</div>
+                    <div class="habits-ai-content">
+                        <div class="habits-ai-title">
+                            Din Vanecoach
+                            <span style="font-size: 12px; font-weight: 400; color: var(--text-light);">• Analyserar dina mönster</span>
+                        </div>
+                        <p class="habits-ai-text" id="aiHabitText">
+                            Jag upptäckte ett intressant mönster: När du mediterar på morgonen är sannolikheten 
+                            89% att du också tränar samma dag. Meditation verkar vara din "keystone habit"! 
+                            Dessutom: Du har aldrig missat en vana på tisdagar - vad är din hemlighet?
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Stats Row -->
+                <div class="habits-stats-row">
+                    <div class="habit-stat-card">
+                        <div class="habit-stat-icon">🔥</div>
+                        <div class="habit-stat-value">23</div>
+                        <div class="habit-stat-label">Dagens streak</div>
+                    </div>
+                    <div class="habit-stat-card">
+                        <div class="habit-stat-icon">✅</div>
+                        <div class="habit-stat-value">87%</div>
+                        <div class="habit-stat-label">Veckans snitt</div>
+                    </div>
+                    <div class="habit-stat-card">
+                        <div class="habit-stat-icon">🎯</div>
+                        <div class="habit-stat-value">8</div>
+                        <div class="habit-stat-label">Aktiva vanor</div>
+                    </div>
+                    <div class="habit-stat-card">
+                        <div class="habit-stat-icon">🌱</div>
+                        <div class="habit-stat-value">12</div>
+                        <div class="habit-stat-label">Växande ringar</div>
+                    </div>
+                </div>
+                
+                <!-- Date Navigator -->
+                <div class="date-navigator">
+                    <button class="date-nav-btn" onclick="changeDate(-1)">←</button>
+                    <div class="date-display">
+                        <div class="date-day" id="dateDisplay">20</div>
+                        <div class="date-label" id="dateLabel">Fredag • Februari 2026</div>
+                    </div>
+                    <button class="date-nav-btn" onclick="changeDate(1)">→</button>
+                </div>
+                
+                <!-- Today's Habits -->
+                <div class="today-habits-section">
+                    <div class="section-header">
+                        <h3 class="section-title">📅 Dagens Vanor</h3>
+                        <span class="completion-badge" id="completionBadge">3/5 klara</span>
+                    </div>
+                    
+                    <div class="habit-list" id="todayHabits">
+                        <!-- Genereras av JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Compassion Message -->
+                <div class="compassion-message" id="compassionMessage">
+                    <div class="compassion-emoji">💛</div>
+                    <div class="compassion-text">87% denna vecka är fantastiskt!</div>
+                    <div class="compassion-subtext">Förra veckan var det 76%. Du förbättrar dig stadigt.</div>
+                </div>
+                
+                <!-- Tabs -->
+                <div class="habits-tabs">
+                    <button class="habits-tab active" onclick="switchTab('routines')">
+                        🏗️ Rutiner
+                    </button>
+                    <button class="habits-tab" onclick="switchTab('weekly')">
+                        📊 Veckovy
+                    </button>
+                    <button class="habits-tab" onclick="switchTab('analytics')">
+                        📈 Analys
+                    </button>
+                </div>
+                
+                <!-- Routines Section -->
+                <div id="routinesSection" class="tab-content">
+                    <div class="routines-section">
+                        <div class="section-header">
+                            <h3 class="section-title">🏗️ Mina Rutiner</h3>
+                        </div>
+                        
+                        <div class="routine-card" onclick="startRoutine('morning')">
+                            <div class="routine-header">
+                                <div class="routine-title">☀️ Morgon-rutin</div>
+                                <div class="routine-trigger">Efter jag vaknar</div>
+                            </div>
+                            <div class="routine-habits">
+                                <span class="routine-habit-chip">🥤 Vatten</span>
+                                <span class="routine-arrow">→</span>
+                                <span class="routine-habit-chip">🧘 Meditation 10m</span>
+                                <span class="routine-arrow">→</span>
+                                <span class="routine-habit-chip">🚿 Dusch</span>
+                                <span class="routine-arrow">→</span>
+                                <span class="routine-habit-chip">📝 Planera dagen</span>
+                            </div>
+                            <button class="routine-start-btn">▶ Starta Rutinen</button>
+                        </div>
+                        
+                        <div class="routine-card" onclick="startRoutine('evening')" style="background: linear-gradient(135deg, #E1F5FE, #B3E5FC);">
+                            <div class="routine-header">
+                                <div class="routine-title" style="color: #0277BD;">🌙 Kvälls-rutin</div>
+                                <div class="routine-trigger" style="background: rgba(255,255,255,0.5); color: #0288D1;">Efter middagen</div>
+                            </div>
+                            <div class="routine-habits">
+                                <span class="routine-habit-chip">📵 Digital detox</span>
+                                <span class="routine-arrow" style="color: #0277BD;">→</span>
+                                <span class="routine-habit-chip">📚 Läsa 30m</span>
+                                <span class="routine-arrow" style="color: #0277BD;">→</span>
+                                <span class="routine-habit-chip">🧘 Andningsövningar</span>
+                            </div>
+                            <button class="routine-start-btn" style="background: #0277BD;">▶ Starta Rutinen</button>
+                        </div>
+                        
+                        <div class="routine-card" onclick="startRoutine('work')" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7);">
+                            <div class="routine-header">
+                                <div class="routine-title" style="color: #7B1FA2;">💼 Deep Work</div>
+                                <div class="routine-trigger" style="background: rgba(255,255,255,0.5); color: #8E24AA;">Före lunch</div>
+                            </div>
+                            <div class="routine-habits">
+                                <span class="routine-habit-chip">🎯 Sätt intention</span>
+                                <span class="routine-arrow" style="color: #7B1FA2;">→</span>
+                                <span class="routine-habit-chip">🔕 Stäng notiser</span>
+                                <span class="routine-arrow" style="color: #7B1FA2;">→</span>
+                                <span class="routine-habit-chip">⏱️ 25min fokus</span>
+                                <span class="routine-arrow" style="color: #7B1FA2;">→</span>
+                                <span class="routine-habit-chip">☕ Kort paus</span>
+                            </div>
+                            <button class="routine-start-btn" style="background: #7B1FA2;">▶ Starta Rutinen</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weekly Section -->
+                <div id="weeklySection" class="tab-content" style="display: none;">
+                    <div class="weekly-grid-section">
+                        <div class="section-header">
+                            <h3 class="section-title">📊 Veckans Översikt</h3>
+                        </div>
+                        
+                        <div class="week-days-header">
+                            <div></div>
+                            <div class="week-day-label">Mån</div>
+                            <div class="week-day-label">Tis</div>
+                            <div class="week-day-label">Ons</div>
+                            <div class="week-day-label">Tor</div>
+                            <div class="week-day-label today">Fre</div>
+                            <div class="week-day-label">Lör</div>
+                            <div class="week-day-label">Sön</div>
+                        </div>
+                        
+                        <div id="weeklyGrid">
+                            <!-- Genereras av JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Analytics Section -->
+                <div id="analyticsSection" class="tab-content" style="display: none;">
+                    <div class="analytics-section">
+                        <div class="section-header">
+                            <h3 class="section-title">📈 Dina Vanors Analys</h3>
+                        </div>
+                        
+                        <div class="analytics-grid">
+                            <div class="analytics-card">
+                                <div class="analytics-title">📊 Compliance Curve</div>
+                                <div class="compliance-curve">
+                                    <canvas id="complianceChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="analytics-card">
+                                <div class="analytics-title">🔑 Keystone Habits</div>
+                                <div class="keystone-habit-item">
+                                    <span class="keystone-emoji">🧘</span>
+                                    <div class="keystone-info">
+                                        <div class="keystone-name">Meditation</div>
+                                        <div class="keystone-effect">Ökar sannolikheten för träning med</div>
+                                    </div>
+                                    <span class="keystone-stat">+89%</span>
+                                </div>
+                                <div class="keystone-habit-item">
+                                    <span class="keystone-emoji">🥤</span>
+                                    <div class="keystone-info">
+                                        <div class="keystone-name">Morgonvatten</div>
+                                        <div class="keystone-effect">Förbättrar dagens energi med</div>
+                                    </div>
+                                    <span class="keystone-stat">+34%</span>
+                                </div>
+                                <div class="keystone-habit-item">
+                                    <span class="keystone-emoji">📚</span>
+                                    <div class="keystone-info">
+                                        <div class="keystone-name">Kvällsläsning</div>
+                                        <div class="keystone-effect">Förbättrar sömnkvaliteten med</div>
+                                    </div>
+                                    <span class="keystone-stat">+28%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="analytics-card">
+                                <div class="analytics-title">🎯 Optimal Timing</div>
+                                <div style="padding: 16px; background: white; border-radius: 12px;">
+                                    <div style="margin-bottom: 16px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span>🧘 Meditation</span>
+                                            <span style="color: #4CAF50; font-weight: 600;">07:00 ✓</span>
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--text-secondary);">
+                                            40% bättre än kvällstid
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 16px;">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span>🏃 Träning</span>
+                                            <span style="color: #4CAF50; font-weight: 600;">Tisdag ✓</span>
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--text-secondary);">
+                                            Din starkaste dag
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                            <span>📚 Läsning</span>
+                                            <span style="color: #FF9800; font-weight: 600;">21:00 ⚠️</span>
+                                        </div>
+                                        <div style="font-size: 13px; color: var(--text-secondary);">
+                                            Försök 20:00 istället?
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="analytics-card">
+                                <div class="analytics-title">⚠️ Mönster-varning</div>
+                                <div style="background: #FFF3E0; padding: 20px; border-radius: 12px; border-left: 4px solid #FF9800;">
+                                    <p style="color: #E65100; font-weight: 600; margin-bottom: 8px;">
+                                        Onsdagar är din svagaste dag
+                                    </p>
+                                    <p style="color: #F57C00; font-size: 14px; margin-bottom: 16px;">
+                                        Du missar vanor 3x oftare på onsdagar. 
+                                        Kanske är det mötes-helvetet som påverkar?
+                                    </p>
+                                    <button class="ai-btn ai-btn-primary" style="font-size: 13px; padding: 8px 16px;">
+                                        💡 Få förslag på justering
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Floating Add Button -->
+                <button class="fab-button" onclick="openHabitModal()">
+                    +
+                </button>
+                
+            </div>
+        </main>
+    </div>
+    
+    <!-- New Habit Modal -->
+    <div class="modal-overlay" id="habitModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">✓ Ny Vana</h2>
+                <button class="modal-close" onclick="closeHabitModal()">&times;</button>
+            </div>
+            
+            <form id="habitForm" onsubmit="saveHabit(event)">
+                <div class="form-group">
+                    <label class="form-label">Vad vill du göra?</label>
+                    <input type="text" class="form-input" id="habitTitle" 
+                           placeholder="Ex: Dricka 8 glas vatten, Meditera 10 min..." required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Typ av vana</label>
+                    <div class="habit-type-selector">
+                        <div class="habit-type-option selected" onclick="selectHabitType(this, 'binary')">
+                            <span class="icon">✅</span>
+                            <span>Ja/Nej</span>
+                        </div>
+                        <div class="habit-type-option" onclick="selectHabitType(this, 'numeric')">
+                            <span class="icon">🔢</span>
+                            <span>Numerisk</span>
+                        </div>
+                        <div class="habit-type-option" onclick="selectHabitType(this, 'timed')">
+                            <span class="icon">⏱️</span>
+                            <span>Tidsbaserad</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" id="numericFields" style="display: none;">
+                    <label class="form-label">Mål (antal/enhet)</label>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="number" class="form-input" id="targetValue" placeholder="8" style="flex: 1;">
+                        <input type="text" class="form-input" id="unit" placeholder="glas" style="flex: 1;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Schema</label>
+                    <div class="schedule-grid">
+                        <div class="schedule-day selected" onclick="toggleDay(this)">M</div>
+                        <div class="schedule-day selected" onclick="toggleDay(this)">T</div>
+                        <div class="schedule-day selected" onclick="toggleDay(this)">O</div>
+                        <div class="schedule-day selected" onclick="toggleDay(this)">T</div>
+                        <div class="schedule-day selected" onclick="toggleDay(this)">F</div>
+                        <div class="schedule-day" onclick="toggleDay(this)">L</div>
+                        <div class="schedule-day" onclick="toggleDay(this)">S</div>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 12px;">
+                        💡 Tips: Vardagar ger 23% högre framgång än helger för nya vanor
+                    </p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Vilken dimension stärker detta?</label>
+                    <div class="dimension-grid">
+                        <div class="dimension-option" onclick="selectDimension(this, 'existential')">
+                            <span class="icon">🔮</span>
+                            <span class="name">Existentiellt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'emotional')">
+                            <span class="icon">💝</span>
+                            <span class="name">Emotionellt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'subjective')">
+                            <span class="icon">✨</span>
+                            <span class="name">Subjektivt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'occupational')">
+                            <span class="icon">💼</span>
+                            <span class="name">Yrkesmässigt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'social')">
+                            <span class="icon">👥</span>
+                            <span class="name">Socialt</span>
+                        </div>
+                        <div class="dimension-option" onclick="selectDimension(this, 'practical')">
+                            <span class="icon">🛠️</span>
+                            <span class="name">Vardagligt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Flexibilitet</label>
+                    <select class="form-select" id="flexibilityMode">
+                        <option value="strict">Strikt - varje dag</option>
+                        <option value="flexible" selected>Flexibel - minst 5/7 dagar</option>
+                        <option value="compassion">Compassion - ingen skuld vid miss</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary-lg">
+                    ✓ Skapa Vana
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Demo-data för vanor
+        let habits = [
+            {
+                id: 1,
+                title: "Morgonmeditation",
+                type: "timed",
+                targetValue: 10,
+                unit: "min",
+                currentValue: 10,
+                status: "completed",
+                streak: 23,
+                growth: "🌳",
+                dimension: "emotional",
+                schedule: [1,1,1,1,1,1,0],
+                isKeystone: true
+            },
+            {
+                id: 2,
+                title: "Dricka vatten",
+                type: "numeric",
+                targetValue: 8,
+                unit: "glas",
+                currentValue: 5,
+                status: "pending",
+                streak: 15,
+                growth: "🌿",
+                dimension: "practical",
+                schedule: [1,1,1,1,1,1,1]
+            },
+            {
+                id: 3,
+                title: "Träning",
+                type: "binary",
+                status: "pending",
+                streak: 8,
+                growth: "🌱",
+                dimension: "practical",
+                schedule: [1,1,0,1,1,0,0],
+                linkedGoal: "Springa 5km"
+            },
+            {
+                id: 4,
+                title: "Läsa 30 min",
+                type: "timed",
+                targetValue: 30,
+                unit: "min",
+                currentValue: 0,
+                status: "pending",
+                streak: 45,
+                growth: "🌳",
+                dimension: "existential",
+                schedule: [1,1,1,1,1,1,1],
+                linkedGoal: "Läsa 12 böcker"
+            },
+            {
+                id: 5,
+                title: "Skriva i journal",
+                type: "binary",
+                status: "completed",
+                streak: 12,
+                growth: "🌿",
+                dimension: "emotional",
+                schedule: [1,1,1,1,1,0,0]
+            }
+        ];
+        
+        let currentDate = new Date();
+        let selectedHabitType = 'binary';
+        let selectedDimension = null;
+        
+        // Rendera dagens vanor
+        function renderTodayHabits() {
+            const container = document.getElementById('todayHabits');
+            container.innerHTML = '';
+            
+            let completedCount = 0;
+            
+            habits.forEach(habit => {
+                if (habit.status === 'completed') completedCount++;
+                
+                const card = document.createElement('div');
+                card.className = `habit-card ${habit.status}`;
+                
+                let inputSection = '';
+                if (habit.type === 'numeric' || habit.type === 'timed') {
+                    const progressPercent = (habit.currentValue / habit.targetValue) * 100;
+                    inputSection = `
+                        <div class="habit-input-section">
+                            <div class="habit-input-controls">
+                                <button class="habit-input-btn" onclick="adjustValue(${habit.id}, -1)">−</button>
+                                <div class="habit-input-value">${habit.currentValue}</div>
+                                <button class="habit-input-btn" onclick="adjustValue(${habit.id}, 1)">+</button>
+                                <span class="habit-input-unit">/ ${habit.targetValue} ${habit.unit}</span>
+                            </div>
+                            <div class="habit-mini-progress">
+                                <div class="habit-mini-fill" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                const linkedGoalBadge = habit.linkedGoal ? 
+                    `<span class="habit-tag linked">🔗 ${habit.linkedGoal}</span>` : '';
+                
+                card.innerHTML = `
+                    <div class="habit-main">
+                        <div class="habit-checkbox ${habit.status === 'completed' ? 'checked' : ''}" 
+                             onclick="toggleHabit(${habit.id})">
+                            ${habit.status === 'completed' ? '✓' : ''}
+                        </div>
+                        <div class="habit-info">
+                            <div class="habit-title">
+                                ${habit.title}
+                                <span class="habit-growth">${habit.growth}</span>
+                            </div>
+                            <div class="habit-meta">
+                                <span class="habit-tag streak">🔥 ${habit.streak} dagar</span>
+                                <span class="habit-tag dimension">${getDimensionName(habit.dimension)}</span>
+                                ${linkedGoalBadge}
+                            </div>
+                        </div>
+                        ${habit.status !== 'completed' ? 
+                            `<button class="skip-compassion-btn" onclick="skipHabit(${habit.id})">
+                                💛 Skippar idag
+                             </button>` : ''}
+                    </div>
+                    ${inputSection}
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            document.getElementById('completionBadge').textContent = `${completedCount}/${habits.length} klara`;
+        }
+        
+        function getDimensionName(dim) {
+            const names = {
+                existential: '🔮 Existentiellt',
+                emotional: '💝 Emotionellt',
+                subjective: '✨ Subjektivt',
+                occupational: '💼 Yrkesmässigt',
+                social: '👥 Socialt',
+                practical: '🛠️ Vardagligt'
+            };
+            return names[dim] || dim;
+        }
+        
+        // Toggle habit completion
+        function toggleHabit(id) {
+            const habit = habits.find(h => h.id === id);
+            if (habit) {
+                habit.status = habit.status === 'completed' ? 'pending' : 'completed';
+                if (habit.status === 'completed') {
+                    habit.streak++;
+                    // Update growth based on streak
+                    if (habit.streak >= 7) habit.growth = '🌿';
+                    if (habit.streak >= 30) habit.growth = '🌳';
+                    if (habit.streak >= 52) habit.growth = '🏛️';
+                } else {
+                    habit.streak = Math.max(0, habit.streak - 1);
+                }
+                renderTodayHabits();
+                renderWeeklyGrid();
+            }
+        }
+        
+        // Skip with compassion
+        function skipHabit(id) {
+            const habit = habits.find(h => h.id === id);
+            if (habit) {
+                habit.status = 'skipped';
+                renderTodayHabits();
+                
+                // Show compassion message
+                const messages = [
+                    "💛 Det är okej att vila. Imorgon är en ny dag!",
+                    "🌱 Vanor är en marathon, inte en sprint.",
+                    "💪 Du har redan gjort fantastiskt denna vecka!",
+                    "☁️ Molniga dagar behövs också för att växa."
+                ];
+                alert(messages[Math.floor(Math.random() * messages.length)]);
+            }
+        }
+        
+        // Adjust numeric value
+        function adjustValue(id, delta) {
+            const habit = habits.find(h => h.id === id);
+            if (habit) {
+                habit.currentValue = Math.max(0, Math.min(habit.targetValue, habit.currentValue + delta));
+                if (habit.currentValue >= habit.targetValue) {
+                    habit.status = 'completed';
+                } else {
+                    habit.status = 'pending';
+                }
+                renderTodayHabits();
+            }
+        }
+        
+        // Render weekly grid
+        function renderWeeklyGrid() {
+            const container = document.getElementById('weeklyGrid');
+            container.innerHTML = '';
+            
+            habits.forEach(habit => {
+                const row = document.createElement('div');
+                row.className = 'week-habit-row';
+                
+                let cells = `<div class="week-habit-name">${habit.title}</div>`;
+                
+                habit.schedule.forEach((day, idx) => {
+                    if (day === 0) {
+                        cells += `<div class="week-day-cell empty">−</div>`;
+                    } else {
+                        // Simulate random completion for demo
+                        const isCompleted = Math.random() > 0.3;
+                        const isSkipped = !isCompleted && Math.random() > 0.7;
+                        const cellClass = isCompleted ? 'completed' : (isSkipped ? 'skipped' : 'pending');
+                        const icon = isCompleted ? '✓' : (isSkipped ? '−' : '');
+                        cells += `<div class="week-day-cell ${cellClass}">${icon}</div>`;
+                    }
+                });
+                
+                row.innerHTML = cells;
+                container.appendChild(row);
+            });
+        }
+        
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.habits-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('routinesSection').style.display = tab === 'routines' ? 'block' : 'none';
+            document.getElementById('weeklySection').style.display = tab === 'weekly' ? 'block' : 'none';
+            document.getElementById('analyticsSection').style.display = tab === 'analytics' ? 'block' : 'none';
+            
+            if (tab === 'analytics') {
+                setTimeout(renderComplianceChart, 100);
+            }
+        }
+        
+        // Compliance Chart
+        function renderComplianceChart() {
+            const ctx = document.getElementById('complianceChart');
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7', 'v8'],
+                    datasets: [{
+                        label: 'Compliance %',
+                        data: [65, 68, 72, 70, 76, 78, 82, 87],
+                        borderColor: '#90EE90',
+                        backgroundColor: 'rgba(144, 238, 144, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { callback: v => v + '%' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Date navigation
+        function changeDate(delta) {
+            currentDate.setDate(currentDate.getDate() + delta);
+            updateDateDisplay();
+        }
+        
+        function updateDateDisplay() {
+            const days = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
+            const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 
+                          'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+            
+            document.getElementById('dateDisplay').textContent = currentDate.getDate();
+            document.getElementById('dateLabel').textContent = 
+                `${days[currentDate.getDay()]} • ${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+        }
+        
+        // Modal functions
+        function openHabitModal() {
+            document.getElementById('habitModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeHabitModal() {
+            document.getElementById('habitModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Form handling
+        function selectHabitType(element, type) {
+            document.querySelectorAll('.habit-type-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedHabitType = type;
+            
+            document.getElementById('numericFields').style.display = 
+                (type === 'numeric' || type === 'timed') ? 'block' : 'none';
+        }
+        
+        function toggleDay(element) {
+            element.classList.toggle('selected');
+        }
+        
+        function selectDimension(element, dimension) {
+            document.querySelectorAll('.dimension-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedDimension = dimension;
+        }
+        
+        function saveHabit(event) {
+            event.preventDefault();
+            
+            const newHabit = {
+                id: habits.length + 1,
+                title: document.getElementById('habitTitle').value,
+                type: selectedHabitType,
+                targetValue: selectedHabitType !== 'binary' ? parseInt(document.getElementById('targetValue').value) || 1 : 1,
+                unit: document.getElementById('unit').value || 'st',
+                currentValue: 0,
+                status: 'pending',
+                streak: 0,
+                growth: '🌱',
+                dimension: selectedDimension || 'practical',
+                schedule: [1,1,1,1,1,0,0] // Default weekdays
+            };
+            
+            habits.push(newHabit);
+            renderTodayHabits();
+            renderWeeklyGrid();
+            closeHabitModal();
+            
+            alert(`✓ "${newHabit.title}" skapad!\n\n💡 AI-tips: Vanor kopplade till "${getDimensionName(newHabit.dimension)}" har 34% högre framgång när du startar med en "keystone habit" som trigger.`);
+        }
+        
+        // Start routine
+        function startRoutine(type) {
+            const routineNames = {
+                morning: '☀️ Morgon-rutin',
+                evening: '🌙 Kvälls-rutin',
+                work: '💼 Deep Work'
+            };
+            
+            alert(`🚀 Startar ${routineNames[type]}!\n\nDin rutin har laddats. Gör varje vana i ordning, så loggar vi allt automatiskt.\n\nDu kan avbryta när som helst - varje steg räknas! 💪`);
+        }
+        
+        // Initiera
+        renderTodayHabits();
+        renderWeeklyGrid();
+        updateDateDisplay();
+        
+        // Stäng modal vid klick utanför
+        document.getElementById('habitModal').addEventListener('click', function(e) {
+            if (e.target === this) closeHabitModal();
+        });
+    </script>
+</body>
+</html>
