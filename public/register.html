@@ -237,13 +237,9 @@
         </div>
     </div>
 
+    
+    <script src="assets/js/api.js"></script>
     <script>
-        // Check if already logged in
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            window.location.href = 'index.html';
-        }
-        
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -257,13 +253,7 @@
             
             // Validation
             if (password !== passwordConfirm) {
-                errorMessage.textContent = 'L&ouml;senorden matchar inte';
-                errorMessage.classList.add('show');
-                return;
-            }
-            
-            if (password.length < 8) {
-                errorMessage.textContent = 'L&ouml;senordet m&aring;ste vara minst 8 tecken';
+                errorMessage.textContent = 'Lösenorden matchar inte';
                 errorMessage.classList.add('show');
                 return;
             }
@@ -274,31 +264,23 @@
             successMessage.classList.remove('show');
             
             try {
-                // For now, simulate registration - replace with real API call
-                // const response = await fetch('/api/auth/register', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ name, email, password })
-                // });
+                const response = await api.register(name, email, password);
                 
-                // Simulate successful registration
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                successMessage.textContent = 'Konto skapat! Omdirigerar till inloggning...';
+                successMessage.textContent = 'Konto skapat! Omdirigerar...';
                 successMessage.classList.add('show');
                 
-                // Redirect to login after 2 seconds
                 setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
+                    window.location.href = 'index.html';
+                }, 1500);
                 
             } catch (error) {
-                errorMessage.textContent = 'N&aring;got gick fel. F&ouml;rsök igen.';
+                errorMessage.textContent = error.message || 'Något gick fel. Försök igen.';
                 errorMessage.classList.add('show');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Skapa konto';
             }
         });
     </script>
+
 </body>
 </html>

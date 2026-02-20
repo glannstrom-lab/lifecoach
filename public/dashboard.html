@@ -687,7 +687,8 @@
         </main>
     </div>
 
-    <script>
+        <script src="assets/js/api.js"></script>
+<script>
         // Check authentication
         const token = localStorage.getItem('auth_token');
         if (!token) {
@@ -933,15 +934,68 @@
             loadUserData();
 });
     
-        // Load user data
-        function loadUserData() {
+
+        // Load user data from API
+        async function loadUserData() {
+            const userName = localStorage.getItem('user_name');
             const userEmail = localStorage.getItem('user_email');
-            if (userEmail) {
-                document.getElementById('userName').textContent = userEmail.split('@')[0];
-            } else {
-                document.getElementById('userName').textContent = 'Användare';
+            
+            if (userName) {
+                document.getElementById('userName').textContent = userName;
+            }
+            
+            // Load dashboard data
+            try {
+                const dashboard = await api.getDashboard();
+                if (dashboard.success) {
+                    updateDashboard(dashboard.data);
+                }
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+                // If unauthorized, redirect to login
+                if (error.message && error.message.includes('Unauthorized')) {
+                    window.location.href = 'login.html';
+                }
             }
         }
+        
+        // Update dashboard with data from API
+        function updateDashboard(data) {
+            // Update user name
+            if (data.user && data.user.name) {
+                document.getElementById('userName').textContent = data.user.name;
+                localStorage.setItem('user_name', data.user.name);
+            }
+            
+            // Update check-in mood
+            if (data.today && data.today.checkin) {
+                // Update check-in widget with real data
+                const moodEl = document.querySelector('.size-1x1[data-module="checkin"] .widget-content div:nth-child(3)');
+                if (moodEl && data.today.checkin.mood) {
+                    moodEl.textContent = data.today.checkin.mood;
+                }
+            }
+            
+            // Update habits
+            if (data.habits && data.habits.items) {
+                // Habits will be rendered dynamically
+                console.log('Loaded', data.habits.items.length, 'habits');
+            }
+            
+            // Update goals
+            if (data.goals && data.goals.items) {
+                console.log('Loaded', data.goals.items.length, 'goals');
+            }
+            
+            // Update journal count
+            if (data.journal && data.journal.total_entries) {
+                const journalCountEl = document.querySelector('.size-1x1[data-module="journal"] .widget-content div:nth-child(3)');
+                if (journalCountEl) {
+                    journalCountEl.textContent = data.journal.total_entries;
+                }
+            }
+        }
+
         
         // Toggle user menu
         function toggleUserMenu() {
@@ -951,9 +1005,7 @@
         
         // Logout
         function logout() {
-            localStorage.removeItem('auth_token');
-            localStorage.removeItem('user_email');
-            window.location.href = 'login.html';
+            api.logout();
         }
 </script>
 </body>

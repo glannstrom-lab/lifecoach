@@ -191,13 +191,9 @@
         </div>
     </div>
 
+    
+    <script src="assets/js/api.js"></script>
     <script>
-        // Check if already logged in
-        const token = localStorage.getItem('auth_token');
-        if (token) {
-            window.location.href = 'index.html';
-        }
-        
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -211,30 +207,19 @@
             errorMessage.classList.remove('show');
             
             try {
-                // For now, simulate login - replace with real API call
-                // const response = await fetch('/api/auth/login', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ email, password })
-                // });
+                const response = await api.login(email, password);
                 
-                // Simulate successful login for demo
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Store token (in production, get this from API response)
-                localStorage.setItem('auth_token', 'demo_token_' + Date.now());
-                localStorage.setItem('user_email', email);
-                
-                // Redirect to dashboard
-                window.location.href = 'index.html';
-                
+                if (response.success) {
+                    window.location.href = 'index.html';
+                }
             } catch (error) {
-                errorMessage.textContent = 'Felaktig e-post eller l&ouml;senord';
+                errorMessage.textContent = error.message || 'Felaktig e-post eller lösenord';
                 errorMessage.classList.add('show');
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Logga in';
             }
         });
     </script>
+
 </body>
 </html>
