@@ -43,10 +43,10 @@
 .sidebar {
     position: fixed;
     left: 0;
-    top: 0;
+    top: 40px; /* Account for demo banner */
     bottom: 0;
     width: var(--sidebar-width);
-    z-index: 1000;
+    z-index: 9998; /* Just below demo banner (9999) */
     display: flex;
     flex-direction: column;
     transition: width 0.4s var(--ease-smooth);
@@ -55,9 +55,9 @@
     /* Premium Glassmorphism */
     background: linear-gradient(
         165deg,
-        rgba(255, 255, 255, 0.9) 0%,
-        rgba(255, 255, 255, 0.75) 50%,
-        rgba(255, 255, 255, 0.85) 100%
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.85) 50%,
+        rgba(255, 255, 255, 0.9) 100%
     );
     backdrop-filter: var(--blur-amount);
     -webkit-backdrop-filter: var(--blur-amount);
@@ -67,9 +67,26 @@
         var(--glass-inner-glow);
 }
 
+/* When demo banner is hidden/not present */
+@media (min-width: 769px) {
+    body:not(.has-demo-banner) .sidebar {
+        top: 0;
+    }
+}
+
 /* Collapsed State */
 .sidebar.collapsed {
     width: var(--sidebar-collapsed);
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    padding: 0;
+}
+
+.sidebar.collapsed .nav-item > span:first-child,
+.sidebar.collapsed .nav-item > .nav-icon {
+    margin: 0 auto;
 }
 
 /* ============================================================
@@ -263,17 +280,46 @@
     box-shadow: 0 0 10px rgba(144, 238, 144, 0.6);
 }
 
-/* Icon Styling */
-.nav-item > span:first-child {
-    font-size: 22px;
+/* Icon Styling - Premium SVG Icons */
+.nav-item > span:first-child,
+.nav-item > .nav-icon {
     width: 28px;
-    text-align: center;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-    transition: transform 0.3s var(--ease-spring);
+    transition: all 0.3s var(--ease-spring);
 }
 
-.nav-item:hover > span:first-child {
+.nav-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.8;
+    transition: all 0.3s var(--ease-spring);
+}
+
+.nav-item:hover > span:first-child,
+.nav-item:hover > .nav-icon {
     transform: scale(1.15);
+}
+
+.nav-item.active .nav-icon svg {
+    stroke: #2d5a2d;
+    stroke-width: 2;
+}
+
+/* Collapsed state - larger centered icons */
+.sidebar.collapsed .nav-item > span:first-child,
+.sidebar.collapsed .nav-item > .nav-icon {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto;
+}
+
+.sidebar.collapsed .nav-icon svg {
+    width: 28px;
+    height: 28px;
 }
 
 /* Text Styling */
@@ -537,13 +583,21 @@
    ============================================================ */
 .main-content {
     margin-left: var(--sidebar-width);
+    margin-top: 40px; /* Account for demo banner */
     transition: margin-left 0.4s var(--ease-smooth);
-    min-height: 100vh;
+    min-height: calc(100vh - 40px);
     padding: 20px;
 }
 
 .sidebar.collapsed ~ .main-content {
     margin-left: var(--sidebar-collapsed);
+}
+
+@media (min-width: 769px) {
+    body:not(.has-demo-banner) .main-content {
+        margin-top: 0;
+        min-height: 100vh;
+    }
 }
 
 /* ============================================================
@@ -552,9 +606,9 @@
 .mobile-menu-toggle {
     display: none;
     position: fixed;
-    top: 20px;
+    top: 60px; /* Below demo banner (40px) + margin */
     left: 20px;
-    z-index: 999;
+    z-index: 9997;
     width: 48px;
     height: 48px;
     background: var(--glass-bg);
