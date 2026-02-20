@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Comdira Lifecoach (Demo)</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | GitHub Pages | 
+        <a href="index.html">← Logga ut</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="#" class="nav-item">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="#" class="nav-item">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="#" class="nav-item">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Banner -->
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h2>Hej, Demo-användare! 👋</h2>
+                    <p>Vad vill du fokusera på idag?</p>
+                </div>
+                <div class="welcome-date">
+                    <div class="day" id="currentDay">20</div>
+                    <div class="month" id="currentMonth">Februari 2026</div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Check-in Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dagens Check-in</h3>
+                        <span class="trend-up">+12% från igår</span>
+                    </div>
+                    <p style="color: var(--text-secondary); margin-bottom: 16px;">Hur mår du idag?</p>
+                    <div class="mood-selector">
+                        <button class="mood-btn">😔</button>
+                        <button class="mood-btn">😕</button>
+                        <button class="mood-btn">😐</button>
+                        <button class="mood-btn">🙂</button>
+                        <button class="mood-btn">😊</button>
+                    </div>
+                    <button class="btn-primary">Spara Check-in</button>
+                </div>
+                
+                <!-- Stats Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Humör (7 dagar)</h3>
+                        <span class="trend-up">+8%</span>
+                    </div>
+                    <div class="stat-value">7.2</div>
+                    <div class="stat-label">Genomsnittligt humör</div>
+                </div>
+                
+                <!-- Habits Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dina Vanor</h3>
+                        <a href="#" style="color: var(--text-secondary); font-size: 14px;">Se alla</a>
+                    </div>
+                    
+                    <div class="habit-item">
+                        <div class="habit-checkbox checked">✓</div>
+                        <span class="habit-name">Morgonmeditation</span>
+                        <span class="habit-streak">🔥 5 dagar</span>
+                    </div>
+                    
+                    <div class="habit-item">
+                        <div class="habit-checkbox">✓</div>
+                        <span class="habit-name">Daglig promenad</span>
+                        <span class="habit-streak">🔥 3 dagar</span>
+                    </div>
+                    
+                    <div class="habit-item">
+                        <div class="habit-checkbox">✓</div>
+                        <span class="habit-name">Läsa 20 sidor</span>
+                        <span class="habit-streak">🔥 12 dagar</span>
+                    </div>
+                </div>
+                
+                <!-- Goals Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Aktiva Mål</h3>
+                        <a href="#" style="color: var(--text-secondary); font-size: 14px;">+ Nytt</a>
+                    </div>
+                    
+                    <div class="goal-progress">
+                        <div class="goal-header">
+                            <span>Springa 5km</span>
+                            <span>75%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="goal-progress">
+                        <div class="goal-header">
+                            <span>Meditera dagligen</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tasks Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dagens Uppgifter</h3>
+                        <span style="background: var(--primary-light); padding: 4px 12px; border-radius: 12px; font-size: 12px;">3 kvar</span>
+                    </div>
+                    
+                    <div class="task-item">
+                        <span class="task-priority high"></span>
+                        <span>Checka in med coach</span>
+                    </div>
+                    
+                    <div class="task-item">
+                        <span class="task-priority medium"></span>
+                        <span>Uppdatera mål för veckan</span>
+                    </div>
+                    
+                    <div class="task-item">
+                        <span class="task-priority low"></span>
+                        <span>Skriva i journalen</span>
+                    </div>
+                </div>
+                
+                <!-- Progress Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Veckans Framsteg</h3>
+                    </div>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="progress-ring-bg" cx="60" cy="60" r="52"/>
+                            <circle class="progress-ring-fill" cx="60" cy="60" r="52" 
+                                    stroke-dasharray="326.73" 
+                                    stroke-dashoffset="98"/>
+                        </svg>
+                        <div class="progress-text">70%</div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 16px;">Bra jobbat! 🌟</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Sätt dagens datum
+        const now = new Date();
+        document.getElementById('currentDay').textContent = now.getDate();
+        const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 
+                       'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
+        document.getElementById('currentMonth').textContent = 
+            months[now.getMonth()] + ' ' + now.getFullYear();
+        
+        // Mood button interaktion
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mood-btn').forEach(b => {
+                    b.style.background = 'white';
+                    b.style.borderColor = 'var(--primary-light)';
+                });
+                this.style.background = 'var(--primary)';
+                this.style.borderColor = 'var(--primary)';
+            });
+        });
+        
+        // Habit checkbox interaktion
+        document.querySelectorAll('.habit-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', function() {
+                this.classList.toggle('checked');
+                if (this.classList.contains('checked')) {
+                    this.textContent = '✓';
+                } else {
+                    this.textContent = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
