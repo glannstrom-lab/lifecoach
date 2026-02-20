@@ -791,6 +791,365 @@
         }
         
         /* Mobile Responsive */
+        
+        /* === FOCUS MODE WIDGET === */
+        .focus-widget {
+            background: linear-gradient(135deg, #FADBD8 0%, #F5B7B1 100%);
+            border: 2px solid #E74C3C;
+        }
+        .focus-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+        .focus-priority {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .focus-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #922B21;
+            margin: 0 0 8px 0;
+        }
+        .focus-deadline {
+            font-size: 12px;
+            color: #E74C3C;
+            font-weight: 600;
+        }
+        .focus-complete-btn {
+            width: 100%;
+            padding: 12px;
+            background: #27AE60;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+        .focus-complete-btn:hover {
+            background: #1E8449;
+        }
+        .focus-change-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 2px solid rgba(231, 76, 60, 0.3);
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #E74C3C;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .focus-change-btn:hover {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        /* === WEEKLY PLANNING WIDGET === */
+        .weekly-widget {
+            background: linear-gradient(135deg, #EBF5FB 0%, #AED6F1 100%);
+            border: 2px solid #3498DB;
+        }
+        .weekly-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .weekly-subtitle {
+            font-size: 13px;
+            color: #5DADE2;
+        }
+        .weekly-sync-btn {
+            padding: 8px 14px;
+            background: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .weekly-sync-btn:hover {
+            background: #2980B9;
+        }
+        .weekly-days {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+        .weekly-day {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 120px;
+        }
+        .weekly-day-header {
+            text-align: center;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(52, 152, 219, 0.1);
+        }
+        .weekly-day-name {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1A5276;
+        }
+        .weekly-day-date {
+            font-size: 11px;
+            color: #5DADE2;
+        }
+        .weekly-tasks {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .weekly-task {
+            font-size: 11px;
+            padding: 6px 8px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 6px;
+            color: #1A5276;
+            cursor: grab;
+        }
+        .weekly-add-btn {
+            width: 100%;
+            padding: 6px;
+            background: transparent;
+            border: 2px dashed rgba(52, 152, 219, 0.3);
+            border-radius: 6px;
+            font-size: 16px;
+            color: #3498DB;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .weekly-add-btn:hover {
+            background: rgba(52, 152, 219, 0.1);
+        }
+
+        /* === EVENING REFLECTION WIDGET === */
+        .reflection-widget {
+            background: linear-gradient(135deg, #E8DAEF 0%, #D2B4DE 100%);
+            border: 2px solid #8E44AD;
+        }
+        .reflection-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            animation: moonGlow 3s ease-in-out infinite;
+        }
+        @keyframes moonGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(142, 68, 173, 0.3)); }
+            50% { filter: drop-shadow(0 0 15px rgba(142, 68, 173, 0.6)); }
+        }
+        .reflection-prompt {
+            font-size: 14px;
+            color: #5B2C6F;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .reflection-input {
+            width: 100%;
+            height: 80px;
+            padding: 12px;
+            border: 2px solid rgba(142, 68, 173, 0.2);
+            border-radius: 10px;
+            font-size: 13px;
+            resize: none;
+            margin-bottom: 12px;
+        }
+        .reflection-input:focus {
+            outline: none;
+            border-color: #8E44AD;
+        }
+        .reflection-save {
+            width: 100%;
+            padding: 12px;
+            background: #8E44AD;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+        .reflection-save:hover {
+            background: #6C3483;
+        }
+        .reflection-streak {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #8E44AD;
+            font-weight: 600;
+        }
+
+        /* === COACH CHECK-IN WIDGET === */
+        .coach-widget {
+            background: linear-gradient(135deg, #F5EEF8 0%, #E8DAEF 100%);
+            border: 2px solid #9B59B6;
+        }
+        .coach-conversation {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .coach-message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .coach-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #9B59B6, #BB8FCE);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .coach-bubble {
+            background: rgba(155, 89, 182, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            border-bottom-left-radius: 4px;
+            flex: 1;
+        }
+        .coach-bubble p {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #5B2C6F;
+        }
+        .coach-time {
+            font-size: 11px;
+            color: #A569BD;
+        }
+        .coach-quick-replies {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .coach-reply {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid rgba(155, 89, 182, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #9B59B6;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .coach-reply:hover {
+            background: #9B59B6;
+            color: white;
+        }
+        .coach-input-area {
+            display: flex;
+            gap: 8px;
+        }
+        .coach-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(155, 89, 182, 0.2);
+            border-radius: 25px;
+            font-size: 14px;
+        }
+        .coach-input:focus {
+            outline: none;
+            border-color: #9B59B6;
+        }
+        .coach-send {
+            width: 44px;
+            height: 44px;
+            background: #9B59B6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .coach-send:hover {
+            background: #7D3C98;
+        }
+
+        /* === NEXT STEP WIDGET === */
+        .nextstep-widget {
+            background: linear-gradient(135deg, #FCF3CF 0%, #F9E79F 100%);
+            border: 2px solid #F1C40F;
+        }
+        .nextstep-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #F1C40F;
+            color: #7D6608;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .nextstep-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .nextstep-icon {
+            width: 32px;
+            height: 32px;
+            background: #27AE60;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .nextstep-text {
+            font-size: 15px;
+            font-weight: 700;
+            color: #7D6608;
+        }
+        .nextstep-reason {
+            font-size: 12px;
+            color: #9A7D0A;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        .nextstep-btn {
+            width: 100%;
+            padding: 14px;
+            background: #F1C40F;
+            color: #7D6608;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nextstep-btn:hover {
+            background: #D4AC0D;
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .widget-grid {
                 grid-template-columns: 1fr;
@@ -1812,6 +2171,151 @@
 
                 <!-- Draggable Widget Grid -->
                 <div class="widget-grid" id="widgetGrid">
+                    <!-- Focus Mode Widget - 1x1 -->
+                    <div class="widget size-1x1 focus-widget" data-id="focus" data-module="focus" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <div class="focus-icon">🎯</div>
+                            <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Dagens prioritet</h3>
+                            <div class="focus-priority" id="focusPriority">
+                                <p class="focus-text">Skicka in projektrapporten</p>
+                                <span class="focus-deadline">⏰ Deadline: Idag 17:00</span>
+                            </div>
+                            <button class="focus-complete-btn" onclick="completePriority()">✅ Markera klar</button>
+                            <button class="focus-change-btn" onclick="changePriority()">🔄 Ändra fokus</button>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Planning Widget - 2x2 -->
+                    <div class="widget size-2x2 weekly-widget" data-id="weekly" data-module="weekly" data-size="2x2">
+                        <div class="widget-header" style="border-color: rgba(52, 152, 219, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">📅</span> Veckoplanering</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                            </div>
+                        </div>
+                        <div class="size-menu">
+                            <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
+                            <div class="size-option active" data-size="2x2" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x2"><div></div><div></div><div></div><div></div></div><span>Stor</span></div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="weekly-header">
+                                <span class="weekly-subtitle">Planera din vecka för bättre fokus</span>
+                                <button class="weekly-sync-btn" onclick="syncWithCalendar()">🔄 Synca kalender</button>
+                            </div>
+                            <div class="weekly-days">
+                                <div class="weekly-day" data-day="mon">
+                                    <div class="weekly-day-header">
+                                        <span class="weekly-day-name">Mån</span>
+                                        <span class="weekly-day-date">17/2</span>
+                                    </div>
+                                    <div class="weekly-tasks" id="monTasks">
+                                        <div class="weekly-task">📊 Veckomöte</div>
+                                        <div class="weekly-task">✉️ Svara på mail</div>
+                                    </div>
+                                    <button class="weekly-add-btn" onclick="addTaskToDay('mon')">+</button>
+                                </div>
+                                <div class="weekly-day" data-day="tue">
+                                    <div class="weekly-day-header">
+                                        <span class="weekly-day-name">Tis</span>
+                                        <span class="weekly-day-date">18/2</span>
+                                    </div>
+                                    <div class="weekly-tasks" id="tueTasks">
+                                        <div class="weekly-task">💪 Träning</div>
+                                    </div>
+                                    <button class="weekly-add-btn" onclick="addTaskToDay('tue')">+</button>
+                                </div>
+                                <div class="weekly-day" data-day="wed">
+                                    <div class="weekly-day-header">
+                                        <span class="weekly-day-name">Ons</span>
+                                        <span class="weekly-day-date">19/2</span>
+                                    </div>
+                                    <div class="weekly-tasks" id="wedTasks">
+                                        <div class="weekly-task">📋 Projekt deadline</div>
+                                    </div>
+                                    <button class="weekly-add-btn" onclick="addTaskToDay('wed')">+</button>
+                                </div>
+                                <div class="weekly-day" data-day="thu">
+                                    <div class="weekly-day-header">
+                                        <span class="weekly-day-name">Tor</span>
+                                        <span class="weekly-day-date">20/2</span>
+                                    </div>
+                                    <div class="weekly-tasks" id="thuTasks"></div>
+                                    <button class="weekly-add-btn" onclick="addTaskToDay('thu')">+</button>
+                                </div>
+                                <div class="weekly-day" data-day="fri">
+                                    <div class="weekly-day-header">
+                                        <span class="weekly-day-name">Fre</span>
+                                        <span class="weekly-day-date">21/2</span>
+                                    </div>
+                                    <div class="weekly-tasks" id="friTasks">
+                                        <div class="weekly-task">🎉 Veckans avslut</div>
+                                    </div>
+                                    <button class="weekly-add-btn" onclick="addTaskToDay('fri')">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evening Reflection Widget - 1x1 -->
+                    <div class="widget size-1x1 reflection-widget" data-id="reflection" data-module="reflection" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <div class="reflection-icon">🌙</div>
+                            <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">Kvällsreflektion</h3>
+                            <p class="reflection-prompt">Vad gick bra idag?</p>
+                            <textarea class="reflection-input" id="reflectionInput" placeholder="Skriv några rader..."></textarea>
+                            <button class="reflection-save" onclick="saveReflection()">💾 Spara till journal</button>
+                            <div class="reflection-streak" id="reflectionStreak">
+                                <span>📔</span>
+                                <span>12 dagar i rad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coach Check-in Widget - 2x1 -->
+                    <div class="widget size-2x1 coach-widget" data-id="coachcheckin" data-module="coachcheckin" data-size="2x1">
+                        <div class="widget-header" style="border-color: rgba(155, 89, 182, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">💬</span> Coach Check-in</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="coach-conversation">
+                                <div class="coach-message">
+                                    <div class="coach-avatar">🤖</div>
+                                    <div class="coach-bubble">
+                                        <p>Hej! Hur går det med ditt mål att springa 5km? Du har tränat 3 gånger denna vecka! 🏃‍♂️</p>
+                                        <span class="coach-time">Just nu</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="coach-quick-replies">
+                                <button class="coach-reply" onclick="sendCoachReply('Bra, känner mig stark!')">Bra! 💪</button>
+                                <button class="coach-reply" onclick="sendCoachReply('Svårt att hitta tid')">Svårt med tid 😅</button>
+                                <button class="coach-reply" onclick="sendCoachReply('Behöver motivation')">Behöver pepp 🎯</button>
+                            </div>
+                            <div class="coach-input-area">
+                                <input type="text" class="coach-input" id="coachInput" placeholder="Skriv ett svar..." onkeypress="handleCoachKeypress(event)">
+                                <button class="coach-send" onclick="sendCoachMessage()">➤</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Next Step Widget - 1x1 -->
+                    <div class="widget size-1x1 nextstep-widget" data-id="nextstep" data-module="nextstep" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <div class="nextstep-badge">⭐ Rekommenderat</div>
+                            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin: 12px 0;">Nästa steg</h3>
+                            <div class="nextstep-action">
+                                <span class="nextstep-icon">✓</span>
+                                <span class="nextstep-text">Gör dagens check-in</span>
+                            </div>
+                            <p class="nextstep-reason">Detta tar bara 2 minuter och hjälper dig reflektera över dagen.</p>
+                            <button class="nextstep-btn" onclick="doNextStep()">Gör det nu →</button>
+                        </div>
+                    </div>
+
                     <!-- Intent Implementation Widget - 1x2 -->
                     <div class="widget size-1x2 intent-widget" data-id="intent" data-module="intent" data-size="1x2">
                         <div class="widget-header" style="border-color: rgba(230, 126, 34, 0.3);">
@@ -2876,6 +3380,104 @@
             notif.textContent = message;
             document.body.appendChild(notif);
             setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Focus Mode - complete priority
+        function completePriority() {
+            document.getElementById('focusPriority').innerHTML = '<p style="font-size: 24px; margin: 0;">✅</p><p style="color: #27AE60; font-weight: 700; margin: 8px 0 0 0;">Klart! Bra jobbat!</p>';
+            showNotification('Prioritet markerad som klar! 🎉');
+        }
+
+        // Focus Mode - change priority
+        function changePriority() {
+            const newPriority = prompt('Vad är din nya prioritet?');
+            if (newPriority) {
+                document.querySelector('.focus-text').textContent = newPriority;
+                showNotification('Ny prioritet satt! 🎯');
+            }
+        }
+
+        // Weekly Planning - sync with calendar
+        function syncWithCalendar() {
+            showNotification('Synkar med kalender... ✅');
+        }
+
+        // Weekly Planning - add task to day
+        function addTaskToDay(day) {
+            const task = prompt('Vad ska du göra?');
+            if (task) {
+                const container = document.getElementById(day + 'Tasks');
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'weekly-task';
+                taskDiv.textContent = task;
+                container.appendChild(taskDiv);
+                showNotification('Uppgift tillagd! 📅');
+            }
+        }
+
+        // Evening Reflection - save
+        function saveReflection() {
+            const text = document.getElementById('reflectionInput').value;
+            if (text.trim()) {
+                showNotification('Reflektion sparad till journalen! 📔✨');
+                document.getElementById('reflectionInput').value = '';
+            } else {
+                showNotification('Skriv något först! ✍️');
+            }
+        }
+
+        // Coach Check-in - send reply
+        function sendCoachReply(text) {
+            const conversation = document.querySelector('.coach-conversation');
+            const userMessage = document.createElement('div');
+            userMessage.className = 'coach-message';
+            userMessage.style.flexDirection = 'row-reverse';
+            userMessage.innerHTML = `
+                <div class="coach-avatar" style="background: linear-gradient(135deg, #3498DB, #5DADE2);">👤</div>
+                <div class="coach-bubble" style="background: rgba(52, 152, 219, 0.1); border-bottom-left-radius: 12px; border-bottom-right-radius: 4px;">
+                    <p style="color: #1A5276;">${text}</p>
+                    <span class="coach-time">Just nu</span>
+                </div>
+            `;
+            conversation.appendChild(userMessage);
+            conversation.scrollTop = conversation.scrollHeight;
+            
+            // Simulate coach response
+            setTimeout(() => {
+                const coachResponse = document.createElement('div');
+                coachResponse.className = 'coach-message';
+                coachResponse.innerHTML = `
+                    <div class="coach-avatar">🤖</div>
+                    <div class="coach-bubble">
+                        <p>Det låter bra! Kom ihåg att varje litet steg räknas. Du gör ett fantastiskt jobb! 💪</p>
+                        <span class="coach-time">Just nu</span>
+                    </div>
+                `;
+                conversation.appendChild(coachResponse);
+                conversation.scrollTop = conversation.scrollHeight;
+            }, 1000);
+        }
+
+        // Coach Check-in - handle keypress
+        function handleCoachKeypress(e) {
+            if (e.key === 'Enter') {
+                sendCoachMessage();
+            }
+        }
+
+        // Coach Check-in - send message
+        function sendCoachMessage() {
+            const input = document.getElementById('coachInput');
+            const text = input.value.trim();
+            if (text) {
+                sendCoachReply(text);
+                input.value = '';
+            }
+        }
+
+        // Next Step - do it
+        function doNextStep() {
+            window.location.href = 'checkin.html';
         }
 </script>
 <!-- Share Modal -->
