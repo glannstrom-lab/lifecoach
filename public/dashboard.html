@@ -292,6 +292,97 @@
             font-size: 16px;
         }
         
+        /* Module Filter Bar */
+        .module-filter-bar {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        
+        .filter-icon {
+            width: 18px;
+            height: 18px;
+            stroke: var(--primary-dark);
+        }
+        
+        .filter-chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+        
+        .filter-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-light);
+            border-radius: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .filter-chip:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+        
+        .filter-chip.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(144, 238, 144, 0.3);
+        }
+        
+        .filter-chip input {
+            display: none;
+        }
+        
+        .filter-reset {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .filter-reset:hover {
+            background: var(--primary-light);
+            color: var(--text-primary);
+        }
+        
+        /* Hidden module state */
+        .dashboard-grid .card.hidden {
+            display: none;
+        }
+        
         @media (max-width: 768px) {
             .hexagon-preview {
                 flex-direction: column;
@@ -422,11 +513,50 @@
                 </div>
             </div>
             
+            <!-- Module Filter Bar -->
+            <div class="module-filter-bar">
+                <div class="filter-label">
+                    <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                    <span>Visa moduler:</span>
+                </div>
+                <div class="filter-chips">
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')">
+                        <span>⬡ Välmående</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')">
+                        <span>○ Check-in</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')">
+                        <span>◆ Mål</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')">
+                        <span>✓ Vanor</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')">
+                        <span>📝 Journal</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="calendar" onchange="toggleModule('calendar')">
+                        <span>📅 Kalender</span>
+                    </label>
+                    <label class="filter-chip active">
+                        <input type="checkbox" checked data-module="tasks" onchange="toggleModule('tasks')">
+                        <span>📋 Uppgifter</span>
+                    </label>
+                </div>
+                <button class="filter-reset" onclick="resetFilters()">Återställ</button>
+            </div>
+            
             <!-- Dashboard Grid -->
             <div class="dashboard-grid">
                 
-                <!-- VÄLMÅENDEHEXAGONEN - NY MODUL -->
-                <div class="card hexagon-widget">
+                <!-- VÄLMÅENDEHEXAGONEN -->
+                <div class="card hexagon-widget" data-module="wellness">
                     <div class="card-header">
                         <h3 class="card-title">⬡ Välmåendehexagonen</h3>
                         <span class="stat-trend up">Ny modul</span>
@@ -453,13 +583,13 @@
                         </div>
                     </div>
                     
-                    <button class="btn btn-primary" onclick="openHexagonModal()" style="margin-top: 20px; width: 100%;">
-                        Starta Välmåendehexagonen
-                    </button>
+                    <a href="wellness.html" class="btn btn-primary" style="margin-top: 20px; width: 100%; text-decoration: none; display: block; text-align: center;">
+                        Starta Välmåendehexagonen →
+                    </a>
                 </div>
                 
                 <!-- Check-in kort -->
-                <div class="card checkin-section">
+                <div class="card checkin-section" data-module="checkin">
                     <div class="card-header">
                         <h3 class="card-title">Dagens Check-in</h3>
                         <span class="stat-trend up">+12% från igår</span>
@@ -478,7 +608,7 @@
                 </div>
                 
                 <!-- Veckostatistik -->
-                <div class="card stat-card">
+                <div class="card stat-card" data-module="checkin">
                     <div class="stat-header">
                         <div class="stat-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
@@ -490,7 +620,7 @@
                 </div>
                 
                 <!-- Vanor -->
-                <div class="card">
+                <div class="card" data-module="habits">
                     <div class="card-header">
                         <h3 class="card-title">Dina Vanor</h3>
                         <a href="habits.html" class="btn btn-ghost">Se alla</a>
@@ -523,7 +653,7 @@
                 </div>
                 
                 <!-- Kalender -->
-                <div class="card">
+                <div class="card" data-module="calendar">
                     <div class="card-header">
                         <h3 class="card-title">Kalender</h3>
                     </div>
@@ -558,7 +688,7 @@
                 </div>
                 
                 <!-- Aktiva mål -->
-                <div class="card">
+                <div class="card" data-module="goals">
                     <div class="card-header">
                         <h3 class="card-title">Aktiva Mål</h3>
                         <a href="goals.html" class="btn btn-ghost">+ Nytt</a>
@@ -595,7 +725,7 @@
                 </div>
                 
                 <!-- Journal Preview -->
-                <div class="card">
+                <div class="card" data-module="journal">
                     <div class="card-header">
                         <h3 class="card-title">📝 Senaste Journal</h3>
                         <a href="journal.html" class="btn btn-ghost">Se alla</a>
@@ -624,7 +754,7 @@
                 </div>
                 
                 <!-- Dagens uppgifter -->
-                <div class="card">
+                <div class="card" data-module="tasks">
                     <div class="card-header">
                         <h3 class="card-title">Dagens Uppgifter</h3>
                         <span class="stat-trend" style="background: var(--primary-light); color: var(--text-secondary);">3 kvar</span>
@@ -642,7 +772,7 @@
                 </div>
                 
                 <!-- Veckans framsteg -->
-                <div class="card">
+                <div class="card" data-module="goals">
                     <div class="card-header">
                         <h3 class="card-title">Veckans Framsteg</h3>
                     </div>
@@ -1046,11 +1176,66 @@
             document.getElementById('sidebar').classList.toggle('mobile-open');
         }
         
+        // Module Filter Functionality
+        function toggleModule(moduleName) {
+            const checkbox = document.querySelector(`input[data-module="${moduleName}"]`);
+            const chip = checkbox.closest('.filter-chip');
+            const cards = document.querySelectorAll(`.card[data-module="${moduleName}"]`);
+            
+            if (checkbox.checked) {
+                chip.classList.add('active');
+                cards.forEach(card => card.classList.remove('hidden'));
+            } else {
+                chip.classList.remove('active');
+                cards.forEach(card => card.classList.add('hidden'));
+            }
+            
+            // Save preference
+            saveFilterPreferences();
+        }
+        
+        function resetFilters() {
+            const checkboxes = document.querySelectorAll('.filter-chip input');
+            const chips = document.querySelectorAll('.filter-chip');
+            const cards = document.querySelectorAll('.card[data-module]');
+            
+            checkboxes.forEach(cb => cb.checked = true);
+            chips.forEach(chip => chip.classList.add('active'));
+            cards.forEach(card => card.classList.remove('hidden'));
+            
+            saveFilterPreferences();
+        }
+        
+        function saveFilterPreferences() {
+            const preferences = {};
+            document.querySelectorAll('.filter-chip input').forEach(cb => {
+                preferences[cb.dataset.module] = cb.checked;
+            });
+            localStorage.setItem('dashboardFilters', JSON.stringify(preferences));
+        }
+        
+        function loadFilterPreferences() {
+            const saved = localStorage.getItem('dashboardFilters');
+            if (saved) {
+                const preferences = JSON.parse(saved);
+                Object.entries(preferences).forEach(([module, checked]) => {
+                    const checkbox = document.querySelector(`input[data-module="${module}"]`);
+                    if (checkbox) {
+                        checkbox.checked = checked;
+                        toggleModule(module);
+                    }
+                });
+            }
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
             if (localStorage.getItem('sidebarCollapsed') === 'true') {
                 sidebar.classList.add('collapsed');
             }
+            
+            // Load saved filter preferences
+            loadFilterPreferences();
         });
     </script>
 </body>
