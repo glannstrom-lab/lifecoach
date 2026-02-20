@@ -1382,6 +1382,289 @@
             50% { transform: scale(1.2); }
         }
 
+        
+        /* === INTENT IMPLEMENTATION WIDGET === */
+        .intent-widget {
+            background: linear-gradient(135deg, #FEF5E7 0%, #FAD7A0 100%);
+            border: 2px solid #E67E22;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .time-slot {
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid rgba(230, 126, 34, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #935116;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .time-slot:hover {
+            border-color: #E67E22;
+            transform: translateY(-2px);
+        }
+        .time-slot.selected {
+            background: #E67E22;
+            color: white;
+            border-color: #E67E22;
+        }
+
+        /* === IMPLEMENTATION INTENTIONS WIDGET === */
+        .implementation-widget {
+            background: linear-gradient(135deg, #F5EEF8 0%, #D7BDE2 100%);
+            border: 2px solid #9B59B6;
+        }
+        .implementation-form {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .implementation-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .implementation-row:last-child {
+            margin-bottom: 0;
+        }
+        .implementation-label {
+            font-weight: 700;
+            color: #9B59B6;
+            font-size: 14px;
+            min-width: 70px;
+        }
+        .implementation-select {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(155, 89, 182, 0.2);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #5B2C6F;
+            background: white;
+            cursor: pointer;
+        }
+        .implementation-select:focus {
+            outline: none;
+            border-color: #9B59B6;
+        }
+        .implementation-save {
+            width: 100%;
+            padding: 14px;
+            background: #9B59B6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .implementation-save:hover {
+            background: #7D3C98;
+            transform: translateY(-2px);
+        }
+
+        /* === HABIT STACKING WIDGET === */
+        .habit-stack-widget {
+            background: linear-gradient(135deg, #EBF5FB 0%, #AED6F1 100%);
+            border: 2px solid #3498DB;
+        }
+        .habit-stack-visual {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .habit-stack-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .habit-stack-item.existing {
+            background: rgba(52, 152, 219, 0.1);
+            border: 2px solid rgba(52, 152, 219, 0.3);
+        }
+        .habit-stack-item.new {
+            background: rgba(46, 204, 113, 0.1);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+        }
+        .habit-stack-icon {
+            font-size: 24px;
+        }
+        .habit-stack-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A5276;
+        }
+        .habit-stack-arrow {
+            font-size: 20px;
+            margin: 8px 0;
+            color: #5DADE2;
+        }
+        .habit-stack-builder {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+        }
+        .habit-stack-select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+            border-radius: 10px;
+            font-size: 14px;
+            color: #1A5276;
+            background: white;
+            cursor: pointer;
+        }
+        .habit-stack-save {
+            width: 100%;
+            padding: 12px;
+            background: #3498DB;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .habit-stack-save:hover {
+            background: #2980B9;
+            transform: translateY(-2px);
+        }
+
+        /* === MOOD-PRIMING WIDGET === */
+        .mood-prime-widget {
+            background: linear-gradient(135deg, #FADBD8 0%, #F5B7B1 100%);
+            border: 2px solid #E74C3C;
+        }
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .mood-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 8px;
+            background: white;
+            border: 2px solid rgba(231, 76, 60, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .mood-option:hover {
+            border-color: #E74C3C;
+            transform: scale(1.05);
+        }
+        .mood-option.selected {
+            background: #E74C3C;
+            border-color: #E74C3C;
+        }
+        .mood-option.selected .mood-emoji,
+        .mood-option.selected .mood-label {
+            color: white;
+        }
+        .mood-emoji {
+            font-size: 28px;
+        }
+        .mood-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #922B21;
+        }
+        .mood-suggestion {
+            animation: fadeInUp 0.3s ease;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === GRATITUDE NUDGE WIDGET === */
+        .gratitude-nudge-widget {
+            background: linear-gradient(135deg, #D5F5E3 0%, #A9DFBF 100%);
+            border: 2px solid #27AE60;
+        }
+        .gratitude-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            animation: gentlePulse 3s ease-in-out infinite;
+        }
+        @keyframes gentlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .gratitude-quick-options {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+        .gratitude-quick {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid rgba(39, 174, 96, 0.3);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1E8449;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .gratitude-quick:hover {
+            background: #27AE60;
+            color: white;
+            border-color: #27AE60;
+        }
+        .gratitude-quick.selected {
+            background: #27AE60;
+            color: white;
+            border-color: #27AE60;
+        }
+        .gratitude-write {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 2px dashed rgba(39, 174, 96, 0.4);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #27AE60;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+        .gratitude-write:hover {
+            background: rgba(39, 174, 96, 0.1);
+        }
+        .gratitude-streak {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            background: rgba(230, 126, 34, 0.1);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #E67E22;
+        }
+
         @media (max-width: 768px) {
             .share-options {
                 grid-template-columns: repeat(2, 1fr);
@@ -1529,6 +1812,163 @@
 
                 <!-- Draggable Widget Grid -->
                 <div class="widget-grid" id="widgetGrid">
+                    <!-- Intent Implementation Widget - 1x2 -->
+                    <div class="widget size-1x2 intent-widget" data-id="intent" data-module="intent" data-size="1x2">
+                        <div class="widget-header" style="border-color: rgba(230, 126, 34, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">⏰</span> När ska du träna?</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+                                Att välja en specifik tid ökar sannolikheten för att du genomför det med <strong>90%</strong>!
+                            </p>
+                            <div class="time-slots">
+                                <button class="time-slot" onclick="selectTimeSlot(this)">🌅 06:00</button>
+                                <button class="time-slot" onclick="selectTimeSlot(this)">☕ 08:00</button>
+                                <button class="time-slot selected" onclick="selectTimeSlot(this)">🌞 12:00</button>
+                                <button class="time-slot" onclick="selectTimeSlot(this)">🌆 17:00</button>
+                                <button class="time-slot" onclick="selectTimeSlot(this)">🌙 20:00</button>
+                            </div>
+                            <div class="intent-confirmation" id="intentConfirmation" style="display: none; margin-top: 16px; padding: 12px; background: rgba(39, 174, 96, 0.1); border-radius: 12px; text-align: center;">
+                                <span style="font-size: 24px;">✅</span>
+                                <p style="margin: 8px 0 0; font-weight: 600; color: #27AE60;">Perfekt! Vi påminner dig 11:45</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Implementation Intentions Widget - 2x1 -->
+                    <div class="widget size-2x1 implementation-widget" data-id="implementation" data-module="implementation" data-size="2x1">
+                        <div class="widget-header" style="border-color: rgba(155, 89, 182, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">🧠</span> Implementation Intention</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                                Formulera en plan: <em>"Om X händer, då ska jag göra Y"</em> - Detta ökar chansen att du följer igenom med 200-300%!
+                            </p>
+                            <div class="implementation-form">
+                                <div class="implementation-row">
+                                    <span class="implementation-label">Om</span>
+                                    <select class="implementation-select">
+                                        <option>jag sätter mig i soffan efter jobbet</option>
+                                        <option>jag vaknar på morgonen</option>
+                                        <option>jag äter lunch</option>
+                                        <option>jag kommer hem</option>
+                                    </select>
+                                </div>
+                                <div class="implementation-row">
+                                    <span class="implementation-label">då ska jag</span>
+                                    <select class="implementation-select">
+                                        <option>göra 10 squats direkt</option>
+                                        <option>meditera i 5 minuter</option>
+                                        <option>skriva i journalen</option>
+                                        <option>dricka ett glas vatten</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="implementation-save" onclick="saveImplementation()">💾 Spara min intention</button>
+                        </div>
+                    </div>
+
+                    <!-- Habit Stacking Widget - 1x2 -->
+                    <div class="widget size-1x2 habit-stack-widget" data-id="habitstack" data-module="habitstack" data-size="1x2">
+                        <div class="widget-header" style="border-color: rgba(52, 152, 219, 0.3);">
+                            <div class="widget-title"><span class="widget-icon">🥞</span> Habit Stacking</div>
+                            <div class="widget-controls">
+                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                                Baserat på <strong>BJ Fogg's Tiny Habits</strong>: Fäst en ny vana vid en befintlig!
+                            </p>
+                            <div class="habit-stack-visual">
+                                <div class="habit-stack-item existing">
+                                    <div class="habit-stack-icon">☕</div>
+                                    <div class="habit-stack-text">Efter jag har druckit mitt morgonkaffe</div>
+                                </div>
+                                <div class="habit-stack-arrow">⬇️</div>
+                                <div class="habit-stack-item new">
+                                    <div class="habit-stack-icon">🧘</div>
+                                    <div class="habit-stack-text">ska jag meditera i 2 minuter</div>
+                                </div>
+                            </div>
+                            <div class="habit-stack-builder">
+                                <p style="font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">Bygg din egen stack:</p>
+                                <select class="habit-stack-select" id="existingHabit">
+                                    <option value="coffee">☕ Efter mitt morgonkaffe</option>
+                                    <option value="brush">🪥 Efter jag borstat tänderna</option>
+                                    <option value="shower">🚿 Efter min dusch</option>
+                                    <option value="lunch">🍽️ Efter lunch</option>
+                                </select>
+                                <select class="habit-stack-select" id="newHabit">
+                                    <option value="meditate">🧘 ska jag meditera 2 min</option>
+                                    <option value="stretch">🤸 ska jag stretcha</option>
+                                    <option value="journal">✍️ ska jag skriva 3 rader</option>
+                                    <option value="water">💧 ska jag dricka vatten</option>
+                                </select>
+                                <button class="habit-stack-save" onclick="saveHabitStack()">✨ Skapa stack</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mood-Priming Widget - 1x1 -->
+                    <div class="widget size-1x1 mood-prime-widget" data-id="moodprime" data-module="moodprime" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <h3 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px;">
+                                Hur vill du känna idag?
+                            </h3>
+                            <div class="mood-options">
+                                <button class="mood-option" onclick="selectMood(this, 'energized')">
+                                    <span class="mood-emoji">⚡</span>
+                                    <span class="mood-label">Energisk</span>
+                                </button>
+                                <button class="mood-option" onclick="selectMood(this, 'calm')">
+                                    <span class="mood-emoji">🧘</span>
+                                    <span class="mood-label">Lugn</span>
+                                </button>
+                                <button class="mood-option" onclick="selectMood(this, 'focused')">
+                                    <span class="mood-emoji">🎯</span>
+                                    <span class="mood-label">Fokuserad</span>
+                                </button>
+                                <button class="mood-option" onclick="selectMood(this, 'happy')">
+                                    <span class="mood-emoji">😊</span>
+                                    <span class="mood-label">Glad</span>
+                                </button>
+                            </div>
+                            <div class="mood-suggestion" id="moodSuggestion" style="display: none; margin-top: 16px; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; color: white;">
+                                <p style="margin: 0; font-size: 13px;">💡 <strong>Förslag:</strong> <span id="suggestionText">Gå en 20-minuters promenad i solen!</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gratitude Nudge Widget - 1x1 -->
+                    <div class="widget size-1x1 gratitude-nudge-widget" data-id="gratitude" data-module="gratitude" data-size="1x1">
+                        <div class="widget-content" style="padding: 24px; text-align: center;">
+                            <div class="gratitude-icon">🙏</div>
+                            <h3 style="font-size: 15px; font-weight: 600; color: #27AE60; margin-bottom: 12px;">
+                                Vad är du tacksam för just nu?
+                            </h3>
+                            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                                Att uttrycka tacksamhet dagligen ökar ditt välmående med 25%
+                            </p>
+                            <div class="gratitude-quick-options">
+                                <button class="gratitude-quick" onclick="quickGratitude(this)">❤️ Familj</button>
+                                <button class="gratitude-quick" onclick="quickGratitude(this)">☀️ Solen</button>
+                                <button class="gratitude-quick" onclick="quickGratitude(this)">💪 Hälsa</button>
+                            </div>
+                            <button class="gratitude-write" onclick="writeGratitude()">✍️ Skriv eget...</button>
+                            <div class="gratitude-streak" id="gratitudeStreak">
+                                <span>🔥</span>
+                                <span>5 dagar i rad!</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Social Proof Widget - 1x1 -->
                     <div class="widget size-1x1 social-proof-widget" data-id="socialproof" data-module="socialproof" data-size="1x1">
                         <div class="social-proof-content">
@@ -2375,6 +2815,67 @@
                     alert('Kopierat till urklipp! 📋');
                     break;
             }
+        }
+
+        // Intent Implementation - select time slot
+        function selectTimeSlot(btn) {
+            document.querySelectorAll('.time-slot').forEach(slot => slot.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('intentConfirmation').style.display = 'block';
+            setTimeout(() => {
+                showNotification('Intention sparad! Vi påminner dig 🔔');
+            }, 300);
+        }
+
+        // Implementation Intentions - save
+        function saveImplementation() {
+            showNotification('Implementation intention sparad! 🧠✨');
+        }
+
+        // Habit Stacking - save
+        function saveHabitStack() {
+            const existing = document.getElementById('existingHabit').value;
+            const newHabit = document.getElementById('newHabit').value;
+            showNotification('Habit stack skapad! Du kommer att älska detta! 🥞✨');
+        }
+
+        // Mood Priming - select mood
+        const moodSuggestions = {
+            energized: 'Gå en 20-minuters promenad i solen! ☀️',
+            calm: 'Gör 5 minuter av djupandning nu 🧘',
+            focused: 'Använd Pomodoro-tekniken för nästa uppgift 🍅',
+            happy: 'Skriv ner 3 saker du är tacksam för 🙏'
+        };
+
+        function selectMood(btn, mood) {
+            document.querySelectorAll('.mood-option').forEach(opt => opt.classList.remove('selected'));
+            btn.classList.add('selected');
+            document.getElementById('suggestionText').textContent = moodSuggestions[mood];
+            document.getElementById('moodSuggestion').style.display = 'block';
+        }
+
+        // Gratitude Nudge - quick gratitude
+        function quickGratitude(btn) {
+            document.querySelectorAll('.gratitude-quick').forEach(g => g.classList.remove('selected'));
+            btn.classList.add('selected');
+            showNotification('Tack för att du delade! Din tacksamhet är sparad 🙏💚');
+        }
+
+        // Write custom gratitude
+        function writeGratitude() {
+            const entry = prompt('Vad är du tacksam för just nu?');
+            if (entry) {
+                showNotification('Tacksamhet sparad till journalen! 📔✨');
+            }
+        }
+
+        // Notification helper
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.style.cssText = 'position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #27AE60; color: white; padding: 16px 32px; border-radius: 30px; font-weight: 600; box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3); z-index: 1000; animation: slideUp 0.3s ease;';
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
         }
 </script>
 <!-- Share Modal -->
