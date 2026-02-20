@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal - Comdira</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Journal Page Styles */
+        .journal-page {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* AI Welcome Banner */
+        .journal-ai-banner {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            border-left: 5px solid var(--primary-dark);
+        }
+        
+        .journal-ai-avatar {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .journal-ai-content {
+            flex: 1;
+        }
+        
+        .journal-ai-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .journal-ai-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .journal-ai-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .ai-btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ai-btn-primary {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+        
+        .ai-btn-secondary {
+            background: white;
+            color: var(--text-secondary);
+            border: 2px solid var(--primary-light);
+        }
+        
+        /* Quick Entry Buttons */
+        .quick-entry-section {
+            margin-bottom: 32px;
+        }
+        
+        .quick-entry-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .quick-entry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+        
+        .quick-entry-btn {
+            background: var(--bg-surface);
+            border: 2px solid var(--primary-light);
+            border-radius: 20px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-entry-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .quick-entry-btn .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        
+        .quick-entry-btn .label {
+            font-weight: 700;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .quick-entry-btn .sublabel {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Stats Row */
+        .journal-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .journal-stat-card {
+            background: var(--bg-surface);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .journal-stat-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+        
+        .journal-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .journal-stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        
+        /* Mood Timeline */
+        .mood-timeline-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .mood-chart-container {
+            height: 200px;
+            margin-bottom: 24px;
+        }
+        
+        .mood-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .mood-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .mood-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        /* Recent Entries */
+        .recent-entries-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .entry-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .entry-card:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .entry-card.evening {
+            border-left-color: #5C6BC0;
+        }
+        
+        .entry-card.micro {
+            border-left-color: #FF9800;
+        }
+        
+        .entry-card.goal {
+            border-left-color: #4CAF50;
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .entry-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .entry-type-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .entry-type-badge.morning { background: #E8F5E8; color: #2E7D32; }
+        .entry-type-badge.evening { background: #E8EAF6; color: #3949AB; }
+        .entry-type-badge.micro { background: #FFF3E0; color: #EF6C00; }
+        .entry-type-badge.goal { background: #E8F5E8; color: #2E7D32; }
+        
+        .entry-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .entry-mood {
+            font-size: 28px;
+        }
+        
+        .entry-preview {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .entry-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .entry-tag {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .entry-tag.goal { background: #E3F2FD; color: #1565C0; }
+        .entry-tag.habit { background: #F3E5F5; color: #7B1FA2; }
+        .entry-tag.dimension { background: #E8F5E8; color: #2E7D32; }
+        .entry-tag.emotion { background: #FFF3E0; color: #E65100; }
+        
+        .entry-insights {
+            background: linear-gradient(135deg, #E8F5E8, #D4EFDF);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .entry-insights-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .entry-insights-list {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* Themes Section */
+        .themes-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .theme-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .theme-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .theme-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        
+        .theme-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .theme-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .theme-trend {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        
+        .theme-trend.up {
+            background: #E8F5E8;
+            color: #2E7D32;
+        }
+        
+        .theme-trend.down {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+        
+        /* Search Section */
+        .search-section {
+            background: var(--bg-surface);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 18px 24px 18px 56px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            font-size: 18px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+        
+        .search-filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .search-filter-btn {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .search-filter-btn:hover,
+        .search-filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        /* Smart Prompts */
+        .smart-prompts-section {
+            background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        
+        .smart-prompts-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 20px;
+        }
+        
+        .prompt-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .prompt-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .prompt-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .prompt-text {
+            flex: 1;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+        
+        .prompt-arrow {
+            font-size: 24px;
+            color: #E65100;
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        
+        /* Entry Form */
+        .entry-form-group {
+            margin-bottom: 24px;
+        }
+        
+        .entry-form-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+        
+        .entry-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .entry-type-option {
+            padding: 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .entry-type-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .entry-type-option .icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .entry-title-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 12px;
+            font-size: 18px;
+            font-family: inherit;
+        }
+        
+        .entry-content-textarea {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            font-size: 16px;
+            font-family: inherit;
+            min-height: 200px;
+            resize: vertical;
+            line-height: 1.8;
+        }
+        
+        .entry-content-textarea:focus,
+        .entry-title-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        
+        /* Mood Selector */
+        .mood-selector {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .mood-option {
+            padding: 16px 24px;
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .mood-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .mood-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .mood-option .emoji {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .mood-option .label {
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Auto-tags Preview */
+        .auto-tags-preview {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .auto-tags-title {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        
+        /* Action Buttons */
+        .btn-primary-lg {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-top: 24px;
+        }
+        
+        /* Floating Add Button */
+        .fab-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            font-size: 32px;
+            color: var(--text-primary);
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(144, 238, 144, 0.5);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .fab-button:hover {
+            transform: scale(1.1);
+        }
+        
+        /* AI Analysis Card */
+        .ai-analysis-card {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+            border-radius: 20px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        
+        .ai-analysis-title {
+            font-weight: 700;
+            color: #1565C0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .ai-analysis-content {
+            color: #1976D2;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .journal-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-entry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .entry-type-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Demo-banner -->
+    <div class="demo-banner">
+        🚀 DEMO-VERSION | Journal | 
+        <a href="dashboard.html">← Tillbaka till Dashboard</a>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon-sm">C</div>
+                    <span class="logo-text">Comdira</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-item">
+                    <span>⊞</span> Dashboard
+                </a>
+                <a href="checkin.html" class="nav-item">
+                    <span>○</span> Dagens Check-in
+                </a>
+                <a href="wellness.html" class="nav-item">
+                    <span>⬡</span> Välmåendehexagonen
+                </a>
+                <a href="goals.html" class="nav-item">
+                    <span>◆</span> Mina Mål
+                </a>
+                <a href="habits.html" class="nav-item">
+                    <span>✓</span> Vanor
+                </a>
+                <a href="journal.html" class="nav-item active">
+                    <span>📝</span> Journal
+                </a>
+                <a href="#" class="nav-item">
+                    <span>💬</span> Coach
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="journal-page">
+                
+                <!-- AI Welcome Banner -->
+                <div class="journal-ai-banner">
+                    <div class="journal-ai-avatar">🤖</div>
+                    <div class="journal-ai-content">
+                        <div class="journal-ai-title">
+                            Din Journal-guide
+                            <span style="font-size: 12px; font-weight: 400; color: var(--text-light);">• Analyserat 47 inlägg</span>
+                        </div>
+                        <p class="journal-ai-text" id="aiJournalText">
+                            Jag har analyserat dina senaste månaders journaler och ser ett tydligt mönster: 
+                            Du skriver mest om tacksamhet på fredagar, och dina mest positiva inlägg kommer 
+                            ofta efter dagar med meditation. Vill du utforska detta djupare?
+                        </p>
+                        <div class="journal-ai-actions">
+                            <button class="ai-btn ai-btn-primary" onclick="explorePatterns()">
+                                🔍 Utforska mönster
+                            </button>
+                            <button class="ai-btn ai-btn-secondary" onclick="generatePrompt()">
+                                ✨ Ge mig en prompt
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Row -->
+                <div class="journal-stats-row">
+                    <div class="journal-stat-card">
+                        <div class="journal-stat-icon">📝</div>
+                        <div class="journal-stat-value">47</div>
+                        <div class="journal-stat-label">Totala inlägg</div>
+                    </div>
+                    <div class="journal-stat-card">
+                        <div class="journal-stat-icon">🔥</div>
+                        <div class="journal-stat-value">12</div>
+                        <div class="journal-stat-label">Dagar i rad</div>
+                    </div>
+                    <div class="journal-stat-card">
+                        <div class="journal-stat-icon">🏷️</div>
+                        <div class="journal-stat-value">23</div>
+                        <div class="journal-stat-label">Teman identifierade</div>
+                    </div>
+                    <div class="journal-stat-card">
+                        <div class="journal-stat-icon">💡</div>
+                        <div class="journal-stat-value">156</div>
+                        <div class="journal-stat-label">AI-insikter</div>
+                    </div>
+                </div>
+                
+                <!-- Quick Entry -->
+                <div class="quick-entry-section">
+                    <h3 class="quick-entry-title">Snabb journalföring</h3>
+                    <div class="quick-entry-grid">
+                        <div class="quick-entry-btn" onclick="openEntryModal('morning')">
+                            <span class="icon">🌅</span>
+                            <span class="label">Morgon-intention</span>
+                            <span class="sublabel">Sätt dagens fokus</span>
+                        </div>
+                        <div class="quick-entry-btn" onclick="openEntryModal('micro')">
+                            <span class="icon">⚡</span>
+                            <span class="label">Mikro-journal</span>
+                            <span class="sublabel">30-sekunders reflektion</span>
+                        </div>
+                        <div class="quick-entry-btn" onclick="openEntryModal('goal')">
+                            <span class="icon">🎯</span>
+                            <span class="label">Mål-reflektion</span>
+                            <span class="sublabel">Fundera kring framsteg</span>
+                        </div>
+                        <div class="quick-entry-btn" onclick="openEntryModal('free')">
+                            <span class="icon">💭</span>
+                            <span class="label">Fri-reflektion</span>
+                            <span class="sublabel">Skriv vad som finns</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mood Timeline -->
+                <div class="mood-timeline-section">
+                    <div class="section-header">
+                        <h3 class="section-title">😊 Mood Timeline</h3>
+                        <select style="padding: 10px 16px; border-radius: 10px; border: 2px solid var(--primary-light);">
+                            <option>Senaste 30 dagarna</option>
+                            <option>Senaste 3 månaderna</option>
+                            <option>Detta år</option>
+                        </select>
+                    </div>
+                    <div class="mood-chart-container">
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                    <div class="mood-legend">
+                        <div class="mood-legend-item">
+                            <div class="mood-dot" style="background: #4CAF50;"></div>
+                            <span>Positiv stämning</span>
+                        </div>
+                        <div class="mood-legend-item">
+                            <div class="mood-dot" style="background: #FF9800;"></div>
+                            <span>Neutral/MIXAD</span>
+                        </div>
+                        <div class="mood-legend-item">
+                            <div class="mood-dot" style="background: #F44336;"></div>
+                            <span>Utmanande dag</span>
+                        </div>
+                        <div class="mood-legend-item">
+                            <div class="mood-dot" style="background: #9C27B0;"></div>
+                            <span>Mål-relaterad</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Smart Prompts -->
+                <div class="smart-prompts-section">
+                    <h3 class="smart-prompts-title">💡 Smarta Prompts baserat på din data</h3>
+                    
+                    <div class="prompt-card" onclick="usePrompt('gratitude')">
+                        <span class="prompt-icon">💝</span>
+                        <span class="prompt-text">
+                            Du nämnde att du kände dig stressad förra veckan. Hur känns det idag? 
+                            Vad har förändrats sedan dess?
+                        </span>
+                        <span class="prompt-arrow">→</span>
+                    </div>
+                    
+                    <div class="prompt-card" onclick="usePrompt('habit')">
+                        <span class="prompt-icon">🧘</span>
+                        <span class="prompt-text">
+                            Ditt humör har varit högre sedan du började med morgonmeditation. 
+                            Vilken skillnad märker du mest?
+                        </span>
+                        <span class="prompt-arrow">→</span>
+                    </div>
+                    
+                    <div class="prompt-card" onclick="usePrompt('goal')">
+                        <span class="prompt-icon">🏃</span>
+                        <span class="prompt-text">
+                            Du har nått 75% av målet 'Springa 5km'. Vilka hinder har du 
+                            övervunnit på vägen hit?
+                        </span>
+                        <span class="prompt-arrow">→</span>
+                    </div>
+                </div>
+                
+                <!-- Recent Entries -->
+                <div class="recent-entries-section">
+                    <div class="section-header">
+                        <h3 class="section-title">📝 Senaste inlägg</h3>
+                        <a href="#" class="btn btn-ghost">Se alla 47</a>
+                    </div>
+                    
+                    <div id="entriesContainer">
+                        <!-- Entry 1 -->
+                        <div class="entry-card evening" onclick="openEntryDetail(1)">
+                            <div class="entry-header">
+                                <div class="entry-meta">
+                                    <span class="entry-type-badge evening">🌙 Kvälls-reflektion</span>
+                                    <span class="entry-date">Idag 19:30</span>
+                                </div>
+                                <span class="entry-mood">😊</span>
+                            </div>
+                            <p class="entry-preview">
+                                Idag kändes det tufft på jobbet med det där mötet som gick snett. 
+                                Men jag är stolt över att jag ändå tog mig till gymmet efteråt. 
+                                Det hjälpte verkligen att få ur frustrationen. På vägen hem mötte 
+                                jag en gammal vän vilket förgyllde dagen...
+                            </p>
+                            <div class="entry-tags">
+                                <span class="entry-tag goal">🎯 Springa 5km</span>
+                                <span class="entry-tag habit">✓ Träning</span>
+                                <span class="entry-tag dimension">💼 Yrkesmässigt</span>
+                                <span class="entry-tag emotion">😔→💪 Utmaning→Styrka</span>
+                            </div>
+                            <div class="entry-insights">
+                                <div class="entry-insights-title">🤖 AI-insikter</div>
+                                <div class="entry-insights-list">
+                                    • Du nämner "träning" som coping-mekanism för stress<br>
+                                    • Positivt humör trots jobbigt möte (+2 poäng från gårdagen)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Entry 2 -->
+                        <div class="entry-card" onclick="openEntryDetail(2)">
+                            <div class="entry-header">
+                                <div class="entry-meta">
+                                    <span class="entry-type-badge morning">🌅 Morgon-intention</span>
+                                    <span class="entry-date">18 feb 07:15</span>
+                                </div>
+                                <span class="entry-mood">🙂</span>
+                            </div>
+                            <p class="entry-preview">
+                                Dagens intention: Var närvarande i möten och lyssna mer än jag pratar. 
+                                Jag vill också komma ihåg att ta pauser och stretcha mellan mötena. 
+                                Känner mig motiverad efter gårdagens bra sömn!
+                            </p>
+                            <div class="entry-tags">
+                                <span class="entry-tag dimension">👥 Socialt</span>
+                                <span class="entry-tag habit">✓ Meditation</span>
+                                <span class="entry-tag emotion">🎯 Motiverad</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Entry 3 -->
+                        <div class="entry-card goal" onclick="openEntryDetail(3)">
+                            <div class="entry-header">
+                                <div class="entry-meta">
+                                    <span class="entry-type-badge goal">🎯 Mål-reflektion</span>
+                                    <span class="entry-date">15 feb 20:45</span>
+                                </div>
+                                <span class="entry-mood">🤩</span>
+                            </div>
+                            <p class="entry-preview">
+                                KLARADE 3KM! 🎉 Jag kan inte fatta det, för bara två månader sedan 
+                                orkade jag knappt 1km. Det som hjälpte var att bryta ner det i 
+                                mindre delar och fira varje milstolpe. Tack vare stödet från...
+                            </p>
+                            <div class="entry-tags">
+                                <span class="entry-tag goal">🏃 Springa 5km</span>
+                                <span class="entry-tag emotion">🎉 Stolt</span>
+                                <span class="entry-tag emotion">🔥 Inspirerad</span>
+                            </div>
+                            <div class="entry-insights">
+                                <div class="entry-insights-title">🤖 AI-insikter</div>
+                                <div class="entry-insights-list">
+                                    • Milestone-celebration detekterad<br>
+                                    • Kopplat till streak av konsekvent träning (18 dagar)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Themes -->
+                <div class="themes-section">
+                    <div class="section-header">
+                        <h3 class="section-title">🏷️ Dina Teman</h3>
+                    </div>
+                    <div class="themes-grid">
+                        <div class="theme-card" onclick="filterByTheme('tacksamhet')">
+                            <div class="theme-icon">💝</div>
+                            <div class="theme-name">Tacksamhet</div>
+                            <div class="theme-count">18 inlägg</div>
+                            <span class="theme-trend up">↑ 40%</span>
+                        </div>
+                        <div class="theme-card" onclick="filterByTheme('tankar')">
+                            <div class="theme-icon">💭</div>
+                            <div class="theme-name">Tankar</div>
+                            <div class="theme-count">23 inlägg</div>
+                            <span class="theme-trend up">↑ 12%</span>
+                        </div>
+                        <div class="theme-card" onclick="filterByTheme('mal')">
+                            <div class="theme-icon">🎯</div>
+                            <div class="theme-name">Mål & Framsteg</div>
+                            <div class="theme-count">12 inlägg</div>
+                            <span class="theme-trend up">↑ 25%</span>
+                        </div>
+                        <div class="theme-card" onclick="filterByTheme('utmaningar')">
+                            <div class="theme-icon">⛰️</div>
+                            <div class="theme-name">Utmaningar</div>
+                            <div class="theme-count">9 inlägg</div>
+                            <span class="theme-trend down">↓ 15%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search -->
+                <div class="search-section">
+                    <div class="section-header">
+                        <h3 class="section-title">🔍 Sök & Upptäck</h3>
+                    </div>
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Sök i din journal... t.ex. 'tacksam', 'stress', 'onsdag'" id="searchInput">
+                    </div>
+                    <div class="search-filters">
+                        <button class="search-filter-btn" onclick="quickSearch('tacksam')">💝 Tacksamhet</button>
+                        <button class="search-filter-btn" onclick="quickSearch('stress')">😰 Stress</button>
+                        <button class="search-filter-btn" onclick="quickSearch('onsdag')">📅 Onsdagar</button>
+                        <button class="search-filter-btn" onclick="quickSearch('meditation')">🧘 Meditation</button>
+                        <button class="search-filter-btn" onclick="quickSearch('framgang')">🏆 Framgång</button>
+                    </div>
+                    <div id="searchResults" style="margin-top: 20px; display: none;">
+                        <!-- Search results appear here -->
+                    </div>
+                </div>
+                
+                <!-- Floating Add Button -->
+                <button class="fab-button" onclick="openEntryModal('free')">
+                    +
+                </button>
+                
+            </div>
+        </main>
+    </div>
+    
+    <!-- New Entry Modal -->
+    <div class="modal-overlay" id="entryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📝 Nytt Journalinlägg</h2>
+                <button class="modal-close" onclick="closeEntryModal()">&times;</button>
+            </div>
+            
+            <form id="entryForm" onsubmit="saveEntry(event)">
+                <div class="entry-form-group">
+                    <label class="entry-form-label">Typ av inlägg</label>
+                    <div class="entry-type-selector">
+                        <div class="entry-type-option selected" onclick="selectEntryType(this, 'morning')">
+                            <span class="icon">🌅</span>
+                            <span>Morgon-intention</span>
+                        </div>
+                        <div class="entry-type-option" onclick="selectEntryType(this, 'evening')">
+                            <span class="icon">🌙</span>
+                            <span>Kvälls-reflektion</span>
+                        </div>
+                        <div class="entry-type-option" onclick="selectEntryType(this, 'micro')">
+                            <span class="icon">⚡</span>
+                            <span>Mikro-journal</span>
+                        </div>
+                        <div class="entry-type-option" onclick="selectEntryType(this, 'free')">
+                            <span class="icon">💭</span>
+                            <span>Fri-reflektion</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="entry-form-group">
+                    <label class="entry-form-label">Hur känner du dig?</label>
+                    <div class="mood-selector">
+                        <div class="mood-option" onclick="selectMood(this, 1)">
+                            <span class="emoji">😔</span>
+                            <span class="label">Tungt</span>
+                        </div>
+                        <div class="mood-option" onclick="selectMood(this, 2)">
+                            <span class="emoji">😕</span>
+                            <span class="label">Nedstämd</span>
+                        </div>
+                        <div class="mood-option" onclick="selectMood(this, 3)">
+                            <span class="emoji">😐</span>
+                            <span class="label">Okej</span>
+                        </div>
+                        <div class="mood-option selected" onclick="selectMood(this, 4)">
+                            <span class="emoji">🙂</span>
+                            <span class="label">Bra</span>
+                        </div>
+                        <div class="mood-option" onclick="selectMood(this, 5)">
+                            <span class="emoji">😊</span>
+                            <span class="label">Mycket bra</span>
+                        </div>
+                        <div class="mood-option" onclick="selectMood(this, 6)">
+                            <span class="emoji">🤩</span>
+                            <span class="label">Fantastiskt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="entry-form-group">
+                    <label class="entry-form-label">Titel (valfritt)</label>
+                    <input type="text" class="entry-title-input" id="entryTitle" 
+                           placeholder="Ge ditt inlägg en titel...">
+                </div>
+                
+                <div class="entry-form-group">
+                    <label class="entry-form-label">Dina tankar</label>
+                    <textarea class="entry-content-textarea" id="entryContent" 
+                              placeholder="Skriv fritt om vad som finns på ditt hjärta...
+
+💡 Tips: Ju mer du skriver, desto bättre insikter kan AI ge dig!"></textarea>
+                    <div class="auto-tags-preview">
+                        <div class="auto-tags-title">🏷️ AI kommer auto-tagga: Mål, Vanor, Dimensioner, Känslor</div>
+                        <div style="display: flex; gap: 8px; margin-top: 12px;">
+                            <span class="entry-tag goal">🎯 Ex: Springa 5km</span>
+                            <span class="entry-tag habit">✓ Ex: Meditation</span>
+                            <span class="entry-tag dimension">💝 Ex: Emotionellt</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ai-analysis-card" id="aiPreview" style="display: none;">
+                    <div class="ai-analysis-title">🤖 AI-analys (förhandsvisning)</div>
+                    <div class="ai-analysis-content" id="aiPreviewContent">
+                        Analys kommer visas här när du börjar skriva...
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary-lg">
+                    📝 Spara Journalinlägg
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Demo-data för journal
+        let entries = [
+            {
+                id: 1,
+                type: 'evening',
+                title: '',
+                content: 'Idag kändes det tufft på jobbet med det där mötet som gick snett. Men jag är stolt över att jag ändå tog mig till gymmet efteråt. Det hjälpte verkligen att få ur frustrationen.',
+                mood: 4,
+                date: '2026-02-20 19:30',
+                tags: [
+                    { type: 'goal', value: '🎯 Springa 5km' },
+                    { type: 'habit', value: '✓ Träning' },
+                    { type: 'dimension', value: '💼 Yrkesmässigt' },
+                    { type: 'emotion', value: '😔→💪 Utmaning→Styrka' }
+                ],
+                insights: [
+                    'Du nämner "träning" som coping-mekanism för stress',
+                    'Positivt humör trots jobbigt möte (+2 poäng från gårdagen)'
+                ]
+            },
+            {
+                id: 2,
+                type: 'morning',
+                title: 'Dagens Intention',
+                content: 'Dagens intention: Var närvarande i möten och lyssna mer än jag pratar. Jag vill också komma ihåg att ta pauser och stretcha mellan mötena.',
+                mood: 3,
+                date: '2026-02-18 07:15',
+                tags: [
+                    { type: 'dimension', value: '👥 Socialt' },
+                    { type: 'habit', value: '✓ Meditation' },
+                    { type: 'emotion', value: '🎯 Motiverad' }
+                ],
+                insights: []
+            },
+            {
+                id: 3,
+                type: 'goal',
+                title: 'KLARADE 3KM! 🎉',
+                content: 'KLARADE 3KM! Jag kan inte fatta det, för bara två månader sedan orkade jag knappt 1km. Det som hjälpte var att bryta ner det i mindre delar.',
+                mood: 6,
+                date: '2026-02-15 20:45',
+                tags: [
+                    { type: 'goal', value: '🏃 Springa 5km' },
+                    { type: 'emotion', value: '🎉 Stolt' },
+                    { type: 'emotion', value: '🔥 Inspirerad' }
+                ],
+                insights: [
+                    'Milestone-celebration detekterad',
+                    'Kopplat till streak av konsekvent träning (18 dagar)'
+                ]
+            }
+        ];
+        
+        let selectedEntryType = 'morning';
+        let selectedMood = 4;
+        
+        // Rendera mood chart
+        function renderMoodChart() {
+            const ctx = document.getElementById('moodChart');
+            if (!ctx) return;
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '5', '10', '15', '20', '25', '30'],
+                    datasets: [{
+                        label: 'Humör',
+                        data: [3, 4, 3, 5, 4, 5, 4],
+                        borderColor: '#90EE90',
+                        backgroundColor: 'rgba(144, 238, 144, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#90EE90'
+                    }, {
+                        label: 'Energi',
+                        data: [4, 5, 4, 5, 3, 4, 4],
+                        borderColor: '#FFD93D',
+                        backgroundColor: 'rgba(255, 217, 61, 0.2)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointBackgroundColor: '#FFD93D'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 6,
+                            ticks: {
+                                callback: v => ['', '😔', '😐', '🙂', '😊', '🤩'][v] || ''
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Modal funktioner
+        function openEntryModal(type) {
+            document.getElementById('entryModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Välj rätt typ
+            document.querySelectorAll('.entry-type-option').forEach(el => {
+                el.classList.remove('selected');
+                if (el.textContent.toLowerCase().includes(type)) {
+                    el.classList.add('selected');
+                    selectedEntryType = type;
+                }
+            });
+        }
+        
+        function closeEntryModal() {
+            document.getElementById('entryModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function openEntryDetail(id) {
+            const entry = entries.find(e => e.id === id);
+            if (entry) {
+                alert(`📖 ${entry.title || 'Journalinlägg'}\n\n${entry.content}\n\n🏷️ Taggar: ${entry.tags.map(t => t.value).join(', ')}\n\n🤖 ${entry.insights.length} AI-insikter tillgängliga`);
+            }
+        }
+        
+        // Form-hantering
+        function selectEntryType(element, type) {
+            document.querySelectorAll('.entry-type-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedEntryType = type;
+        }
+        
+        function selectMood(element, mood) {
+            document.querySelectorAll('.mood-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedMood = mood;
+        }
+        
+        function saveEntry(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('entryTitle').value;
+            const content = document.getElementById('entryContent').value;
+            
+            // Simulera AI-analys
+            const newEntry = {
+                id: entries.length + 1,
+                type: selectedEntryType,
+                title: title,
+                content: content,
+                mood: selectedMood,
+                date: new Date().toISOString().replace('T', ' ').slice(0, 16),
+                tags: [
+                    { type: 'dimension', value: '💝 Emotionellt' },
+                    { type: 'habit', value: '✓ Morgonmeditation' }
+                ],
+                insights: [
+                    'Positiv stämning detekterad',
+                    'Koppling till tidigare inlägg om personlig utveckling'
+                ]
+            };
+            
+            entries.unshift(newEntry);
+            closeEntryModal();
+            
+            alert(`✅ Journalinlägg sparat!\n\n🤖 AI-analys:\n• Upptäckte positiv stämning\n• Kopplade till dina mål\n• Lade till i dina teman\n\nFortsätt skriva - du har nu 48 inlägg!`);
+        }
+        
+        // AI-funktioner
+        function explorePatterns() {
+            alert(`🔍 Mönsteranalys\n\n📊 Dina viktigaste insikter:\n\n1. 🧘 Meditation → +34% humör (korrelation)\n2. 📚 Läsning på kvällen → +28% sömnkvalitet\n3. 🏃 Träning → -45% stress (samma dag)\n4. 🗓️ Fredagar → 2.3x mer tacksamhet\n\n💡 AI-rekommendation:\n"Prioritera meditation på tisdagar - din svagaste dag"`);
+        }
+        
+        function generatePrompt() {
+            const prompts = [
+                "Vad är du mest stolt över från denna vecka?",
+                "Om du kunde ge dig själv ett råd för imorgon, vad skulle det vara?",
+                "Vilken vana har påverkat ditt mående mest den senaste tiden?",
+                "Beskriv en liten lycka du upplevde idag.",
+                "Vad skulle du vilja släppa taget om?"
+            ];
+            const random = prompts[Math.floor(Math.random() * prompts.length)];
+            alert(`✨ AI-genererad prompt:\n\n"${random}"\n\nKlicka på '+' för att börja skriva!`);
+        }
+        
+        function usePrompt(type) {
+            openEntryModal(type);
+        }
+        
+        // Sök-funktioner
+        function quickSearch(term) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = term;
+            
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.style.display = 'block';
+            
+            let resultText = '';
+            if (term === 'tacksam') {
+                resultText = `💝 "Tacksamhet" hittades i 18 inlägg\n\n📈 Trend: Ökat 40% senaste månaden\n🗓️ Vanligast: Fredagar\n💡 AI-insikt: "Dina tacksamhets-inlägg korrelerar med 23% högre humör dagen efter"`;
+            } else if (term === 'stress') {
+                resultText = `😰 "Stress" hittades i 9 inlägg\n\n📉 Trend: Minskat 15% senaste månaden\n🗓️ Vanligast: Onsdagar (mötesdagar)\n💡 AI-insikt: "Du hanterar stress bättre sedan du började med meditation"`;
+            } else if (term === 'onsdag') {
+                resultText = `📅 "Onsdag" hittades i 12 inlägg\n\n😊 Genomsnittligt humör: 3.2/6 (lägst)\n⚡ Genomsnittlig energi: 3.1/6 (lägst)\n💡 AI-insikt: "Onsdagar är din svagaste dag. Överväg att lätta på vanor eller lägga till självvård?"`;
+            } else {
+                resultText = `🔍 "${term}" hittades i ${Math.floor(Math.random() * 10) + 3} inlägg\n\nSe detaljer i fullständiga journalen.`;
+            }
+            
+            resultsDiv.innerHTML = `<div style="background: var(--bg-card); padding: 20px; border-radius: 16px; white-space: pre-line;">${resultText}</div>`;
+        }
+        
+        function filterByTheme(theme) {
+            alert(`🏷️ Filter: ${theme}\n\nVisar alla inlägg taggade med detta tema...\n(Funktionalitet i fullversion)`);
+        }
+        
+        // Initiera
+        renderMoodChart();
+        
+        // Stäng modal vid klick utanför
+        document.getElementById('entryModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEntryModal();
+        });
+    </script>
+</body>
+</html>
