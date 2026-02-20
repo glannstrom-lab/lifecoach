@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Välmåendehexagonen - Comdira</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Välmåendehexagonen Page Styles */
@@ -778,38 +779,99 @@
     </div>
     
     <div class="app-container">
+        <!-- Mobile Menu Toggle -->
+        <button class="mobile-menu-toggle" onclick="toggleMobileSidebar()">☰</button>
+        
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="logo">
+                <a href="dashboard.html" class="logo">
                     <div class="logo-icon-sm">C</div>
                     <span class="logo-text">Comdira</span>
-                </div>
+                </a>
+                <button class="sidebar-toggle" onclick="toggleSidebar()" title="Expandera/Kollapsa">
+                    ◀
+                </button>
             </div>
             
             <nav class="nav-menu">
-                <a href="dashboard.html" class="nav-item">
-                    <span>⊞</span> Dashboard
+                <a href="dashboard.html" class="nav-item" data-tooltip="Dashboard">
+                    <span>⊞</span>
+                    <span class="nav-item-text">Dashboard</span>
                 </a>
-                <a href="checkin.html" class="nav-item">
-                    <span>○</span> Dagens Check-in
+                
+                <a href="checkin.html" class="nav-item" data-tooltip="Dagens Check-in">
+                    <span>○</span>
+                    <span class="nav-item-text">Dagens Check-in</span>
                 </a>
-                <a href="wellness.html" class="nav-item active">
-                    <span>⬡</span> Välmåendehexagonen
+                
+                <!-- Wellness Hexagon with Submenu -->
+                <div class="nav-item expanded active" onclick="toggleSubmenu(this)" data-tooltip="Välmåendehexagonen">
+                    <span>⬡</span>
+                    <span class="nav-item-text">Välmåendehexagonen</span>
+                    <span class="nav-item-expand">▶</span>
+                </div>
+                <div class="nav-submenu expanded">
+                    <a href="wellness.html" class="nav-subitem active" onclick="showDimensionTab('overview')">
+                        <span class="nav-subitem-icon">📊</span>
+                        <span class="nav-item-text">Översikt</span>
+                    </a>
+                    <a href="#" class="nav-subitem existential" onclick="showDimensionTab('existential'); return false;" data-tooltip="Existentiellt">
+                        <span class="nav-subitem-icon">🔮</span>
+                        <span class="nav-item-text">Existentiellt</span>
+                    </a>
+                    <a href="#" class="nav-subitem emotional" onclick="showDimensionTab('emotional'); return false;" data-tooltip="Emotionellt">
+                        <span class="nav-subitem-icon">💝</span>
+                        <span class="nav-item-text">Emotionellt</span>
+                    </a>
+                    <a href="#" class="nav-subitem subjective" onclick="showDimensionTab('subjective'); return false;" data-tooltip="Subjektivt">
+                        <span class="nav-subitem-icon">✨</span>
+                        <span class="nav-item-text">Subjektivt</span>
+                    </a>
+                    <a href="#" class="nav-subitem occupational" onclick="showDimensionTab('occupational'); return false;" data-tooltip="Yrkesmässigt">
+                        <span class="nav-subitem-icon">💼</span>
+                        <span class="nav-item-text">Yrkesmässigt</span>
+                    </a>
+                    <a href="#" class="nav-subitem social" onclick="showDimensionTab('social'); return false;" data-tooltip="Socialt">
+                        <span class="nav-subitem-icon">👥</span>
+                        <span class="nav-item-text">Socialt</span>
+                    </a>
+                    <a href="#" class="nav-subitem practical" onclick="showDimensionTab('practical'); return false;" data-tooltip="Vardagligt">
+                        <span class="nav-subitem-icon">🛠️</span>
+                        <span class="nav-item-text">Vardagligt</span>
+                    </a>
+                </div>
+                
+                <a href="goals.html" class="nav-item" data-tooltip="Mina Mål">
+                    <span>◆</span>
+                    <span class="nav-item-text">Mina Mål</span>
                 </a>
-                <a href="goals.html" class="nav-item">
-                    <span>◆</span> Mina Mål
+                
+                <a href="habits.html" class="nav-item" data-tooltip="Vanor">
+                    <span>✓</span>
+                    <span class="nav-item-text">Vanor</span>
                 </a>
-                <a href="habits.html" class="nav-item">
-                    <span>✓</span> Vanor
+                
+                <a href="journal.html" class="nav-item" data-tooltip="Journal">
+                    <span>📝</span>
+                    <span class="nav-item-text">Journal</span>
                 </a>
-                <a href="journal.html" class="nav-item">
-                    <span>📝</span> Journal
-                </a>
-                <a href="coach.html" class="nav-item">
-                    <span>💬</span> Coach
+                
+                <a href="coach.html" class="nav-item" data-tooltip="Coach">
+                    <span>💬</span>
+                    <span class="nav-item-text">Coach</span>
                 </a>
             </nav>
+            
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="sidebar-user-avatar">👤</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name">Demo Användare</div>
+                        <div class="sidebar-user-role">Premium</div>
+                    </div>
+                </div>
+            </div>
         </aside>
         
         <!-- Main Content -->
@@ -1768,6 +1830,47 @@
         
         // Initiera
         generateQuestions();
+        
+        // Sidebar Toggle Functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            
+            // Save preference to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed);
+        }
+        
+        // Submenu Toggle
+        function toggleSubmenu(element) {
+            // Only work if sidebar is not collapsed
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.classList.contains('collapsed')) {
+                // Expand sidebar first
+                sidebar.classList.remove('collapsed');
+            }
+            
+            element.classList.toggle('expanded');
+            const submenu = element.nextElementSibling;
+            if (submenu && submenu.classList.contains('nav-submenu')) {
+                submenu.classList.toggle('expanded');
+            }
+        }
+        
+        // Mobile Sidebar Toggle
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('mobile-open');
+        }
+        
+        // Restore sidebar state on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+            }
+        });
     </script>
 </body>
 </html>
