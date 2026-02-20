@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
@@ -214,7 +214,7 @@
         }
         
         .resize-handle::after {
-            content: '⤢';
+            content: 'â¤¢';
             font-size: 14px;
             color: var(--text-secondary);
         }
@@ -377,7 +377,7 @@
                     <div class="logo-icon-sm">C</div>
                     <span class="logo-text">Comdira</span>
                 </a>
-                <button class="sidebar-toggle" onclick="toggleSidebar()">◀</button>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">â—€</button>
             </div>
             <nav class="nav-menu">
                 <a href="index.html" class="nav-item active" data-tooltip="&Ouml;versikt">
@@ -391,16 +391,16 @@
                 <div class="nav-item" onclick="toggleSubmenu(this)" data-tooltip="V&auml;lm&aring;endehexagonen">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
                     <span class="nav-item-text">V&auml;lm&aring;endehexagonen</span>
-                    <span class="nav-item-expand">▶</span>
+                    <span class="nav-item-expand">â–¶</span>
                 </div>
                 <div class="nav-submenu">
                     <a href="wellness.html" class="nav-subitem"><span class="nav-subitem-icon">[GRAPH]</span><span class="nav-item-text">&Ouml;versikt</span></a>
-                    <a href="wellness.html" class="nav-subitem existential"><span class="nav-subitem-icon">🔮</span><span class="nav-item-text">Existentiellt</span></a>
-                    <a href="wellness.html" class="nav-subitem emotional"><span class="nav-subitem-icon">💝</span><span class="nav-item-text">Emotionellt</span></a>
-                    <a href="wellness.html" class="nav-subitem subjective"><span class="nav-subitem-icon">✨</span><span class="nav-item-text">Subjektivt</span></a>
-                    <a href="wellness.html" class="nav-subitem occupational"><span class="nav-subitem-icon">💼</span><span class="nav-item-text">Yrkesm&auml;ssigt</span></a>
-                    <a href="wellness.html" class="nav-subitem social"><span class="nav-subitem-icon">👥</span><span class="nav-item-text">Socialt</span></a>
-                    <a href="wellness.html" class="nav-subitem practical"><span class="nav-subitem-icon">🛠️</span><span class="nav-item-text">Vardagligt</span></a>
+                    <a href="wellness.html" class="nav-subitem existential"><span class="nav-subitem-icon">ðŸ”®</span><span class="nav-item-text">Existentiellt</span></a>
+                    <a href="wellness.html" class="nav-subitem emotional"><span class="nav-subitem-icon">ðŸ’</span><span class="nav-item-text">Emotionellt</span></a>
+                    <a href="wellness.html" class="nav-subitem subjective"><span class="nav-subitem-icon">âœ¨</span><span class="nav-item-text">Subjektivt</span></a>
+                    <a href="wellness.html" class="nav-subitem occupational"><span class="nav-subitem-icon">ðŸ’¼</span><span class="nav-item-text">Yrkesm&auml;ssigt</span></a>
+                    <a href="wellness.html" class="nav-subitem social"><span class="nav-subitem-icon">ðŸ‘¥</span><span class="nav-item-text">Socialt</span></a>
+                    <a href="wellness.html" class="nav-subitem practical"><span class="nav-subitem-icon">ðŸ› ï¸</span><span class="nav-item-text">Vardagligt</span></a>
                 </div>
                 <a href="goals.html" class="nav-item" data-tooltip="Mina M&aring;l">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
@@ -421,9 +421,9 @@
             </nav>
             <div class="sidebar-footer">
                 <div class="sidebar-user">
-                    <div class="sidebar-user-avatar">👤</div>
+                    <div class="sidebar-user-avatar">ðŸ‘¤</div>
                     <div class="sidebar-user-info">
-                        <div class="sidebar-user-name">Demo Anv&auml;ndare</div>
+                        <div class="sidebar-user-name"><span id="userName">Laddar...</span></div>
                         <div class="sidebar-user-role">Premium</div>
                     </div>
                 </div>
@@ -459,10 +459,10 @@
                         </select>
                     </div>
                     <button class="control-btn" onclick="saveCurrentLayout()">
-                        💾 Spara layout
+                        ðŸ’¾ Spara layout
                     </button>
                     <button class="control-btn" onclick="resetLayout()">
-                        🔄 &Aring;terst&auml;ll
+                        ðŸ”„ &Aring;terst&auml;ll
                     </button>
                 </div>
 
@@ -474,7 +474,7 @@
                     </div>
                     <div class="filter-chips">
                         <label class="filter-chip active"><input type="checkbox" checked data-module="wellness" onchange="toggleModule('wellness')"><span>&#11041; V&auml;lm&aring;ende</span></label>
-                        <label class="filter-chip active"><input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')"><span>○ Check-in</span></label>
+                        <label class="filter-chip active"><input type="checkbox" checked data-module="checkin" onchange="toggleModule('checkin')"><span>â—‹ Check-in</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="habits" onchange="toggleModule('habits')"><span>&#10003; Vanor</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="goals" onchange="toggleModule('goals')"><span>&#9670; M&aring;l</span></label>
                         <label class="filter-chip active"><input type="checkbox" checked data-module="journal" onchange="toggleModule('journal')"><span>[MEMO] Journal</span></label>
@@ -491,9 +491,9 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">&#11041;</span> V&auml;lm&aring;endehexagonen</div>
                             <div class="widget-controls">
-                                <button class="widget-btn pin" onclick="togglePin(this)" title="F&auml;st &ouml;verst">📌</button>
-                                <button class="widget-btn" onclick="toggleCollapse(this)" title="Minimera">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)" title="&Auml;ndra storlek">⤢</button>
+                                <button class="widget-btn pin" onclick="togglePin(this)" title="F&auml;st &ouml;verst">ðŸ“Œ</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)" title="Minimera">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)" title="&Auml;ndra storlek">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -508,9 +508,9 @@
                                 <div style="flex: 1;">
                                     <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">Utforska dina sex dimensioner av v&auml;lm&aring;ende. Identifiera styrkor och omr&aring;den f&ouml;r utveckling.</p>
                                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                        <span style="padding: 4px 10px; background: #E8D5F2; border-radius: 12px; font-size: 11px; color: #6C3483;">🔮 Existentiellt</span>
-                                        <span style="padding: 4px 10px; background: #FFE4C4; border-radius: 12px; font-size: 11px; color: #935116;">💝 Emotionellt</span>
-                                        <span style="padding: 4px 10px; background: #D5F5E3; border-radius: 12px; font-size: 11px; color: #1E8449;">🛠️ Vardagligt</span>
+                                        <span style="padding: 4px 10px; background: #E8D5F2; border-radius: 12px; font-size: 11px; color: #6C3483;">ðŸ”® Existentiellt</span>
+                                        <span style="padding: 4px 10px; background: #FFE4C4; border-radius: 12px; font-size: 11px; color: #935116;">ðŸ’ Emotionellt</span>
+                                        <span style="padding: 4px 10px; background: #D5F5E3; border-radius: 12px; font-size: 11px; color: #1E8449;">ðŸ› ï¸ Vardagligt</span>
                                     </div>
                                 </div>
                             </div>
@@ -521,10 +521,10 @@
                     <!-- Check-in Widget - 1x1 -->
                     <div class="widget size-1x1" data-id="checkin" data-module="checkin" data-size="1x1">
                         <div class="widget-header">
-                            <div class="widget-title"><span class="widget-icon">○</span> Dagens Check-in</div>
+                            <div class="widget-title"><span class="widget-icon">â—‹</span> Dagens Check-in</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -532,7 +532,7 @@
                             <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
                         </div>
                         <div class="widget-content" style="text-align: center;">
-                            <div style="font-size: 42px; margin-bottom: 8px;">😊</div>
+                            <div style="font-size: 42px; margin-bottom: 8px;">ðŸ˜Š</div>
                             <div style="font-size: 28px; font-weight: 700; color: var(--primary-dark);">7.2</div>
                             <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Dagens hum&ouml;r</div>
                             <a href="checkin.html" class="btn btn-primary" style="width: 100%;">Checka in</a>
@@ -544,8 +544,8 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">&#10003;</span> Vanor</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -557,15 +557,15 @@
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
                                     <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🧘 Meditation</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 23 dagar</div></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">ðŸ§˜ Meditation</div><div style="font-size: 12px; color: var(--text-secondary);">ðŸ”¥ 23 dagar</div></div>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #E8F5E8; border-radius: 12px;">
                                     <div style="width: 24px; height: 24px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🥤 Vatten (5/8)</div><div style="font-size: 12px; color: var(--text-secondary);">🔥 15 dagar</div></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">ðŸ¥¤ Vatten (5/8)</div><div style="font-size: 12px; color: var(--text-secondary);">ðŸ”¥ 15 dagar</div></div>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-card); border-radius: 12px;">
                                     <div style="width: 24px; height: 24px; background: var(--primary-light); border-radius: 6px;"></div>
-                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">🏃 Tr&auml;ning</div><div style="font-size: 12px; color: var(--text-secondary);">V&auml;ntar...</div></div>
+                                    <div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">ðŸƒ Tr&auml;ning</div><div style="font-size: 12px; color: var(--text-secondary);">V&auml;ntar...</div></div>
                                 </div>
                             </div>
                             <a href="habits.html" class="btn btn-primary" style="width: 100%; margin-top: 12px; text-align: center; display: block; text-decoration: none;">Se alla vanor</a>
@@ -577,8 +577,8 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">&#9670;</span> Aktiva M&aring;l</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -590,7 +590,7 @@
                             <div style="display: flex; gap: 20px;">
                                 <div style="flex: 1;">
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                        <span style="font-weight: 600;">🎯 Springa 5km</span>
+                                        <span style="font-weight: 600;">ðŸŽ¯ Springa 5km</span>
                                         <span style="font-weight: 700; color: var(--primary-dark);">75%</span>
                                     </div>
                                     <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
@@ -599,7 +599,7 @@
                                 </div>
                                 <div style="flex: 1;">
                                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                        <span style="font-weight: 600;">📚 L&auml;sa 12 b&ouml;cker</span>
+                                        <span style="font-weight: 600;">ðŸ“š L&auml;sa 12 b&ouml;cker</span>
                                         <span style="font-weight: 700; color: var(--primary-dark);">33%</span>
                                     </div>
                                     <div style="background: var(--primary-light); height: 10px; border-radius: 5px; overflow: hidden;">
@@ -616,8 +616,8 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">[MEMO]</span> Journal</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -625,7 +625,7 @@
                             <div class="size-option" data-size="2x1" onclick="resizeWidget(this)"><div class="size-preview size-preview-2x1"><div></div><div></div></div><span>Bred</span></div>
                         </div>
                         <div class="widget-content" style="text-align: center;">
-                            <div style="font-size: 48px; margin-bottom: 8px;">📔</div>
+                            <div style="font-size: 48px; margin-bottom: 8px;">ðŸ“”</div>
                             <div style="font-size: 24px; font-weight: 700; color: var(--text-primary);">47</div>
                             <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">Inl&auml;gg</div>
                             <a href="journal.html" class="btn btn-primary" style="width: 100%;">Skriv</a>
@@ -637,8 +637,8 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">[CAL]</span> Kalender</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -660,8 +660,8 @@
                         <div class="widget-header">
                             <div class="widget-title"><span class="widget-icon">[LIST]</span> Uppgifter</div>
                             <div class="widget-controls">
-                                <button class="widget-btn" onclick="toggleCollapse(this)">−</button>
-                                <button class="widget-btn" onclick="toggleSizeMenu(this)">⤢</button>
+                                <button class="widget-btn" onclick="toggleCollapse(this)">âˆ’</button>
+                                <button class="widget-btn" onclick="toggleSizeMenu(this)">â¤¢</button>
                             </div>
                         </div>
                         <div class="size-menu">
@@ -688,6 +688,13 @@
     </div>
 
     <script>
+        // Check authentication
+        const token = localStorage.getItem('auth_token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <script>
         // Initialize Sortable for drag and drop
         const widgetGrid = document.getElementById('widgetGrid');
         const sortable = Sortable.create(widgetGrid, {
@@ -704,7 +711,7 @@
         function toggleCollapse(btn) {
             const widget = btn.closest('.widget');
             widget.classList.toggle('collapsed');
-            btn.textContent = widget.classList.contains('collapsed') ? '+' : '−';
+            btn.textContent = widget.classList.contains('collapsed') ? '+' : 'âˆ’';
             saveLayout();
         }
 
@@ -811,7 +818,7 @@
         // Save current layout
         function saveCurrentLayout() {
             saveLayout();
-            alert('Layout sparad! ✅');
+            alert('Layout sparad! âœ…');
         }
 
         // Reset layout
@@ -860,7 +867,7 @@
                         widget.classList.add(`size-${presets[preset][id]}`);
                         widget.dataset.size = presets[preset][id];
                         widget.classList.remove('collapsed');
-                        widget.querySelector('.widget-btn:nth-child(2)').textContent = '−';
+                        widget.querySelector('.widget-btn:nth-child(2)').textContent = 'âˆ’';
                     } else if (preset !== 'overview') {
                         widget.classList.add('collapsed');
                         widget.querySelector('.widget-btn:nth-child(2)').textContent = '+';
@@ -922,7 +929,33 @@
             document.getElementById('currentDay').textContent = now.getDate();
             const months = ['Januari', 'Februari', 'Mars', 'April', 'Maj', 'Juni', 'Juli', 'Augusti', 'September', 'Oktober', 'November', 'December'];
             document.getElementById('currentMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
-        });
-    </script>
+        
+            loadUserData();
+});
+    
+        // Load user data
+        function loadUserData() {
+            const userEmail = localStorage.getItem('user_email');
+            if (userEmail) {
+                document.getElementById('userName').textContent = userEmail.split('@')[0];
+            } else {
+                document.getElementById('userName').textContent = 'Användare';
+            }
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        // Logout
+        function logout() {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_email');
+            window.location.href = 'login.html';
+        }
+</script>
 </body>
 </html>
+
