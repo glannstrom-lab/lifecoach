@@ -3,7 +3,7 @@
  * Handles all communication with the backend
  */
 
-const API_BASE_URL = 'https://comdira.com/api'; // Change this to your API URL
+const API_BASE_URL = '/api'; // Change this to your API URL
 
 class ComdiraAPI {
     constructor() {
